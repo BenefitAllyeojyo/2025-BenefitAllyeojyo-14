@@ -4,16 +4,16 @@ import com.heyoung.domain.user.entity.User;
 import com.heyoung.global.entity.BaseEntity;
 import com.heyoung.global.enums.BankCode;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Entity @Getter
+@Builder
+@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(uniqueConstraints = @UniqueConstraint(name="uq_account_number", columnNames="accountNumber"))
+@Table(uniqueConstraints = @UniqueConstraint(name="uq_account_number", columnNames="account_number"))
 public class Account extends BaseEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)

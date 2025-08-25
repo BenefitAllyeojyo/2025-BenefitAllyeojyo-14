@@ -6,12 +6,13 @@ import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 /**
  * 유저가 가장 많이 결제한 시간대 카운트.
  */
 @Entity
-@Getter
+@Getter @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class UserHourHist extends BaseEntity {
 
@@ -27,5 +28,18 @@ public class UserHourHist extends BaseEntity {
 
     @Column(nullable = false)
     private int useCount = 0;
+
+    public static UserHourHist from(Long userId, HourBucket hourBucket) {
+        UserHourHist userHourHist = new UserHourHist();
+        userHourHist.setUserId(userId);
+        userHourHist.setHourBucket(hourBucket);
+        userHourHist.setUseCount(1);
+
+        return userHourHist;
+    }
+
+    public void plusUseCount() {
+        this.useCount += 1;
+    }
 
 }

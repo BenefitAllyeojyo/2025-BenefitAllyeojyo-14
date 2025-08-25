@@ -26,13 +26,13 @@ dependencies {
 
     // PostgreSQL
     runtimeOnly 'org.postgresql:postgresql'
-    testImplementation 'com.h2database:h2'
+//    testImplementation 'com.h2database:h2'
 
     testImplementation platform('org.junit:junit-bom:5.10.0')
     testImplementation 'org.junit.jupiter:junit-jupiter'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
     testImplementation("org.springframework.boot:spring-boot-starter-test")
-//    testRuntimeOnly 'org.postgresql:postgresql'  // 테스트 시
+    testImplementation 'org.postgresql:postgresql'  // 테스트 시
 
     implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0'
 

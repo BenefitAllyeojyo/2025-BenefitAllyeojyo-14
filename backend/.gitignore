@@ -44,3 +44,9 @@ core-bank/src/main/resources/application.yml
 core-bank/src/main/resources/application-test.yml
 
 /**/application*
+
+community/Dockerfile
+core-bank/Dockerfile
+
+/docker-compose.yml
+/.dockerignore
