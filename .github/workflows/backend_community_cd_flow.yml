@@ -1,0 +1,78 @@
+name: backend_community_cd_flow
+on:
+  push:
+    branches:
+      - release/backend
+    paths:
+      - 'backend/community/**'
+
+jobs:
+  build:
+    name: Build and Upload to S3
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      checks: write
+      pull-requests: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: 17
+          distribution: 'zulu'
+
+      - name: Create application.yml files
+        run: |
+          touch ./backend/community/src/test/resources/application.yml
+          echo "${{ secrets.COMMUNITY_RELEASE_APPLICATION }}" > ./backend/community/src/main/resources/application.yml
+
+      - name: Cache Gradle packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.gradle/caches
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
+          restore-keys: ${{ runner.os }}-gradle
+
+      - name: Build community server
+        working-directory: backend
+        run: |
+          chmod +x ./gradlew
+          ./gradlew :community:clean :community:bootJar -x test --info
+          
+
+      - name: Upload build artifact (community jar)
+        uses: actions/upload-artifact@v4
+        with:
+          name: community-jar
+          path: backend/community/build/libs/community-0.0.1-SNAPSHOT.jar
+          if-no-files-found: error
+
+  upload:
+    name: Upload to S3
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: community-jar
+          path: ./backend/community/build/libs
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_S3_KEY }}
+          aws-secret-access-key: ${{ secrets.AWS_S3_PASSWORD }}
+          aws-region: ap-northeast-2
+
+      - name: Upload jar to S3
+        run: |
+          aws s3 cp ./backend/community/build/libs/community-0.0.1-SNAPSHOT.jar s3://${{ secrets.AWS_S3_BUCKET_NAME }}/
+
