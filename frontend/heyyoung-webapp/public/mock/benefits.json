@@ -1,8 +1,0 @@
-{
-  "items": [
-    { "id": "c1", "title": "교내 카페 20% 할인", "discount": "최대 20%", "distance": "120m",
-      "tags": ["카페","디저트"], "thumbnail": "https://picsum.photos/200" },
-    { "id": "b1", "title": "문구점 10% 할인", "discount": "10%", "distance": "250m",
-      "tags": ["문구","학생가"], "thumbnail": "https://picsum.photos/201" }
-  ]
-}
