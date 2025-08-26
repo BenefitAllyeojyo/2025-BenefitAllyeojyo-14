@@ -1,35 +1,32 @@
 package com.heyoung.domain.payment.entity;
 
 import com.heyoung.domain.user.entity.User;
-import com.heyoung.global.enums.PartnershipCategory;
 import com.heyoung.global.enums.TransactionStatus;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import org.hibernate.annotations.BatchSize;
+import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.Instant;
-import java.time.LocalDateTime;
 
 @Entity @Getter
 @Table(name = "`transactions`")
+@Builder
+@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Transaction {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @Column
     private Long partnershipId;
 
     @Column(nullable = false)
     private Instant transactionDateTime;
 
-    @Column(precision = 15, scale = 2, nullable = false)
+    @Column(precision = 15, scale = 2)
     private BigDecimal amount;
 
-    @Column(precision = 15, scale = 2, nullable = false)
+    @Column(precision = 15, scale = 2)
     private BigDecimal discountAmount;
 
     @Enumerated(EnumType.STRING)
@@ -39,9 +36,9 @@ public class Transaction {
     @Column(length = 100, nullable = false)
     private String merchantName;
 
-    @Enumerated(EnumType.STRING)
-    @Column(length = 8, nullable = false)
-    private PartnershipCategory category;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "category_id", nullable = false)
+    private Category category;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)

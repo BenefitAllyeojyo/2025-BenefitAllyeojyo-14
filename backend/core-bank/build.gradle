@@ -1,7 +1,7 @@
 plugins {
     id 'java'
-    id 'org.springframework.boot' version '3.5.4'
-    id 'io.spring.dependency-management' version '1.1.7'
+    id 'org.springframework.boot' version '3.3.4'
+    id 'io.spring.dependency-management' version '1.1.6'
 }
 
 group = 'com.example'
@@ -27,12 +27,18 @@ dependencies {
     // PostgreSQL
     runtimeOnly 'org.postgresql:postgresql'
 
-    testImplementation 'com.h2database:h2'
+    // WebClient 사용
+    implementation 'org.springframework.boot:spring-boot-starter-webflux'
+
+    runtimeOnly 'io.netty:netty-resolver-dns-native-macos:4.2.4.Final:osx-aarch_64'
+
+//    testImplementation 'com.h2database:h2'
+    testImplementation 'org.postgresql:postgresql'  // 테스트 시
     testImplementation platform('org.junit:junit-bom:5.10.0')
     testImplementation 'org.junit.jupiter:junit-jupiter'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
     testImplementation("org.springframework.boot:spring-boot-starter-test")
-//    testRuntimeOnly 'org.postgresql:postgresql'  // 테스트 시
+    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0'
 
 }
 

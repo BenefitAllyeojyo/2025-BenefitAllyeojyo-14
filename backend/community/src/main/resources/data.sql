@@ -1,3 +1,6 @@
+CREATE EXTENSION IF NOT EXISTS postgis;
+CREATE EXTENSION IF NOT EXISTS postgis_topology;
+
 -- university 더미 데이터
 INSERT INTO university (
     id, name, type, campus_name, address, location, postal_code, main_phone,
