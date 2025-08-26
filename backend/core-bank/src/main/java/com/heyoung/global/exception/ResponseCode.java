@@ -19,7 +19,13 @@ public enum ResponseCode {
     _BAD_REQUEST(HttpStatus.BAD_REQUEST,"COMMON001","잘못된 요청입니다."),
     _UNAUTHORIZED(HttpStatus.UNAUTHORIZED,"COMMON002","권한이 잘못되었습니다"),
     _METHOD_NOT_ALLOWED(HttpStatus.METHOD_NOT_ALLOWED, "COMMON003", "지원하지 않는 Http Method 입니다."),
-    _FORBIDDEN(HttpStatus.FORBIDDEN, "COMMON004", "금지된 요청입니다.");
+    _FORBIDDEN(HttpStatus.FORBIDDEN, "COMMON004", "금지된 요청입니다."),
+
+
+    // Payment Error
+    PAYMENT_INSUFFICIENT_BALANCE(HttpStatus.BAD_REQUEST, "PAYMENT001", "계좌 잔액이 부족합니다."),
+    PAYMENT_EXTERNAL_API_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "PAYMENT002", "외부 결제 시스템 연동 중 오류가 발생했습니다.");
+
 
     private final HttpStatus httpStatus;
     private final String code;
