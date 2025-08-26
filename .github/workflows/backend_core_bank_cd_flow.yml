@@ -76,3 +76,6 @@ jobs:
         run: |
           aws s3 cp ./backend/core-bank/build/libs/core-bank-0.0.1-SNAPSHOT.jar s3://${{ secrets.AWS_S3_BUCKET_NAME }}/
 
+      - name: trigger jenkins job
+        run: |
+          curl "${{ secrets.JENKINS_URL }}/generic-webhook-trigger/invoke?token=${{ secrets.JENKINS_CORE_BANK_WEK_HOOK }}"
