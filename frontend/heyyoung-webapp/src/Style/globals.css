@@ -11,21 +11,21 @@ body,
 
 @font-face {
   font-family: 'OneShinhan';
-  src: url('@/Assets/fonts/ONESHINHANBOLD.TTF') format('truetype');
+  src: url('/src/assets/fonts/ONESHINHANBOLD.TTF') format('truetype');
   font-weight: 700;
   font-style: normal;
 }
 
 @font-face {
   font-family: 'OneShinhan';
-  src: url('@/Assets/fonts/ONESHINHANMEDIUM.TTF') format('truetype');
+  src: url('/src/assets/fonts/ONESHINHANMEDIUM.TTF') format('truetype');
   font-weight: 500;
   font-style: normal;
 }
 
 @font-face {
   font-family: 'OneShinhan';
-  src: url('@/Assets/fonts/ONESHINHANLIGHT.TTF') format('truetype');
+  src: url('/src/assets/fonts/ONESHINHANLIGHT.TTF') format('truetype');
   font-weight: 300;
   font-style: normal;
 }

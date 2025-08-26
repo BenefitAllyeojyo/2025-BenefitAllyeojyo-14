@@ -1,0 +1,77 @@
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modalContent {
+  background: var(--neutral-light-lightest);
+  border-radius: 16px;
+  padding: 24px;
+  max-width: 320px;
+  width: 90%;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+.modalHeader {
+  text-align: center;
+  margin-bottom: 16px;
+}
+
+.modalTitle {
+  color: var(--neutral-dark-darkest);
+  font-family: var(--font-sans);
+  font-size: var(--font-size-h2);
+  font-weight: var(--font-weight-heading);
+  margin: 0;
+}
+
+.modalBody {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.modalMessage {
+  color: var(--neutral-dark-darkest);
+  font-family: var(--font-sans);
+  font-size: var(--font-size-m);
+  font-weight: var(--font-weight-body);
+  margin: 0 0 8px 0;
+}
+
+.modalSubMessage {
+  color: var(--neutral-dark-light);
+  font-family: var(--font-sans);
+  font-size: var(--font-size-s);
+  font-weight: var(--font-weight-body);
+  margin: 0;
+}
+
+.modalFooter {
+  display: flex;
+  justify-content: center;
+}
+
+.backButton {
+  background: var(--Highlight-Light);
+  color: var(--neutral-light-lightest);
+  border: none;
+  border-radius: 8px;
+  padding: 12px 24px;
+  font-family: var(--font-sans);
+  font-size: var(--font-size-m);
+  font-weight: var(--font-weight-heading);
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.backButton:hover {
+  background: var(--Highlight-BackGround);
+}

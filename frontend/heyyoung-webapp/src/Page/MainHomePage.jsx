@@ -10,7 +10,7 @@ export default function MainHomePage() {
 
   const handleBannerClick = () => {
     console.log('메인 배너 클릭됨!')
-    // 배너 클릭 시 동작 로직 (특별 페이지 이동 등)
+    navigate('/partnership') // 파트너십 리스트 페이지로 이동
   }
 
   return (
@@ -32,26 +32,20 @@ export default function MainHomePage() {
         </div>
 
 
-        {/* 메인 이미지 위에 오버레이 배너 */}
-        {/* <div style={{
-          position: 'absolute',
-          top: '57%',
-          left: '50%',
-          transform: 'translate(-50%, -50%)',
-          zIndex: 5
-        }}>
-          <Banner
-            title="오늘의 추천 혜택"
-            subtitle="놓치면 후회할 특별한 혜택을 확인하세요"
-            width="320px"
-            height="120px"
-            backgroundColor="rgba(116, 53, 253, 0.1)" // 보라색 투명 배경
-            onClick={handleBannerClick}
-            style={{
-              border: '1px solid rgba(116, 53, 253, 0.2)'
-            }}
-          />
-        </div> */}
+        {/* 메인 이미지 위에 클릭 영역 (투명) */}
+        <div 
+          style={{
+            position: 'absolute',
+            top: '57%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            zIndex: 5,
+            width: '320px',
+            height: '120px',
+            cursor: 'pointer'
+          }}
+          onClick={handleBannerClick}
+        />
       </div>
 
       {/* 하단 탭 이미지 - AppShell 컨테이너 하단에 고정 */}

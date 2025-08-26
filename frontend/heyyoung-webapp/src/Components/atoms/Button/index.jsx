@@ -12,6 +12,7 @@ export { default as SearchBtn } from './SearchBtn';
 export { default as SquareWhiteBtn } from './SquareWhiteBtn';
 export { default as BigCardBtn } from './BigCardBtn';
 export { default as CharacterBtn } from './CharacterBtn';
+export { default as PayHeadButton } from './PayHeadButton';
 export { default as MapActionButton } from './MapActionButton';
 export { default as BellButton } from './BellButton';
 export { default as BackButton } from './BackButton';

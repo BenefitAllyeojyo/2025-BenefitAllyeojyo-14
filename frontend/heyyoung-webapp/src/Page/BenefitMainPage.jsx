@@ -33,7 +33,7 @@ export default function BenefitMainPage() {
         top: '37%', 
         left: '50%', 
         transform: 'translate(-50%, -50%)',
-        width: '100%',
+        width: '90%',
         zIndex: 10
       }}>
         <Carousel slides={carouselSlides} />

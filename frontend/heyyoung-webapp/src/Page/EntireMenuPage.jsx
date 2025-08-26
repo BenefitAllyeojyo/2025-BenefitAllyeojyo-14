@@ -1,7 +1,6 @@
 import { useNavigate } from 'react-router-dom'
 import BackgroundImage from '../Components/atoms/BackgroundImage'
 import BackgroundBottomTabImage from '../Components/atoms/BackgroundBottomTabImage'
-import Banner from '../Components/atoms/Banner'
 import entireMenuImage from '../assets/images/pages/entire-menu.PNG'
 
 export default function EntireMenuPage() {
@@ -13,7 +12,7 @@ export default function EntireMenuPage() {
 
   const handlePartnershipClick = () => {
     console.log('제휴존 배너 클릭됨!')
-    // 제휴존 클릭 시 동작 로직
+    navigate('/partnership')
   }
 
   return (
@@ -23,24 +22,35 @@ export default function EntireMenuPage() {
         alt="전체메뉴 배경"
       >
         {/* 제휴존 배너 - 취업존 아래 위치 */}
-        <div style={{
-          position: 'absolute',
-          top: '58%', // 하단 탭바 위로 120px
-          left: '53%',
-          transform: 'translateX(-50%)',
-          zIndex: 5
-        }}>
-          <Banner
-            title="제휴존"
-            subtitle=''
-            width="50px"
-            height="30px"
-            backgroundColor="rgba(128, 128, 128, 0.3)" // 투명한 회색
-            onClick={handlePartnershipClick}
-            style={{
-              border: '1px solid rgba(255, 255, 255, 0.3)'
-            }}
-          />
+        <div 
+          style={{
+            position: 'absolute',
+            top: '56%', // 하단 탭바 위로 120px
+            left: '54%',
+            transform: 'translateX(-50%)',
+            zIndex: 5,
+            cursor: 'pointer',
+            padding: '8px 16px',
+            borderRadius: '20px',
+            transition: 'all 0.2s ease-in-out'
+          }}
+          onClick={handlePartnershipClick}
+          onMouseEnter={(e) => {
+            e.target.style.transform = 'translateX(-50%) scale(1.05)'
+          }}
+          onMouseLeave={(e) => {
+            e.target.style.transform = 'translateX(-50%) scale(1)'
+          }}
+        >
+          <span style={{
+            fontFamily: 'OneShinhan',
+            fontSize: '14px',
+            color: 'var(--Neutral-Dark-Darkest, #1B1546)',
+            textShadow: '0 1px 2px rgba(255, 255, 255, 0.8)',
+            letterSpacing: '0.5px'
+          }}>
+            제휴존
+          </span>
         </div>
       </BackgroundImage>
 

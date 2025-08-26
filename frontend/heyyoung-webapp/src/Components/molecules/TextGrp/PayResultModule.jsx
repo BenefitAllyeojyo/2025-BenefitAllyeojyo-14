@@ -1,6 +1,10 @@
 import styles from './PayResultModule.module.css';
 
-export default function PayResultModule({ Amount = 10000 }) {
+export default function PayResultModule({ 
+  label = "결제액", 
+  Amount = 10000,
+  fontSize = "16px" // 12px 또는 16px
+}) {
   //숫자에 천 단위 구분 쉼표 추가하는 함수
   const formatAmount = (amount) => {
     if (typeof amount === 'string') {
@@ -17,8 +21,8 @@ export default function PayResultModule({ Amount = 10000 }) {
 
   return (
     <div className={styles.PayResultModule}>
-      <div className={styles.payResultTitle}>이용 금액</div>
-      <div className={styles.payResultAmount}>{`${formattedAmount}원`}</div>
+      <div className={styles.payResultTitle} style={{ fontSize }}>{label}</div>
+      <div className={styles.payResultAmount} style={{ fontSize }}>{`${formattedAmount}원`}</div>
     </div>
   );
 }

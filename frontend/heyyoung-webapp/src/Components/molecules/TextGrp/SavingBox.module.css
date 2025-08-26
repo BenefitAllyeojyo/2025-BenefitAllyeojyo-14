@@ -1,0 +1,42 @@
+.savingBox {
+  display: flex;
+  width: 350px;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 20px;
+  background-color: var(--Highlight-Lightest, #DECEFF);
+  border-radius: 12px;
+  padding: 16px 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.savingBoxContent {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+}
+
+.leftText {
+  color: var(--neutral-dark-darkest, #1B1546);
+  /* Heading/H4 */
+  font-family: OneShinhan;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  flex-shrink: 0;
+}
+
+.rightText {
+  color: var(--neutral-dark-darkest, #1B1546);
+  text-align: right;
+  /* shinhan Light */
+  font-family: OneShinhan;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 300;
+  line-height: 20px; /* 142.857% */
+  flex: 1;
+}

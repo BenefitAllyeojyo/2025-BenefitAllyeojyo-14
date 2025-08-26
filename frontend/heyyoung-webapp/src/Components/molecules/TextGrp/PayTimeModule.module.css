@@ -1,0 +1,18 @@
+.payTimeModule {
+  display: flex;
+  width: 100%;
+  padding: 8px 24px;
+  align-items: center;
+  background: var(--neutral-light-lightest);
+}
+
+.time {
+  color: var(--neutral-dark-light);
+  font-family: var(--font-sans);
+  font-size: var(--font-size-s);
+  font-style: normal;
+  font-weight: var(--font-weight-body);
+  line-height: 16px;
+  letter-spacing: 0.12px;
+  text-align: left;
+}

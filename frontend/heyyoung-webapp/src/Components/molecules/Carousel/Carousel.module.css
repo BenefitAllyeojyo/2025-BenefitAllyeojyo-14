@@ -83,13 +83,15 @@
 .indicators {
   display: flex;
   justify-content: center;
+  align-items: center;
   gap: 8px;
-  padding: 20px 0 12px 0;
+  padding: 8px 0;
   position: absolute;
-  bottom: 8px;
+  bottom: 20px;
   left: 0;
   right: 0;
   background: linear-gradient(transparent, rgba(248, 249, 250, 0.9));
+  height: 20px;
 }
 
 .indicator {

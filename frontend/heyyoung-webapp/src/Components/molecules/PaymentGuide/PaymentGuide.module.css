@@ -1,0 +1,25 @@
+.paymentGuide {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  padding: 12px 24px;
+  position: relative;
+}
+
+.guideContainer {
+  flex: 1;
+  max-width: 280px;
+}
+
+.characterContainer {
+  position: absolute;
+  bottom: -60px;
+  right: 30px;
+  z-index: 10;
+}
+
+.characterImage {
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+}
