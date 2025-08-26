@@ -8,8 +8,6 @@ import lombok.*;
 import java.math.BigDecimal;
 import java.time.Instant;
 
-@Builder
-@AllArgsConstructor
 @Entity @Getter
 @Table(name = "`transactions`")
 @Builder

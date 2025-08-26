@@ -25,11 +25,11 @@ public enum ResponseCode {
     CATEGORY_NOT_FOUND(HttpStatus.BAD_REQUEST, "CATEGORY001", "해당 카테고리 데이터가 존재하지 않습니다."),
 
     // Hour Error
-    HOUR_OUT_OF_RANGE(HttpStatus.BAD_REQUEST, "HOUR001", "시간대는 00 ~ 23 입니다.");
+    HOUR_OUT_OF_RANGE(HttpStatus.BAD_REQUEST, "HOUR001", "시간대는 00 ~ 23 입니다."),
 
     // Payment Error
     PAYMENT_INSUFFICIENT_BALANCE(HttpStatus.BAD_REQUEST, "PAYMENT001", "계좌 잔액이 부족합니다."),
-    PAYMENT_EXTERNAL_API_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "PAYMENT002", "외부 결제 시스템 연동 중 오류가 발생했습니다.");
+    PAYMENT_EXTERNAL_API_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "PAYMENT002", "외부 결제 시스템 연동 중 오류가 발생했습니다."),
 
     // JsonError
     JSON_CREATE_FAIL(HttpStatus.INTERNAL_SERVER_ERROR, "JSON001", "JSON 파일 생성에 실패했습니다."),
