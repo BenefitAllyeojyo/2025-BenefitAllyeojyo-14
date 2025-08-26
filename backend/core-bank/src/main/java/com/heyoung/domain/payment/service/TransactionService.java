@@ -14,6 +14,7 @@ import com.heyoung.domain.payment.repository.CategoryRepository;
 
 import com.heyoung.domain.user.entity.User;
 import com.heyoung.domain.user.repository.UserRepository;
+import com.heyoung.global.config.JwtUtil;
 import com.heyoung.global.enums.ApplicationType;
 import com.heyoung.global.enums.TransactionStatus;
 import lombok.RequiredArgsConstructor;
@@ -33,6 +34,7 @@ public class TransactionService {
     private final TransactionRepository transactionRepository;
     private final UserBenefitHistoryRepository userBenefitHistoryRepository;
     private final CategoryRepository categoryRepository;
+    private final JwtUtil jwtUtil;
 
     // 사용자 qr 데이터
     @Transactional(readOnly = true)
@@ -41,8 +43,8 @@ public class TransactionService {
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 사용자"));
         Account account = accountRepository.findByUser(user)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 계좌"));
-
-        return new QrDataDto(user.getId(), account.getAccountNumber());
+        String qrToken = jwtUtil.generateQrToken(user.getId(), account.getAccountNumber());
+        return new QrDataDto(qrToken, user.getId(), account.getAccountNumber());
     }
 
     // 사용자 잔액 기반 거래 가능 여부 파악 후 출금
