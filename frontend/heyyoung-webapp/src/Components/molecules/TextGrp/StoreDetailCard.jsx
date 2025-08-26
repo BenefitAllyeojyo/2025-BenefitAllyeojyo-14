@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import styles from './StoreDetailCard.module.css';
 import ShopTextModule from './ShopTextModule';
 import AboutTextModule from './AboutTextModule';
@@ -7,10 +8,17 @@ import { LongPurpleBtn } from '@/Components/atoms/Button';
 import ImageCarousel from './ImageCarousel';
 
 const StoreDetailCard = ({ storeDetail }) => {
+  const navigate = useNavigate();
+  
   if (!storeDetail) return null;
 
   const { partnershipBranchDto, companyName, discountRate, discountAmount, terms, universityName } =
     storeDetail;
+
+  const handlePaymentClick = () => {
+    // 결제 페이지로 이동
+    navigate('/payment');
+  };
 
   return (
     <div className={styles.cardContainer}>
@@ -53,7 +61,7 @@ const StoreDetailCard = ({ storeDetail }) => {
 
         <HostInfoModule Host="싸피대학교 총학생회" />
 
-        <LongPurpleBtn label="헤이영 Pay로 제휴 결제하기" onClick={() => {}} />
+        <LongPurpleBtn label="헤이영 Pay로 제휴 결제하기" onClick={handlePaymentClick} />
       </div>
     </div>
   );
