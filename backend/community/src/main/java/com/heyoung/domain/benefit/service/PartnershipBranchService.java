@@ -1,5 +1,6 @@
 package com.heyoung.domain.benefit.service;
 
+import com.heyoung.domain.benefit.dto.BranchInformationDto;
 import com.heyoung.domain.benefit.dto.PartnershipBranchDto;
 import com.heyoung.domain.benefit.entity.PartnershipBranch;
 import com.heyoung.domain.benefit.repository.PartnershipBranchRepository;
@@ -24,4 +25,11 @@ public class PartnershipBranchService {
                 .collect(Collectors.toList());
     }
 
+	@Transactional(readOnly = true)
+	public BranchInformationDto findBranchInformation(Long branchId) {
+		PartnershipBranch branch = partnershipBranchRepository.findById(branchId)
+			.orElseThrow(() -> new IllegalArgumentException("Invalid branch ID: " + branchId));
+
+		return new BranchInformationDto(branch);
+	}
 }

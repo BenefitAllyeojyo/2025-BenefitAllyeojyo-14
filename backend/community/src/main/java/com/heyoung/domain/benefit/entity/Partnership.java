@@ -48,4 +48,6 @@ public class Partnership extends BaseEntity {
     @OneToMany(mappedBy = "partnership", fetch = FetchType.LAZY) // 이미지 조회를 위한 양방향 매핑
     private List<PartnershipImage> partnershipImages = new ArrayList<>();
 
+	@OneToMany(mappedBy = "partnership", fetch = FetchType.LAZY)
+	private List<PartnershipBranch> partnershipBranches = new ArrayList<>();
 }

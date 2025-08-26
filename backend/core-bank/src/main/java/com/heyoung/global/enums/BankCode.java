@@ -6,7 +6,6 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @RequiredArgsConstructor
 public enum BankCode {
-
     BANK_OF_KOREA("001"), // 한국은행
     KDB_BANK("002"), // 산업은행
     IBK_BANK("003"), // 기업은행

@@ -12,21 +12,23 @@ import java.time.Instant;
 @AllArgsConstructor
 @Entity @Getter
 @Table(name = "`transactions`")
+@Builder
+@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Transaction {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @Column
     private Long partnershipId;
 
     @Column(nullable = false)
     private Instant transactionDateTime;
 
-    @Column(precision = 15, scale = 2, nullable = false)
+    @Column(precision = 15, scale = 2)
     private BigDecimal amount;
 
-    @Column(precision = 15, scale = 2, nullable = false)
+    @Column(precision = 15, scale = 2)
     private BigDecimal discountAmount;
 
     @Enumerated(EnumType.STRING)
