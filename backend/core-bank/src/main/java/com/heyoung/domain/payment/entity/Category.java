@@ -5,10 +5,6 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-/**
- * 카테고리에 들어갈 적당한 더미 데이터 필요.
- */
-
 @Entity @Getter
 @NoArgsConstructor
 public class Category extends BaseEntity {
