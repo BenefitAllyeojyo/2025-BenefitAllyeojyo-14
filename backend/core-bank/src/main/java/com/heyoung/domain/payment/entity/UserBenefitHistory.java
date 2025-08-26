@@ -4,13 +4,12 @@ import com.heyoung.domain.user.entity.User;
 import com.heyoung.global.entity.BaseEntity;
 import com.heyoung.global.enums.ApplicationType;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import org.hibernate.annotations.BatchSize;
+import lombok.*;
 
 import java.math.BigDecimal;
 
+@Builder
+@AllArgsConstructor
 @Entity @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class UserBenefitHistory extends BaseEntity {
@@ -27,9 +26,6 @@ public class UserBenefitHistory extends BaseEntity {
     @Column(length = 16, nullable = false)
     private ApplicationType applicationType;
 
-    @Column(columnDefinition = "jsonb", nullable = false)
-    private String benefitSnapshotJson;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User userId;
@@ -37,4 +33,8 @@ public class UserBenefitHistory extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "transaction_id", nullable = false)
     private Transaction transaction;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "category_id", nullable = false)
+    private Category category;
 }

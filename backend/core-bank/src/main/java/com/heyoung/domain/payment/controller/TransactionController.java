@@ -26,5 +26,11 @@ public class TransactionController {
         QrDataDto qrData = transactionService.generateQrData(memberId);
         return BaseResponse.onSuccess(qrData, ResponseCode.OK);
     }
-
+    @Operation(summary="결제 실행 API", description = "가맹점 POS기에서 QR 스캔 후 호출하는 API입니다.")
+    @PostMapping("/execute")
+    public BaseResponse<TransactionResponseDto> executePayment(@RequestBody TransactionRequestDto requestDto) {
+        // 가맹점으로부터 결제 요청을 받아 처리
+        TransactionResponseDto response = transactionService.executeTransaction(requestDto);
+        return BaseResponse.onSuccess(response, ResponseCode.OK);
+    }
 }

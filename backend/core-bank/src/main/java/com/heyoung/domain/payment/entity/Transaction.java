@@ -1,18 +1,15 @@
 package com.heyoung.domain.payment.entity;
 
 import com.heyoung.domain.user.entity.User;
-import com.heyoung.global.enums.PartnershipCategory;
 import com.heyoung.global.enums.TransactionStatus;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import org.hibernate.annotations.BatchSize;
+import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.Instant;
-import java.time.LocalDateTime;
 
+@Builder
+@AllArgsConstructor
 @Entity @Getter
 @Table(name = "`transactions`")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -39,9 +36,9 @@ public class Transaction {
     @Column(length = 100, nullable = false)
     private String merchantName;
 
-    @Enumerated(EnumType.STRING)
-    @Column(length = 8, nullable = false)
-    private PartnershipCategory category;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "category_id", nullable = false)
+    private Category category;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
