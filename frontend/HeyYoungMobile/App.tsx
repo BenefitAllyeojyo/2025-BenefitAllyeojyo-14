@@ -26,14 +26,31 @@ export default function App() {
   const [progress, setProgress] = useState(0);
   const [isOffline, setIsOffline] = useState(false);
   const [webViewKey, setWebViewKey] = useState(0);
+  const [currentRoute, setCurrentRoute] = useState('home');
 
   const webViewRef = useRef<WebView>(null);
 
-  // Android 뒤로가기 버튼 처리
+  // SPA 라우트 정의
+  const routes = {
+    home: 'https://meek-babka-83628e.netlify.app/',
+    notifications: 'https://meek-babka-83628e.netlify.app/notifications',
+    benefitMain: 'https://meek-babka-83628e.netlify.app/benefit-main',
+    entireMenu: 'https://meek-babka-83628e.netlify.app/entire-menu',
+    pay: 'https://meek-babka-83628e.netlify.app/pay',
+    buttonExamples: 'https://meek-babka-83628e.netlify.app/button-examples',
+    benefitMap: 'https://meek-babka-83628e.netlify.app/benefit-map',
+    storeDetail: 'https://meek-babka-83628e.netlify.app/store-detail',
+  };
+
+  // Android 뒤로가기 버튼 처리 (SPA 라우팅과 연동)
   useEffect(() => {
     const backAction = () => {
       if (canGoBack) {
         webViewRef.current?.goBack();
+        return true;
+      } else if (currentRoute !== 'home') {
+        // SPA 라우팅에서 홈으로 돌아가기
+        navigateToRoute('home');
         return true;
       }
       return false;
@@ -41,16 +58,45 @@ export default function App() {
 
     const backHandler = BackHandler.addEventListener('hardwareBackPress', backAction);
     return () => backHandler.remove();
-  }, [canGoBack]);
+  }, [canGoBack, currentRoute]);
 
   const handleNavigationStateChange = (navState: WebViewNavigation) => {
     setCanGoBack(navState.canGoBack);
     setCanGoForward(navState.canGoForward);
     setCurrentUrl(navState.url);
     
+    // SPA 라우트 감지 및 상태 업데이트
+    const detectedRoute = detectRouteFromUrl(navState.url);
+    if (detectedRoute) {
+      setCurrentRoute(detectedRoute);
+    }
+    
     // 특정 URL에서 네이티브 기능 활성화
     if (navState.url.includes('store-detail')) {
       console.log('가게 상세 페이지 진입');
+    }
+  };
+
+  // URL에서 라우트 감지
+  const detectRouteFromUrl = (url: string): string | null => {
+    if (url.includes('/notifications')) return 'notifications';
+    if (url.includes('/benefit-main')) return 'benefitMain';
+    if (url.includes('/entire-menu')) return 'entireMenu';
+    if (url.includes('/pay')) return 'pay';
+    if (url.includes('/button-examples')) return 'buttonExamples';
+    if (url.includes('/benefit-map')) return 'benefitMap';
+    if (url.includes('/store-detail')) return 'storeDetail';
+    if (url.endsWith('/') || url.endsWith('.netlify.app')) return 'home';
+    return null;
+  };
+
+  // SPA 라우트로 네비게이션
+  const navigateToRoute = (routeKey: string) => {
+    const url = routes[routeKey as keyof typeof routes];
+    if (url) {
+      setCurrentRoute(routeKey);
+      setCurrentUrl(url);
+      setWebViewKey(prev => prev + 1); // WebView 재로드로 SPA 라우팅 활성화
     }
   };
 
@@ -69,11 +115,17 @@ export default function App() {
     try {
       const data = JSON.parse(event.nativeEvent.data);
       console.log('WebView에서 받은 메시지:', data);
+      
+      // 웹에서 SPA 라우팅 요청 시 처리
+      if (data.type === 'NAVIGATE' && data.route) {
+        navigateToRoute(data.route);
+      }
     } catch (error) {
       console.log('WebView 메시지 파싱 오류:', error);
     }
   };
 
+  // SPA 최적화를 위한 JavaScript 주입
   const injectJavaScript = `
     // 웹뷰에서 네이티브 기능 호출할 수 있는 함수 추가
     window.ReactNative = {
@@ -82,10 +134,16 @@ export default function App() {
           type: 'SHARE'
         }));
       },
-      navigate: function(screen) {
+      navigate: function(route) {
         window.ReactNativeWebView.postMessage(JSON.stringify({
           type: 'NAVIGATE',
-          screen: screen
+          route: route
+        }));
+      },
+      goHome: function() {
+        window.ReactNativeWebView.postMessage(JSON.stringify({
+          type: 'NAVIGATE',
+          route: 'home'
         }));
       }
     };
@@ -95,6 +153,20 @@ export default function App() {
       type: 'LOADED',
       url: window.location.href
     }));
+    
+    // SPA 라우팅 최적화
+    if (window.history && window.history.pushState) {
+      // 브라우저 히스토리 API 최적화
+      const originalPushState = window.history.pushState;
+      window.history.pushState = function(state, title, url) {
+        originalPushState.call(this, state, title, url);
+        // SPA 라우팅 변경 시 네이티브에 알림
+        window.ReactNativeWebView.postMessage(JSON.stringify({
+          type: 'ROUTE_CHANGED',
+          url: url
+        }));
+      };
+    }
     
     // 확대/축소만 방지하는 CSS 추가
     const style = document.createElement('style');
@@ -131,6 +203,17 @@ export default function App() {
       /* 스크롤바 숨김 */
       ::-webkit-scrollbar {
         display: none !important;
+      }
+      
+      /* SPA 전환 애니메이션 최적화 */
+      .page-transition {
+        transition: opacity 0.3s ease-in-out;
+      }
+      
+      /* 터치 반응성 향상 */
+      * {
+        -webkit-touch-action: manipulation;
+        touch-action: manipulation;
       }
     \`;
     document.head.appendChild(style);
@@ -201,7 +284,46 @@ export default function App() {
         translucent={true}
       />
       
-      {/* WebView - 화면 전체를 꽉 채움 */}
+      {/* 상단 네비게이션 바 - SPA 라우팅용 */}
+      {/* <View style={styles.navigationBar}>
+        <TouchableOpacity 
+          style={[styles.navButton, !canGoBack && styles.navButtonDisabled]} 
+          onPress={() => webViewRef.current?.goBack()}
+          disabled={!canGoBack}
+        >
+          <Ionicons name="arrow-back" size={20} color={canGoBack ? "#333" : "#ccc"} />
+        </TouchableOpacity>
+        
+        <TouchableOpacity style={styles.navButton} onPress={() => navigateToRoute('home')}>
+          <Ionicons name="home" size={20} color={currentRoute === 'home' ? "#7435FD" : "#333"} />
+        </TouchableOpacity>
+        
+        <TouchableOpacity style={styles.navButton} onPress={() => navigateToRoute('benefitMain')}>
+          <Ionicons name="gift" size={20} color={currentRoute === 'benefitMain' ? "#7435FD" : "#333"} />
+        </TouchableOpacity>
+        
+        <TouchableOpacity style={styles.navButton} onPress={() => navigateToRoute('benefitMap')}>
+          <Ionicons name="map" size={20} color={currentRoute === 'benefitMap' ? "#7435FD" : "#333"} />
+        </TouchableOpacity>
+        
+        <TouchableOpacity style={styles.navButton} onPress={() => navigateToRoute('entireMenu')}>
+          <Ionicons name="menu" size={20} color={currentRoute === 'entireMenu' ? "#7435FD" : "#333"} />
+        </TouchableOpacity>
+        
+        <TouchableOpacity style={styles.navButton} onPress={() => navigateToRoute('notifications')}>
+          <Ionicons name="notifications" size={20} color={currentRoute === 'notifications' ? "#7435FD" : "#333"} />
+        </TouchableOpacity>
+      </View> */}
+
+      {/* SPA 페이지 전환 로딩 인디케이터 */}
+      {isLoading && (
+        <View style={styles.loadingOverlay}>
+          <ActivityIndicator size="large" color="#7435FD" />
+          <Text style={styles.loadingText}>페이지 로딩 중...</Text>
+        </View>
+      )}
+
+      {/* WebView - SPA 라우팅 활성화 */}
       <WebView
         key={webViewKey}
         ref={webViewRef}
@@ -244,6 +366,11 @@ export default function App() {
         overScrollMode="never"
         nestedScrollEnabled={true}
       />
+
+      {/* 현재 라우트 표시 (디버깅용) */}
+      {/* <View style={styles.routeIndicator}>
+        <Text style={styles.routeText}>현재: {currentRoute}</Text>
+      </View> */}
     </SafeAreaProvider>
   );
 }
@@ -256,6 +383,56 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  navigationBar: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+    backgroundColor: '#fff',
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderBottomWidth: 1,
+    borderBottomColor: '#eee',
+    position: 'absolute',
+    top: Platform.OS === 'ios' ? 40 : StatusBar.currentHeight,
+    left: 0,
+    right: 0,
+    zIndex: 10,
+  },
+  navButton: {
+    padding: 10,
+  },
+  navButtonDisabled: {
+    opacity: 0.5,
+  },
+  loadingOverlay: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(255, 255, 255, 0.8)',
+    zIndex: 100,
+  },
+  loadingText: {
+    marginTop: 10,
+    fontSize: 16,
+    color: '#333',
+  },
+  routeIndicator: {
+    position: 'absolute',
+    top: Platform.OS === 'ios' ? 100 : (StatusBar.currentHeight || 0) + 10, // 네비게이션 바 아래에 위치
+    left: 20,
+    backgroundColor: 'rgba(255, 255, 255, 0.8)',
+    padding: 5,
+    borderRadius: 5,
+    zIndex: 10,
+  },
+  routeText: {
+    fontSize: 14,
+    color: '#333',
   },
 });
 
