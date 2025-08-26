@@ -3,7 +3,7 @@ import StoreDetailCard from '../Components/molecules/TextGrp/StoreDetailCard';
 import styles from './StoreDetailPage.module.css';
 import BackgroundBottomTabImage from '@/Components/atoms/BackgroundBottomTabImage/BackgroundBottomTabImage';
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '/api';
 
 export default function StoreDetailPage() {
   const [storeDetail, setStoreDetail] = useState(null);

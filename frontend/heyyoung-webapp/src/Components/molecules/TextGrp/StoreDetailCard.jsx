@@ -4,6 +4,7 @@ import ShopTextModule from './ShopTextModule';
 import AboutTextModule from './AboutTextModule';
 import HostInfoModule from './HostInfoModule';
 import { LongPurpleBtn } from '@/Components/atoms/Button';
+import ImageCarousel from './ImageCarousel';
 
 const StoreDetailCard = ({ storeDetail }) => {
   if (!storeDetail) return null;
@@ -16,10 +17,10 @@ const StoreDetailCard = ({ storeDetail }) => {
       {/* 가게 이미지 */}
       <div className={styles.imageSection}>
         {partnershipBranchDto?.images && partnershipBranchDto.images.length > 0 ? (
-          <img
-            src={partnershipBranchDto.images[0]}
-            alt={partnershipBranchDto.name}
-            className={styles.storeImage}
+          <ImageCarousel 
+            images={partnershipBranchDto.images}
+            autoPlay={true}
+            interval={5000}
           />
         ) : (
           <div className={styles.defaultImage}>
@@ -27,13 +28,13 @@ const StoreDetailCard = ({ storeDetail }) => {
           </div>
         )}
         {/* 캐릭터 이미지 (오른쪽에 겹쳐서 표시) */}
-        {/* <div className={styles.characterImage}>
-          <img 
-            src="/src/assets/images/character/PLI_Face.png" 
+        <div className={styles.characterImage}>
+          <img
+            src="/src/assets/images/character/PLI_Face.png"
             alt="캐릭터"
             className={styles.character}
           />
-        </div> */}
+        </div>
       </div>
 
       {/* 가게 정보 */}
@@ -50,12 +51,10 @@ const StoreDetailCard = ({ storeDetail }) => {
           discountAmount={discountAmount}
         />
 
-        <HostInfoModule Host= "싸피대학교 총학생회" />
+        <HostInfoModule Host="싸피대학교 총학생회" />
 
-        <LongPurpleBtn label="헤이영 Pay로 제휴 결제하기" onClick={() => {}}/>
+        <LongPurpleBtn label="헤이영 Pay로 제휴 결제하기" onClick={() => {}} />
       </div>
-
-      {/* 결제 버튼 */}
     </div>
   );
 };
