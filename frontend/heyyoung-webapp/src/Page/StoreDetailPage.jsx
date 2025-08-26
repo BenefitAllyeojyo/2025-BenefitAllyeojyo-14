@@ -178,14 +178,11 @@ export default function StoreDetailPage() {
   }
 
   return (
-    <div className={styles.container}>
-      <h1 className={styles.title}>가게 상세 정보</h1>
-      
+    <div className={styles.container}>      
       {storeDetail ? (
         <>
           {/* 지도 섹션 */}
           <div className={styles.mapSection}>
-            <h2>위치</h2>
             <div id="storeMap" className={styles.mapContainer}>
               {!mapLoaded && <div className={styles.loading}>지도 로딩 중...</div>}
             </div>
