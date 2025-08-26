@@ -12,13 +12,13 @@ import java.util.Date;
 @Component
 public class JwtUtil {
 
-    private final Key secreKey;
+    private final Key secretKey;
     private final long qrTokenExpirationMs;
 
     public JwtUtil(
             @Value("${jwt.secret.key}") String secret,
             @Value("${jwt.qr.expiration.ms}") long expirationMs) {
-        this.secreKey = Keys.hmacShaKeyFor(secret.getBytes());
+        this.secretKey = Keys.hmacShaKeyFor(secret.getBytes());
         this.qrTokenExpirationMs = expirationMs;
     }
 
@@ -35,7 +35,7 @@ public class JwtUtil {
                 .setClaims(claims)
                 .setIssuedAt(now)
                 .setExpiration(expiryDate)
-                .signWith(secreKey, SignatureAlgorithm.HS256)
+                .signWith(secretKey, SignatureAlgorithm.HS256)
                 .compact();
     }
 
