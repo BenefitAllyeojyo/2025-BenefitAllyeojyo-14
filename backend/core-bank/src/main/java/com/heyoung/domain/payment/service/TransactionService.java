@@ -44,7 +44,7 @@ public class TransactionService {
         Account account = accountRepository.findByUser(user)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 계좌"));
         String qrToken = jwtUtil.generateQrToken(user.getId(), account.getAccountNumber());
-        return new QrDataDto(qrToken, user.getId(), account.getAccountNumber());
+        return new QrDataDto(qrToken);
     }
 
     // 사용자 잔액 기반 거래 가능 여부 파악 후 출금
