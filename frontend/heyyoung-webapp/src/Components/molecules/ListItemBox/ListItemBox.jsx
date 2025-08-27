@@ -6,7 +6,7 @@ const ListItemBox = ({
   position, 
   mapInstance, 
   onMarkerClick, 
-  imagePath = '/src/assets/images/character/RINO_Face.png',
+  imagePath = import.meta.env.BASE_URL + 'assets/images/character/RINO_Face.png',
   imageSize = 60,
   circleRadius = 20,
   strokeColor = '#87CEEB',
@@ -233,7 +233,7 @@ ListItemBox.propTypes = {
 };
 
 ListItemBox.defaultProps = {
-  imagePath: '/src/assets/images/character/RINO_Face.png',
+  imagePath: import.meta.env.BASE_URL + 'assets/images/character/RINO_Face.png',
   imageSize: 60,
   circleRadius: 20,
   strokeColor: '#87CEEB',

@@ -38,7 +38,7 @@ const StoreDetailCard = ({ storeDetail }) => {
         {/* 캐릭터 이미지 (오른쪽에 겹쳐서 표시) */}
         <div className={styles.characterImage}>
           <img
-            src="/src/assets/images/character/PLI_GO.svg"
+            src={import.meta.env.BASE_URL + "assets/images/character/PLI_GO.svg"}
             alt="캐릭터"
             className={styles.character}
           />

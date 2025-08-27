@@ -1190,7 +1190,7 @@ const MapView = ({ schoolName = '서울대학교', schoolColor }) => {
           //     mapInstanceRef.current.setLevel(4); // 지도 레벨을 4로 설정
           //   }, 300);
           // }}
-          imagePath="/src/assets/images/map/school.png"
+          imagePath={import.meta.env.BASE_URL + "assets/images/map/school.png"}
           imageSize={60}
           circleRadius={20}
           strokeColor="#ed3241"

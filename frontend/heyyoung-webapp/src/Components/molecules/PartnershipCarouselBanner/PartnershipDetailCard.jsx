@@ -111,7 +111,7 @@ export default function PartnershipDetailCard({
       <div className={styles.hostSection}>
         <HostInfoModule
           hostName={displayPartnership.hostName || "주최자 정보 없음"}
-          hostIcon="/src/assets/images/character/PLI_Face.png"
+          hostIcon={import.meta.env.BASE_URL + "assets/images/character/PLI_Face.png"}
         />
       </div>
     </div>
