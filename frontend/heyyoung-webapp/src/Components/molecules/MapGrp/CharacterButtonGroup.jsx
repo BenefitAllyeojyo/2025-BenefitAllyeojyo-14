@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import CharacterBtn from '../../atoms/Button/CharacterBtn';
 import styles from './MapView.module.css';
+import pliFaceImage from '../../../assets/images/character/PLI_Face.png';
 
 const CharacterButtonGroup = ({ 
   showGptInput, 
@@ -55,7 +56,7 @@ const CharacterButtonGroup = ({
       
       {/* 메인 CharacterBtn */}
       <CharacterBtn
-        imageUrl="/src/assets/images/character/PLI_Face.png"
+        imageUrl={pliFaceImage}
         onClick={handleCharacterClick}
         alt="플리"
       />

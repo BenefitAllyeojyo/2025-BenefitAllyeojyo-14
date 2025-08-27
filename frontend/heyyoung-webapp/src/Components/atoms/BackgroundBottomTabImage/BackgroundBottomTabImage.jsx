@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom'
 import bottomTab1Image from '../../../assets/images/pages/bottom-tab1.png'
-import bottomTab2Image from '../../../assets/images/pages/bottom-tab2.png'
-import bottomTab3Image from '../../../assets/images/pages/bottom-tab3.png'
+import bottomTab2Image from '../../../assets/images/pages/bottom-tab2.PNG'
+import bottomTab3Image from '../../../assets/images/pages/bottom-tab3.PNG'
 
 export default function BackgroundBottomTabImage({ 
   currentTab = "home", // "home", "benefit", "menu"

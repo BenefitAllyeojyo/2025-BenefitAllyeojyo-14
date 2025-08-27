@@ -2,19 +2,22 @@ import { useNavigate } from 'react-router-dom'
 import BackgroundImage from '../Components/atoms/BackgroundImage'
 import BackgroundBottomTabImage from '../Components/atoms/BackgroundBottomTabImage'
 import benefitMainImage from '../assets/images/pages/benefit-main.PNG'
+import carousel1Image from '../assets/images/carousel/carousel1.png'
+import carousel2Image from '../assets/images/carousel/carousel2.png'
+import carousel3Image from '../assets/images/carousel/carousel3.png'
 import { Carousel } from '@/Components/molecules/Carousel'
 
 export default function BenefitMainPage() {
   // 카루셀 데이터
   const carouselSlides = [
     {
-      image: '/src/assets/images/carousel/carousel1.PNG',
+      image: carousel1Image,
     },
     {
-      image: '/src/assets/images/carousel/carousel2.png',
+      image: carousel2Image,
     },
     {
-      image: '/src/assets/images/carousel/carousel3.png',
+      image: carousel3Image,
     }
   ]
 
