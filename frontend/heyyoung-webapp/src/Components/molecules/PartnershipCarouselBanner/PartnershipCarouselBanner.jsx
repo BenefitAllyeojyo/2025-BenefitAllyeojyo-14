@@ -121,13 +121,13 @@ export default function PartnershipCarouselBanner({
         </div>
 
         {/* Carousel Controls */}
-        <CarouselControls
+        {/* <CarouselControls
           currentSlide={currentSlide}
           totalSlides={displayPartnerships.length}
           onNext={nextSlide}
           onPrev={prevSlide}
           showControls={showControls}
-        />
+        /> */}
       </div>
     </div>
   );

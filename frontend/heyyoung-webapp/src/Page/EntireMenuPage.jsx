@@ -55,10 +55,10 @@ export default function EntireMenuPage() {
       </BackgroundImage>
 
       {/* 하단 탭 이미지 - AppShell 컨테이너 하단에 고정 */}
-      <BackgroundBottomTabImage 
+      {/* <BackgroundBottomTabImage 
         currentTab="menu"
         position="absolute"
-      />
+      /> */}
     </div>
   )
 }

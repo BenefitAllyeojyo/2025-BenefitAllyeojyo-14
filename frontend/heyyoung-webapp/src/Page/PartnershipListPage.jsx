@@ -35,12 +35,9 @@ export default function PartnershipListPage() {
   ];
 
   return (
-    <div style={{ position: 'relative', height: '100%', overflow: 'auto', background: '#EFF0FC' }}>
+    <div style={{ position: 'relative', padding:'60px 20px 0 20px', height: '700px', overflow: 'auto', background: '#EFF0FC' }}>
       {/* ShopInfoTextModule 컴포넌트 */}
-      <div style={{ 
-        paddingLeft: '25px',
-        paddingTop: '135px'
-      }}>
+      <div>
         <ShopInfoTextModule 
           subTitle="지금 쓰기 좋은"
         />
@@ -57,10 +54,10 @@ export default function PartnershipListPage() {
       </PartnershipCarouselBanner>
       
       {/* 하단 탭 이미지 */}
-      <BackgroundBottomTabImage 
+      {/* <BackgroundBottomTabImage 
         currentTab="benefit"
         position="absolute"
-      />
+      /> */}
     </div>
   );
 }

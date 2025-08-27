@@ -49,10 +49,10 @@ export default function MainHomePage() {
       </div>
 
       {/* 하단 탭 이미지 - AppShell 컨테이너 하단에 고정 */}
-      <BackgroundBottomTabImage 
+      {/* <BackgroundBottomTabImage 
         currentTab="home"
         position="absolute"
-      />
+      /> */}
     </div>
   )
 }

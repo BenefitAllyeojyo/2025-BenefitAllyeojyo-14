@@ -12,7 +12,7 @@ export default function AppShell({ children }) {
         id="app"
         style={{
           width:'375px', 
-          height:'812px',
+          // height:'812px',
           background: 'white',
           position: 'relative',
           overflow: 'hidden',
