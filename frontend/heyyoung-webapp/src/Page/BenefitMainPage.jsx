@@ -43,9 +43,9 @@ export default function BenefitMainPage() {
       </div>  
 
       {/* 하단 탭 이미지 - 이제 기본적으로 fixed */}
-      <BackgroundBottomTabImage 
+      {/* <BackgroundBottomTabImage 
         currentTab="benefit"
-      />
+      /> */}
     </div>
   )
 }
