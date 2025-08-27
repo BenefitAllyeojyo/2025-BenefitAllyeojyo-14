@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { PayHeadButton } from '../Components/atoms/Button'
 import ShopTextModule from '../Components/molecules/TextGrp/ShopTextModule'
 import { PayPersonalInfo } from '../Components/molecules/CardGrp'
@@ -6,9 +6,13 @@ import QRCode from '../Components/atoms/QRCode/QRCode'
 import CountdownTimer from '../Components/atoms/CountdownTimer/CountdownTimer'
 import TimeoutModal from '../Components/atoms/TimeoutModal/TimeoutModal'
 import PaymentGuide from '../Components/molecules/PaymentGuide/PaymentGuide'
+import { fetchQRData } from '../services/api'
 
 export default function PaymentPage() {
   const [isModalOpen, setIsModalOpen] = useState(false)
+  const [qrData, setQrData] = useState(null)
+  const [isLoading, setIsLoading] = useState(true)
+  const [error, setError] = useState(null)
 
   // Mock data - 추후 실제 데이터로 교체 가능
   const shopData = {
@@ -22,10 +26,27 @@ export default function PaymentPage() {
     userInfo: "싸피대학교, 재학생 4학년"
   }
 
-  const qrData = {
-    qrString: "https://payment.example.com/qr/12345", // 백엔드에서 받을 QR 데이터
-    size: 200
-  }
+  // QR 데이터를 API에서 가져오기
+  useEffect(() => {
+    const loadQRData = async () => {
+      try {
+        setIsLoading(true)
+        setError(null)
+        const result = await fetchQRData()
+        setQrData({
+          qrString: result.qrToken,
+          size: 200
+        })
+      } catch (err) {
+        console.error('QR 데이터 로드 실패:', err)
+        setError(err.message)
+      } finally {
+        setIsLoading(false)
+      }
+    }
+
+    loadQRData()
+  }, [])
 
   const handleTimeout = () => {
     setIsModalOpen(true)
@@ -61,14 +82,43 @@ export default function PaymentPage() {
       
       {/* QR 코드 섹션 */}
       <div style={{ padding: '5px 0' }}>
-        <QRCode 
-          qrData={qrData.qrString}
-          size={qrData.size}
-        />
-        <CountdownTimer 
-          initialSeconds={60}
-          onTimeout={handleTimeout}
-        />
+        {isLoading ? (
+          <div style={{ 
+            display: 'flex', 
+            justifyContent: 'center', 
+            alignItems: 'center', 
+            height: '200px',
+            color: '#542BA8',
+            fontSize: '16px'
+          }}>
+            QR 코드를 불러오는 중...
+          </div>
+        ) : error ? (
+          <div style={{ 
+            display: 'flex', 
+            justifyContent: 'center', 
+            alignItems: 'center', 
+            height: '200px',
+            color: '#ff6b6b',
+            fontSize: '14px',
+            textAlign: 'center',
+            padding: '0 20px'
+          }}>
+            QR 코드를 불러올 수 없습니다.<br />
+            {error}
+          </div>
+        ) : qrData ? (
+          <>
+            <QRCode 
+              qrData={qrData.qrString}
+              size={qrData.size}
+            />
+            <CountdownTimer 
+              initialSeconds={60}
+              onTimeout={handleTimeout}
+            />
+          </>
+        ) : null}
       </div>
       
       {/* 하단 안내 섹션 */}
