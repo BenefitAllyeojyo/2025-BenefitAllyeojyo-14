@@ -30,7 +30,8 @@
       },
       "edgeToEdgeEnabled": true,
       "package": "com.heyoung.heyyoungmobile",
-      "versionCode": 1
+      "versionCode": 1,
+      "usesCleartextTraffic": true
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -39,6 +40,15 @@
       "eas": {
         "projectId": "your-project-id"
       }
+    },
+    "experiments": {
+      "tsconfigPaths": true
+    },
+    "updates": {
+      "enabled": false
+    },
+    "runtimeVersion": {
+      "policy": "sdkVersion"
     }
   }
 }

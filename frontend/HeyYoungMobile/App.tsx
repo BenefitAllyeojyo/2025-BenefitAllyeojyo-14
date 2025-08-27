@@ -11,6 +11,7 @@ import {
   Platform,
   BackHandler,
   Linking,
+  Image,
 } from 'react-native';
 import { WebView, WebViewNavigation } from 'react-native-webview';
 import { SafeAreaView, SafeAreaProvider } from 'react-native-safe-area-context';
@@ -32,7 +33,7 @@ export default function App() {
 
   // SPA 라우트 정의
   const routes = {
-    home: 'https://meek-babka-83628e.netlify.app/',
+    home: 'https://meek-babka-83628e.netlify.app/benefit-map',
     notifications: 'https://meek-babka-83628e.netlify.app/notifications',
     benefitMain: 'https://meek-babka-83628e.netlify.app/benefit-main',
     entireMenu: 'https://meek-babka-83628e.netlify.app/entire-menu',
@@ -99,6 +100,42 @@ export default function App() {
       setWebViewKey(prev => prev + 1); // WebView 재로드로 SPA 라우팅 활성화
     }
   };
+
+  // 하단 탭 클릭 핸들러
+  const handleTabClick = (tab: string) => {
+    console.log(`${tab} 탭 클릭됨`);
+    
+    // 현재 탭과 같은 탭을 클릭하면 아무것도 하지 않음
+    if (tab === currentRoute) {
+      return;
+    }
+    
+    switch(tab) {
+      case 'home': // 학사 탭
+        navigateToRoute('home');
+        break;
+      case 'benefit': // 혜택 탭
+        navigateToRoute('benefitMain');
+        break;
+      case 'menu': // 메뉴 탭
+        navigateToRoute('entireMenu');
+        break;
+    }
+  };
+
+  // 현재 탭에 따른 하단바 이미지 선택 (이미지가 없으므로 임시로 제거)
+  // const getTabImage = () => {
+  //   switch(currentRoute) {
+  //     case 'home':
+  //       return require('./assets/images/pages/bottom-tab1.png');
+  //     case 'benefitMain':
+  //       return require('./assets/images/pages/bottom-tab2.PNG');
+  //     case 'entireMenu':
+  //       return require('./assets/images/pages/bottom-tab3.PNG');
+  //     default:
+  //       return require('./assets/images/pages/bottom-tab1.png');
+  //   }
+  // };
 
   const handleWebViewError = (syntheticEvent: any) => {
     const { nativeEvent } = syntheticEvent;
@@ -284,37 +321,6 @@ export default function App() {
         translucent={true}
       />
       
-      {/* 상단 네비게이션 바 - SPA 라우팅용 */}
-      {/* <View style={styles.navigationBar}>
-        <TouchableOpacity 
-          style={[styles.navButton, !canGoBack && styles.navButtonDisabled]} 
-          onPress={() => webViewRef.current?.goBack()}
-          disabled={!canGoBack}
-        >
-          <Ionicons name="arrow-back" size={20} color={canGoBack ? "#333" : "#ccc"} />
-        </TouchableOpacity>
-        
-        <TouchableOpacity style={styles.navButton} onPress={() => navigateToRoute('home')}>
-          <Ionicons name="home" size={20} color={currentRoute === 'home' ? "#7435FD" : "#333"} />
-        </TouchableOpacity>
-        
-        <TouchableOpacity style={styles.navButton} onPress={() => navigateToRoute('benefitMain')}>
-          <Ionicons name="gift" size={20} color={currentRoute === 'benefitMain' ? "#7435FD" : "#333"} />
-        </TouchableOpacity>
-        
-        <TouchableOpacity style={styles.navButton} onPress={() => navigateToRoute('benefitMap')}>
-          <Ionicons name="map" size={20} color={currentRoute === 'benefitMap' ? "#7435FD" : "#333"} />
-        </TouchableOpacity>
-        
-        <TouchableOpacity style={styles.navButton} onPress={() => navigateToRoute('entireMenu')}>
-          <Ionicons name="menu" size={20} color={currentRoute === 'entireMenu' ? "#7435FD" : "#333"} />
-        </TouchableOpacity>
-        
-        <TouchableOpacity style={styles.navButton} onPress={() => navigateToRoute('notifications')}>
-          <Ionicons name="notifications" size={20} color={currentRoute === 'notifications' ? "#7435FD" : "#333"} />
-        </TouchableOpacity>
-      </View> */}
-
       {/* SPA 페이지 전환 로딩 인디케이터 */}
       {isLoading && (
         <View style={styles.loadingOverlay}>
@@ -367,6 +373,82 @@ export default function App() {
         nestedScrollEnabled={true}
       />
 
+      {/* React Native 하단 네비게이션 바 */}
+      <View style={styles.bottomNavigationBar}>
+        {/* 하단바 배경 이미지 */}
+        {/* <Image 
+          source={getTabImage()}
+          style={styles.bottomTabImage}
+          resizeMode="stretch"
+        /> */}
+        
+        {/* 3개 섹션으로 나눈 탭 버튼들 */}
+        <View style={styles.tabButtonsContainer}>
+          {/* 학사 섹션 (왼쪽 1/3) */}
+          <TouchableOpacity
+            style={styles.tabButton}
+            onPress={() => handleTabClick('home')}
+            activeOpacity={0.7}
+          >
+            <View style={styles.tabContent}>
+              <Ionicons 
+                name="school" 
+                size={24} 
+                color={currentRoute === 'home' ? "#7435FD" : "#666"} 
+              />
+              <Text style={[
+                styles.tabText, 
+                currentRoute === 'home' && styles.tabTextActive
+              ]}>
+                학사
+              </Text>
+            </View>
+          </TouchableOpacity>
+
+          {/* 혜택 섹션 (가운데 1/3) */}
+          <TouchableOpacity
+            style={styles.tabButton}
+            onPress={() => handleTabClick('benefit')}
+            activeOpacity={0.7}
+          >
+            <View style={styles.tabContent}>
+              <Ionicons 
+                name="gift" 
+                size={24} 
+                color={currentRoute === 'benefitMain' ? "#7435FD" : "#666"} 
+              />
+              <Text style={[
+                styles.tabText, 
+                currentRoute === 'benefitMain' && styles.tabTextActive
+              ]}>
+                혜택
+              </Text>
+            </View>
+          </TouchableOpacity>
+
+          {/* 전체메뉴 섹션 (오른쪽 1/3) */}
+          <TouchableOpacity
+            style={styles.tabButton}
+            onPress={() => handleTabClick('menu')}
+            activeOpacity={0.7}
+          >
+            <View style={styles.tabContent}>
+              <Ionicons 
+                name="menu" 
+                size={24} 
+                color={currentRoute === 'entireMenu' ? "#7435FD" : "#666"} 
+              />
+              <Text style={[
+                styles.tabText, 
+                currentRoute === 'entireMenu' && styles.tabTextActive
+              ]}>
+                메뉴
+              </Text>
+            </View>
+          </TouchableOpacity>
+        </View>
+      </View>
+
       {/* 현재 라우트 표시 (디버깅용) */}
       {/* <View style={styles.routeIndicator}>
         <Text style={styles.routeText}>현재: {currentRoute}</Text>
@@ -383,27 +465,6 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     justifyContent: 'center',
     alignItems: 'center',
-  },
-  navigationBar: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    alignItems: 'center',
-    backgroundColor: '#fff',
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    borderBottomWidth: 1,
-    borderBottomColor: '#eee',
-    position: 'absolute',
-    top: Platform.OS === 'ios' ? 40 : StatusBar.currentHeight,
-    left: 0,
-    right: 0,
-    zIndex: 10,
-  },
-  navButton: {
-    padding: 10,
-  },
-  navButtonDisabled: {
-    opacity: 0.5,
   },
   loadingOverlay: {
     position: 'absolute',
@@ -423,7 +484,7 @@ const styles = StyleSheet.create({
   },
   routeIndicator: {
     position: 'absolute',
-    top: Platform.OS === 'ios' ? 100 : (StatusBar.currentHeight || 0) + 10, // 네비게이션 바 아래에 위치
+    top: Platform.OS === 'ios' ? 100 : (StatusBar.currentHeight || 0) + 10,
     left: 20,
     backgroundColor: 'rgba(255, 255, 255, 0.8)',
     padding: 5,
@@ -434,5 +495,60 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: '#333',
   },
+  bottomNavigationBar: {
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    height: 90,
+    backgroundColor: 'white',
+    borderTopWidth: 1,
+    borderTopColor: '#eee',
+    zIndex: 999,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: -2,
+    },
+    shadowOpacity: 0.1,
+    shadowRadius: 3,
+    elevation: 5,
+  },
+  bottomTabImage: {
+    // 이미지가 없으므로 제거
+    display: 'none',
+  },
+  tabButtonsContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+    position: 'absolute',
+    bottom: 15,
+    left: 0,
+    right: 0,
+    height: 60,
+    paddingHorizontal: 20,
+  },
+  tabButton: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 8,
+    paddingHorizontal: 12,
+    borderRadius: 8,
+  },
+  tabContent: {
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  tabText: {
+    marginTop: 4,
+    fontSize: 11,
+    color: '#666',
+    fontWeight: '500',
+  },
+  tabTextActive: {
+    color: '#7435FD',
+    fontWeight: 'bold',
+  },
 });
-
