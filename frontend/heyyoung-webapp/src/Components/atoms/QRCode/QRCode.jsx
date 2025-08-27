@@ -1,31 +1,46 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import QRCode from 'qrcode'
 import styles from './QRCode.module.css'
 
-export default function QRCode({ 
-  qrData = "https://example.com/payment",
+export default function QRCodeComponent({ 
+  qrData = "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjEsImFjY291bnROdW1iZXIiOiIwMDEwNTU3MjA4ODE3MzAxIiwiaWF0IjoxNzU2MjYzNzk4LCJleHAiOjE3NTYyNjQwOTh9.Ish-n9PduxN3M05wi70gQYJ3PKLq1jHP-TAY3lDqQ3E",
   size = 200 
 }) {
-  // QR 코드 생성 함수 (간단한 구현)
-  const generateQRCode = (data) => {
-    // 실제로는 qrcode 라이브러리를 사용해야 합니다
-    // 현재는 임시로 검은색 사각형으로 대체
-    return `data:image/svg+xml;base64,${btoa(`
-      <svg width="${size}" height="${size}" xmlns="http://www.w3.org/2000/svg">
-        <rect width="100%" height="100%" fill="white"/>
-        <rect x="10%" y="10%" width="80%" height="80%" fill="black"/>
-      </svg>
-    `)}`
-  }
+  const [qrCodeUrl, setQrCodeUrl] = useState('')
+
+  useEffect(() => {
+    const generateQRCode = async () => {
+      try {
+        const url = await QRCode.toDataURL(qrData, {
+          width: size,
+          margin: 2,
+          color: {
+            dark: '#000000',
+            light: '#FFFFFF'
+          }
+        })
+        setQrCodeUrl(url)
+      } catch (error) {
+        console.error('QR 코드 생성 실패:', error)
+      }
+    }
+
+    generateQRCode()
+  }, [qrData, size])
 
   return (
     <div className={styles.qrCodeContainer}>
-      <img 
-        src={generateQRCode(qrData)}
-        alt="QR Code"
-        className={styles.qrCode}
-        width={size}
-        height={size}
-      />
+      {qrCodeUrl ? (
+        <img 
+          src={qrCodeUrl}
+          alt="QR Code"
+          className={styles.qrCode}
+          width={size}
+          height={size}
+        />
+      ) : (
+        <div className={styles.loading}>QR 코드 생성 중...</div>
+      )}
     </div>
   )
 }
