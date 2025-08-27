@@ -63,8 +63,10 @@ export default function BackgroundBottomTabImage({
         position: position,
         bottom: 0,
         left: 0,
-        width: '100%',
-        zIndex: 1000  // AppShell 내의 다른 요소들 위에 표시
+        width: position === 'fixed' ? '100%' : '100%', // fixed일 때는 전체 화면, absolute일 때는 부모 컨테이너
+        zIndex: 99999, // 최대 z-index로 설정
+        backgroundColor: 'white', // 배경색 추가로 가시성 향상
+        borderTop: '1px solid #ddd' // 상단 경계선 추가
       }}
     >
       {/* currentTab에 따라 다른 이미지 사용 */}

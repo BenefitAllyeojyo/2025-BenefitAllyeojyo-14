@@ -2,33 +2,39 @@
   position: relative;
   display: flex;
   align-items: center;
+  /* 줌 레벨에 관계없이 고정 크기 유지 */
+  transform: scale(1) !important;
+  transform-origin: center center;
 }
 
 .ToolContainer {
   position: relative; /* SVG 화살표의 기준점 */
   display: flex;
   width: fit-content;
-  padding: 20px;
+  padding: 16px; /* 20px에서 16px로 줄임 */
   flex-direction: column;
   align-items: flex-start;
-  gap: 8px;
+  gap: 6px; /* 8px에서 6px로 줄임 */
   align-self: stretch;
-  border-radius: 16px;
+  border-radius: 12px; /* 16px에서 12px로 줄임 */
   background: var(--neutral-dark-dark);
   overflow: visible; /* SVG 화살표가 잘리지 않도록 */
+  /* 줌 레벨에 관계없이 고정 크기 유지 */
+  transform: scale(1) !important;
+  transform-origin: center center;
 }
 
 .ToolTipModuleTitle {
     color: var(--neutral-light-lightest);
 
     /* Heading/H5 */
-    font-size: var(--font-size-h5);
+    font-size: var(--font-size-h6); /* h5에서 h6으로 줄임 */
     font-weight: var(--font-weight-heading);
     word-wrap: break-word;
     word-break: break-all;
     overflow-wrap: break-word;
     white-space: pre-wrap;
-    line-height: 1.3;
+    line-height: 1.2; /* 1.3에서 1.2로 줄임 */
 }
 
 .ToolTipModuleContent {
@@ -59,10 +65,10 @@
 }
 
 .partnershipInfo {
-  margin-top: 8px;
-  padding: 8px;
+  margin-top: 6px; /* 8px에서 6px로 줄임 */
+  padding: 6px; /* 8px에서 6px로 줄임 */
   background: rgba(255, 97, 109, 0.1);
-  border-radius: 8px;
+  border-radius: 6px; /* 8px에서 6px로 줄임 */
   border-left: 3px solid #FF616D;
 }
 
@@ -75,6 +81,13 @@
   margin-top: 4px;
   font-size: 12px;
   color: var(--neutral-light-light);
+}
+
+.buttonContainer {
+  margin-top: 8px;
+  display: flex;
+  justify-content: left;
+  width: 100%;
 }
 
 .TipContainer {

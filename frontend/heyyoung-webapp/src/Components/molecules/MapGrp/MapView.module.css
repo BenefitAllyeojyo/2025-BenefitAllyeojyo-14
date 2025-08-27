@@ -6,6 +6,13 @@
   margin: 0;
 }
 
+/* 카테고리 라벨 스타일 */
+.categoryLabel {
+  font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+  pointer-events: none;
+  user-select: none;
+}
+
 .map {
   width: 100%;
   height: 700px;
@@ -17,14 +24,14 @@
 @media (max-width: 768px) {
   .map {
     width: 100%;
-    height: 700px;
+    height: 80vh;
   }
 }
 
 @media (max-width: 480px) {
   .map {
     width: 100%;
-    height: 600px;
+    height: 80vh;
   }
 }
 
@@ -265,7 +272,7 @@
   left: 50%;
   transform: translateX(-50%);
   width: 100%;
-  height: 60px;
+  height: 30px; /* 60px에서 30px로 절반으로 줄임 */
   background: #DDDBF5;
   border-radius: 20px 20px 0 0;
   cursor: grab;
@@ -293,21 +300,15 @@
 
 .slidingPanelContent {
   padding: 20px;
-  height: calc(100% - 60px);
+  height: calc(100% - 30px); /* 60px에서 30px로 수정 */
   overflow-y: auto;
 }
 
 .panelHeader {
-  margin-bottom: 20px;
   text-align: center;
+  margin: 10px 0;
 }
 
-.panelHeader h3 {
-  margin: 0;
-  font-size: 18px;
-  font-weight: 600;
-  color: #1f2937;
-}
 
 .panelList {
   display: flex;
