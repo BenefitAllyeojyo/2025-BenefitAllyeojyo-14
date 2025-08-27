@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
-import { fetchStores, fetchPartnerships } from '../services/api';
+import { useState, useEffect, useRef } from 'react';
+import { fetchStores } from '../services/api';
 
 /**
  * 스토어와 파트너십 정보를 가져오는 커스텀 훅
@@ -11,50 +11,50 @@ export const useStores = (memberId = 1) => {
   const [partnerships, setPartnerships] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
+  const abortControllerRef = useRef(null);
 
   useEffect(() => {
     const loadData = async () => {
       try {
+        // 이전 요청이 있다면 취소
+        if (abortControllerRef.current) {
+          abortControllerRef.current.abort();
+        }
+        
+        // 새로운 AbortController 생성
+        abortControllerRef.current = new AbortController();
+        
         setIsLoading(true);
         setError(null);
         
-        // 스토어 정보와 파트너십 정보를 병렬로 가져오기
-        const [storesData, partnershipsData] = await Promise.all([
-          fetchStores(),
-          fetchPartnerships(memberId)
-        ]);
+        // 파트너십 정보 가져오기 (partnershipBranchDto 포함)
+        const partnershipsData = await fetchStores();
         
-        setStores(storesData);
-        setPartnerships(partnershipsData);
+        setStores(partnershipsData);
+        // 파트너십 데이터에서 기본 정보 추출
+        const basicPartnerships = partnershipsData.map(partnership => ({
+          id: partnership.id,
+          companyName: partnership.companyName,
+          discountRate: partnership.discountRate,
+          discountAmount: partnership.discountAmount,
+          terms: partnership.terms,
+          status: partnership.status
+        }));
+        setPartnerships(basicPartnerships);
         
-        console.log('useStores 훅에서 로드된 스토어:', storesData);
-        console.log('useStores 훅에서 로드된 파트너십:', partnershipsData);
+        console.log('useStores 훅에서 로드된 파트너십:', partnershipsData.length, '개');
+        console.log('useStores 훅에서 로드된 기본 파트너십 정보:', basicPartnerships.length, '개');
       } catch (error) {
+        if (error.name === 'AbortError') {
+          console.log('useStores 훅 요청이 취소됨');
+          return;
+        }
+        
         console.error('useStores 훅에서 데이터 로드 실패:', error);
         setError(error);
         
-        // 에러 발생 시 기본 목데이터 사용
-        const fallbackStores = [
-          {
-            "id": 1,
-            "name": "스타벅스 관악서울대입구R점",
-            "address": "서울 관악구 관악로 158",
-            "latitude": 126.95280377997965,
-            "longitude": 37.47927529407993,
-            "phone": "02-1234-5678",
-            "businessHoursJson": "{\"fri\": \"07:00-22:00\", \"mon\": \"07:00-22:00\", \"sat\": \"07:00-22:00\", \"sun\": \"07:00-22:00\", \"thu\": \"07:00-22:00\", \"tue\": \"07:00-22:00\", \"wed\": \"07:00-22:00\"}",
-            "startDate": "2025-08-01",
-            "endDate": "2025-09-30",
-            "status": "ACTIVE",
-            "partnershipId": 1,
-            "images": [
-              "https://heyoung.s3.ap-northeast-2.amazonaws.com/store_image.png",
-              "https://heyoung.s3.ap-northeast-2.amazonaws.com/store_image.png"
-            ]
-          }
-        ];
-        
-        setStores(fallbackStores);
+        // 에러 발생 시 빈 배열 사용
+        setStores([]);
         setPartnerships([]);
       } finally {
         setIsLoading(false);
@@ -62,6 +62,13 @@ export const useStores = (memberId = 1) => {
     };
 
     loadData();
+    
+    // cleanup 함수
+    return () => {
+      if (abortControllerRef.current) {
+        abortControllerRef.current.abort();
+      }
+    };
   }, [memberId]);
 
   return {
@@ -70,7 +77,6 @@ export const useStores = (memberId = 1) => {
     isLoading,
     error,
     refetch: () => {
-      setIsLoading(true);
       loadData();
     }
   };

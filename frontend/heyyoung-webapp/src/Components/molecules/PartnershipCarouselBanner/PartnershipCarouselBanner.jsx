@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
-import ShopTextModule from '../TextGrp/ShopTextModule';
-import { LongVioletBtn } from '../../atoms/Button';
+import PartnershipCard from './PartnershipCard';
+import CarouselControls from './CarouselControls';
+import styles from './PartnershipCarouselBanner.module.css';
 
 export default function PartnershipCarouselBanner({
   width = "350px",
@@ -9,9 +9,9 @@ export default function PartnershipCarouselBanner({
   background = "linear-gradient(180deg, #DDD7FF 0%, #F9E8DA 100%)",
   borderRadius = "16px",
   partnerships = [],
-  children
+  children,
+  showControls = true
 }) {
-  const navigate = useNavigate();
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
   const [startX, setStartX] = useState(0);
@@ -79,27 +79,15 @@ export default function PartnershipCarouselBanner({
   const displayPartnerships = partnerships.length > 0 ? partnerships : defaultPartnerships;
 
   if (displayPartnerships.length === 0) {
-    return <div>제휴 정보가 없습니다.</div>;
+    return <div className={styles.noDataMessage}>제휴 정보가 없습니다.</div>;
   }
 
+  const isSingleSlide = displayPartnerships.length <= 1;
+
   return (
-    <div 
-      style={{ 
-        paddingLeft: '15px',
-        paddingTop: '20px'
-      }}
-    >
+    <div className={styles.container}>
       <div 
-        style={{
-          position: 'relative',
-          width: '100%',
-          margin: 0,
-          overflow: 'hidden',
-          borderRadius: 0,
-          cursor: partnerships.length > 1 ? 'grab' : 'default',
-          userSelect: 'none',
-          touchAction: 'pan-y pinch-zoom'
-        }}
+        className={`${styles.carouselWrapper} ${isSingleSlide ? styles.single : ''}`}
         ref={carouselRef}
         onMouseDown={handleTouchStart}
         onMouseMove={handleTouchMove}
@@ -109,107 +97,37 @@ export default function PartnershipCarouselBanner({
         onTouchMove={handleTouchMove}
         onTouchEnd={handleTouchEnd}
       >
-        <div style={{
-          position: 'relative',
-          width: '100%',
-          height: '100%'
-        }}>
+        <div className={styles.carouselTrack}>
           <div 
+            className={`${styles.carouselSlides} ${isDragging ? styles.dragging : ''}`}
             style={{
-              display: 'flex',
-              transition: isDragging ? 'none' : 'transform 0.3s ease-in-out',
-              transform: `translateX(-${currentSlide * 100}%)`,
-              width: '100%'
+              transform: `translateX(-${currentSlide * 100}%)`
             }}
           >
             {displayPartnerships.map((partnership, index) => (
-              <div 
-                key={partnership.id || index}
-                style={{
-                  flex: '0 0 100%',
-                  width: '100%',
-                  padding: 0,
-                  boxSizing: 'border-box',
-                  display: 'flex',
-                  justifyContent: 'center'
-                }}
-              >
-                <div
-                  style={{
-                    width,
-                    height,
-                    background,
-                    borderRadius,
-                    display: 'flex',
-                    flexDirection: 'column',
-                    justifyContent: 'center',
-                    alignItems: 'center'
-                  }}
+              <div key={partnership.id || index} className={styles.slide}>
+                <PartnershipCard
+                  partnership={partnership}
+                  width={width}
+                  height={height}
+                  background={background}
+                  borderRadius={borderRadius}
                 >
-                  {/* 헤이영 맞춤 추천 텍스트 */}
-                  <div style={{
-                    color: 'var(--neutral-dark-dark)',
-                    fontSize: '12px',
-                    fontStyle: 'normal',
-                    fontWeight: '500',
-                    lineHeight: '16px',
-                    letterSpacing: '0.12px',
-                    alignSelf: 'flex-start',
-                    marginLeft: '25px',
-                    marginBottom: '10px'
-                  }}>
-                    헤이영 맞춤 추천
-                  </div>
-                  
-                  {/* ShopTextModule */}
-                  <div style={{
-                    alignSelf: 'flex-start',
-                    marginLeft: '25px',
-                    marginBottom: '10px'
-                  }}>
-                    <ShopTextModule
-                      shopName={partnership.shopName}
-                      shopAddress={partnership.shopAddress}
-                      tag={partnership.tag}
-                      disabled={false}
-                    />
-                  </div>
-
-                  {/* 흰색 박스 */}
-                  <div style={{
-                    alignSelf: 'flex-start',
-                    marginLeft: '25px',
-                    marginBottom: '10px',
-                    borderRadius: '10px',
-                    background: '#FFF',
-                    boxShadow: '0 4px 4px 0 rgba(0, 0, 0, 0.10)',
-                    width: '298px',
-                    height: '271px',
-                    flexShrink: 0
-                  }}>
-                  </div>
-
-                  {/* 롱 바이올렛 버튼  '헤이영 pay로 제휴 결제하기' */}
-                  <div style={{
-                    alignSelf: 'flex-start',
-                    marginLeft: '25px',
-                    marginBottom: '10px'
-                  }}>
-                    <LongVioletBtn
-                      label="제휴 혜택 상세 보기"
-                      onClick={() => {
-                        console.log('헤이영 pay 결제 버튼 클릭', partnership.id);
-                        navigate('/payment');
-                      }}
-                    />
-                  </div>
-                  
                   {children}
-                </div>
+                </PartnershipCard>
               </div>
             ))}
           </div>
         </div>
+
+        {/* Carousel Controls */}
+        <CarouselControls
+          currentSlide={currentSlide}
+          totalSlides={displayPartnerships.length}
+          onNext={nextSlide}
+          onPrev={prevSlide}
+          showControls={showControls}
+        />
       </div>
     </div>
   );

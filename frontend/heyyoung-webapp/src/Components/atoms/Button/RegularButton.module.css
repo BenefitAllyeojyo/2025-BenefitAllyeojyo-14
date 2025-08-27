@@ -15,6 +15,25 @@
   line-height: normal;
 }
 
+.whiteButton {
+  display: flex;
+  height: 40px;
+  padding: 12px 16px;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  border-radius: 12px;
+  border: 1.5px solid var(--color-surface);
+  background: transparent;
+  color: var(--color-surface);
+  font-size: 12px;
+  font-style: normal;
+  font-weight: var(--font-weight-action);
+  line-height: normal;
+}
+
+
+
 .regularButton:not(:disabled) {
   cursor: pointer;
 }

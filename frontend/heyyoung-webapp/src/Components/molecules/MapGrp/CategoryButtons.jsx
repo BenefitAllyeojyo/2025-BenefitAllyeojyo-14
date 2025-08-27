@@ -13,6 +13,13 @@ const CategoryButtons = ({
 
   return (
     <div className={styles.categoryContainer}>
+      {/* 전체 탭 추가 */}
+      <MiniSelectBtn
+        label="전체"
+        isSelected={selectedCategory === 'ALL'}
+        onClick={() => onCategoryChange('ALL')}
+      />
+      
       {categories.map((category) => (
         <MiniSelectBtn
           key={category.id}
