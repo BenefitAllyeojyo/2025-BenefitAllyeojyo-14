@@ -1,6 +1,6 @@
 package com.heyoung.domain.payment.controller;
 
-import com.heyoung.domain.payment.dto.QrDataDto;
+import com.heyoung.domain.payment.dto.QrTokenDto;
 import com.heyoung.domain.payment.dto.TransactionRequestDto;
 import com.heyoung.domain.payment.dto.TransactionResponseDto;
 import com.heyoung.domain.payment.service.TransactionService;
@@ -22,9 +22,9 @@ public class TransactionController {
 
     @Operation(summary="결제 QR 화면 요청 API", description = "사용자가 '결제하기' 버튼을 누르면 호출됩니다.")
     @GetMapping("/qr-data")
-    public BaseResponse<QrDataDto> getQrData(@MemberId Long memberId) {
-        QrDataDto qrData = transactionService.generateQrData(memberId);
-        return BaseResponse.onSuccess(qrData, ResponseCode.OK);
+    public BaseResponse<QrTokenDto> getQrData(@MemberId Long memberId) {
+        QrTokenDto qrTokenDto = transactionService.generateQrData(memberId);
+        return BaseResponse.onSuccess(qrTokenDto, ResponseCode.OK);
     }
     @Operation(summary="결제 실행 API", description = "가맹점 POS기에서 QR 스캔 후 호출하는 API입니다.")
     @PostMapping("/execute")
