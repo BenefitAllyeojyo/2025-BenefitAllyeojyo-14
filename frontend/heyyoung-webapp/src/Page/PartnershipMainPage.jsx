@@ -28,7 +28,7 @@ export default function PartnershipMainPage() {
   return (
     <div style={{ 
       position: 'relative', 
-      height: '100%',
+      height: '720px',
       backgroundColor: '#EFF0FC',
       overflow: 'hidden'
     }}>
@@ -109,9 +109,9 @@ export default function PartnershipMainPage() {
       </div>
 
       {/* 하단 탭 이미지 */}
-      <BackgroundBottomTabImage 
+      {/* <BackgroundBottomTabImage 
         currentTab="benefit"
-      />
+      /> */}
     </div>
   )
 }

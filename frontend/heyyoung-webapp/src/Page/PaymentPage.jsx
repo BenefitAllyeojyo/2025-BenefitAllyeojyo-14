@@ -55,12 +55,13 @@ export default function PaymentPage() {
   return (
     <div style={{ 
       position: 'relative', 
-      height: '100%', 
+      minHeight: '100%', 
       overflow: 'auto',
       overflowX: 'hidden',
       backgroundColor: '#FFFFFF',
       width: '100%',
-      boxSizing: 'border-box'
+      boxSizing: 'border-box',
+      paddingBottom: '100px' // 하단 여백 추가
     }}>
       <PayHeadButton subtitle="오늘 - Aug 15" />
       

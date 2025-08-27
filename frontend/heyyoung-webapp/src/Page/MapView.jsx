@@ -14,7 +14,7 @@ const MapViewTestPage = () => {
 
       <MapView markers={storeMarkers} />
 
-      <BackgroundBottomTabImage currentTab="benefit" position="absolute" />
+      {/* <BackgroundBottomTabImage currentTab="benefit" position="absolute" /> */}
     </div>
   );
 };

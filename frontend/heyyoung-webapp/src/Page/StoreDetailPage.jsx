@@ -172,7 +172,7 @@ export default function StoreDetailPage() {
           <p>가게 정보를 찾을 수 없습니다.</p>
           <p>상세보기 버튼을 통해 접근해주세요.</p>
         </div>
-        <BackgroundBottomTabImage currentTab="benefit" position="absolute" />
+        {/* <BackgroundBottomTabImage currentTab="benefit" position="absolute" /> */}
       </div>
     );
   }
@@ -198,7 +198,7 @@ export default function StoreDetailPage() {
         </div>
       )}
       
-      <BackgroundBottomTabImage currentTab="benefit" position="absolute" />
+      {/* <BackgroundBottomTabImage currentTab="benefit" position="absolute" /> */}
     </div>
   );
 }

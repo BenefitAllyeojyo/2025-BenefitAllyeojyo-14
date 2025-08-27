@@ -1,4 +1,4 @@
-import styles from './PayTitleModule.module.css'
+import styles from './payTitleModule.module.css'
 
 export default function PayTitleModule({
     subTitle="결제 요청",

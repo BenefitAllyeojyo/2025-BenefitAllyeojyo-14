@@ -1,5 +1,5 @@
 import styles from './HostInfoModule.module.css';
-import RINO_Face from '@/Assets/images/character/RINO_Face.png';
+import RINO_Face from '@/assets/images/character/RINO_Face.png';
 
 export default function HostInfoModule({
   title = '학교 제휴사업 주최자',

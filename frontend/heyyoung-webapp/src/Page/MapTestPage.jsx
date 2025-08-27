@@ -28,9 +28,9 @@ const MapTestPage = () => {
   return (
     <div>
     <MapView />
-      <BackgroundBottomTabImage 
-        currentTab="benefit"
-      />
+        {/* <BackgroundBottomTabImage 
+          currentTab="benefit"
+        /> */}
     </div>
   );
 };

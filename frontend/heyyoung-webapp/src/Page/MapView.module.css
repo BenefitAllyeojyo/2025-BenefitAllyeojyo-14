@@ -1,8 +1,8 @@
 /* 테스트 페이지 전체 컨테이너 */
 .testPageContainer {
-  padding: 10px;
+  /* padding: 10px; */
   background-color: #f5f5f5;
-  min-height: 100vh;
+  /* min-height: 100vh; */
 }
 
 /* 페이지 제목 */
@@ -80,7 +80,7 @@
 /* 반응형 디자인 */
 @media (max-width: 768px) {
   .testPageContainer {
-    padding: 8px;
+    /* padding: 8px; */
   }
   
   .storeList {
@@ -90,7 +90,7 @@
 
 @media (max-width: 480px) {
   .testPageContainer {
-    padding: 5px;
+    /* padding: 5px; */
   }
   
   .mapSection,

@@ -43,7 +43,7 @@ export default function PaymentResultPage() {
   return (
     <div style={{
       position: 'relative',
-      height: '100%',
+      height: '100vh',
       overflow: 'auto',
       backgroundColor: '#FFFFFF',
       width: '100%',
@@ -113,11 +113,12 @@ export default function PaymentResultPage() {
       
       {/* PartnershipDetailCard - 하단에 딱 붙음 */}
       <div style={{
-        position: 'absolute',
-        bottom: 0,
-        left: 0,
-        right: 0,
-        width: '100%'
+        marginTop: '30px',
+        height: 'calc(100vh - 60px - 200px - 141px - 30px)', // 100vh - HeadTextModule - PayTimeModule - PayTitleModule - PayItemModule - PayResultModule - 구분선 - LongPurpleBtn - marginTop
+        width: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'flex-end' // 하단에 배치
       }}>
         <PartnershipDetailCard 
           shopName={partnershipData.shopName}
