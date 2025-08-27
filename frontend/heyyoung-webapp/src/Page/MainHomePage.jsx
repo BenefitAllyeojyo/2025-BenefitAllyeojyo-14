@@ -23,7 +23,7 @@ export default function MainHomePage() {
         <div
           style={{
             position: 'absolute',
-            top: '57px',
+            top: '12px',
             right: '20px',
             zIndex: 10
           }}
