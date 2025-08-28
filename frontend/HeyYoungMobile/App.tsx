@@ -16,6 +16,8 @@ import {
 import { WebView, WebViewNavigation } from 'react-native-webview';
 import { SafeAreaView, SafeAreaProvider } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
+import * as Notifications from 'expo-notifications';
+import { PushNotificationService } from './src/services/pushNotification';
 
 const { width, height } = Dimensions.get('window');
 
@@ -28,8 +30,74 @@ export default function App() {
   const [isOffline, setIsOffline] = useState(false);
   const [webViewKey, setWebViewKey] = useState(0);
   const [currentRoute, setCurrentRoute] = useState('home');
+  const [pushToken, setPushToken] = useState<string | null>(null);
 
   const webViewRef = useRef<WebView>(null);
+
+  // 푸시 알림 초기화
+  useEffect(() => {
+    const initializePushNotifications = async () => {
+      try {
+        // Android 채널 설정
+        await PushNotificationService.setupAndroidChannel();
+        
+        // 푸시 알림 권한 요청
+        const hasPermission = await PushNotificationService.requestPermissions();
+        if (hasPermission) {
+          // 푸시 토큰 가져오기
+          const token = await PushNotificationService.getPushToken();
+          if (token) {
+            setPushToken(token);
+            console.log('푸시 토큰 설정 완료:', token);
+          }
+        }
+      } catch (error) {
+        console.error('푸시 알림 초기화 실패:', error);
+      }
+    };
+
+    initializePushNotifications();
+  }, []);
+
+  // 푸시 알림 리스너 설정
+  useEffect(() => {
+    // 앱이 포그라운드에 있을 때 푸시 알림 처리
+    const foregroundSubscription = Notifications.addNotificationReceivedListener(notification => {
+      console.log('포그라운드 푸시 알림 수신:', notification);
+      
+      // 웹뷰에 푸시 알림 정보 전달
+      if (webViewRef.current) {
+        webViewRef.current.postMessage(JSON.stringify({
+          type: 'PUSH_NOTIFICATION',
+          data: notification.request.content.data
+        }));
+      }
+    });
+
+    // 푸시 알림 클릭 시 처리
+    const responseSubscription = Notifications.addNotificationResponseReceivedListener(response => {
+      console.log('푸시 알림 클릭됨:', response);
+      
+      const data = response.notification.request.content.data;
+      
+      // 특정 푸시 알림에 따른 앱 동작
+      if (data?.type === 'NEW_BENEFIT') {
+        // 혜택 페이지로 이동
+        navigateToRoute('benefitMain');
+      } else if (data?.type === 'PAYMENT_REMINDER') {
+        // 결제 페이지로 이동
+        navigateToRoute('pay');
+      } else if (data?.type === 'NOTIFICATION') {
+        // 알림 페이지로 이동
+        navigateToRoute('notifications');
+      }
+    });
+
+    return () => {
+      foregroundSubscription.remove();
+      responseSubscription.remove();
+    };
+  }, []);
 
   // SPA 라우트 정의
   const routes = {
@@ -42,6 +110,74 @@ export default function App() {
     benefitMap: 'https://meek-babka-83628e.netlify.app/benefit-map',
     storeDetail: 'https://meek-babka-83628e.netlify.app/store-detail',
   };
+
+  // 푸시 알림 초기화
+  useEffect(() => {
+    const initializePushNotifications = async () => {
+      try {
+        // Android 채널 설정
+        await PushNotificationService.setupAndroidChannel();
+        
+        // 푸시 알림 권한 요청
+        const hasPermission = await PushNotificationService.requestPermissions();
+        if (hasPermission) {
+          // 푸시 토큰 가져오기
+          const token = await PushNotificationService.getPushToken();
+          if (token) {
+            setPushToken(token);
+            console.log('푸시 토큰 설정 완료:', token);
+            
+            // 서버에 토큰 전송 (실제 API 엔드포인트로 변경 필요)
+            // await PushNotificationService.sendTokenToServer(token);
+          }
+        }
+      } catch (error) {
+        console.error('푸시 알림 초기화 실패:', error);
+      }
+    };
+
+    initializePushNotifications();
+  }, []);
+
+  // 푸시 알림 리스너 설정
+  useEffect(() => {
+    // 앱이 포그라운드에 있을 때 푸시 알림 처리
+    const foregroundSubscription = Notifications.addNotificationReceivedListener(notification => {
+      console.log('포그라운드 푸시 알림 수신:', notification);
+      
+      // 웹뷰에 푸시 알림 정보 전달
+      if (webViewRef.current) {
+        webViewRef.current.postMessage(JSON.stringify({
+          type: 'PUSH_NOTIFICATION',
+          data: notification.request.content.data
+        }));
+      }
+    });
+
+    // 푸시 알림 클릭 시 처리
+    const responseSubscription = Notifications.addNotificationResponseReceivedListener(response => {
+      console.log('푸시 알림 클릭됨:', response);
+      
+      const data = response.notification.request.content.data;
+      
+      // 특정 푸시 알림에 따른 앱 동작
+      if (data?.type === 'NEW_BENEFIT') {
+        // 혜택 페이지로 이동
+        navigateToRoute('benefitMain');
+      } else if (data?.type === 'PAYMENT_REMINDER') {
+        // 결제 페이지로 이동
+        navigateToRoute('pay');
+      } else if (data?.type === 'NOTIFICATION') {
+        // 알림 페이지로 이동
+        navigateToRoute('notifications');
+      }
+    });
+
+    return () => {
+      foregroundSubscription.remove();
+      responseSubscription.remove();
+    };
+  }, []);
 
   // Android 뒤로가기 버튼 처리 (SPA 라우팅과 연동)
   useEffect(() => {
@@ -123,19 +259,19 @@ export default function App() {
     }
   };
 
-  // 현재 탭에 따른 하단바 이미지 선택 (이미지가 없으므로 임시로 제거)
-  // const getTabImage = () => {
-  //   switch(currentRoute) {
-  //     case 'home':
-  //       return require('./assets/images/pages/bottom-tab1.png');
-  //     case 'benefitMain':
-  //       return require('./assets/images/pages/bottom-tab2.PNG');
-  //     case 'entireMenu':
-  //       return require('./assets/images/pages/bottom-tab3.PNG');
-  //     default:
-  //       return require('./assets/images/pages/bottom-tab1.png');
-  //   }
-  // };
+  // 테스트용 푸시 알림 보내기
+  const handleTestNotification = async () => {
+    try {
+      await PushNotificationService.sendLocalNotification(
+        '테스트 알림',
+        '푸시 알림이 정상적으로 작동합니다!',
+        { type: 'TEST', timestamp: Date.now() }
+      );
+      console.log('테스트 알림 전송 완료');
+    } catch (error) {
+      console.error('테스트 알림 전송 실패:', error);
+    }
+  };
 
   const handleWebViewError = (syntheticEvent: any) => {
     const { nativeEvent } = syntheticEvent;
@@ -182,6 +318,15 @@ export default function App() {
           type: 'NAVIGATE',
           route: 'home'
         }));
+      },
+      onPushNotification: function(data) {
+        console.log('웹뷰에서 푸시 알림 수신:', data);
+        
+        // 푸시 알림에 따른 웹 페이지 동작
+        if (data.type === 'NEW_BENEFIT') {
+          // 혜택 페이지에서 특정 혜택 하이라이트
+          console.log('새로운 혜택 알림:', data);
+        }
       }
     };
     
@@ -449,6 +594,16 @@ export default function App() {
         </View>
       </View>
 
+      {/* 테스트용 푸시 알림 버튼 (개발 중에만 표시) */}
+      {__DEV__ && (
+        <TouchableOpacity
+          style={styles.testNotificationButton}
+          onPress={handleTestNotification}
+        >
+          <Text style={styles.testNotificationButtonText}>테스트 알림</Text>
+        </TouchableOpacity>
+      )}
+
       {/* 현재 라우트 표시 (디버깅용) */}
       {/* <View style={styles.routeIndicator}>
         <Text style={styles.routeText}>현재: {currentRoute}</Text>
@@ -549,6 +704,21 @@ const styles = StyleSheet.create({
   },
   tabTextActive: {
     color: '#7435FD',
+    fontWeight: 'bold',
+  },
+  testNotificationButton: {
+    position: 'absolute',
+    top: Platform.OS === 'ios' ? 100 : (StatusBar.currentHeight || 0) + 10,
+    right: 20,
+    backgroundColor: '#7435FD',
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    borderRadius: 20,
+    zIndex: 10,
+  },
+  testNotificationButtonText: {
+    color: 'white',
+    fontSize: 12,
     fontWeight: 'bold',
   },
 });
