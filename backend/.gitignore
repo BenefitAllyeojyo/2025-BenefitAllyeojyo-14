@@ -50,3 +50,5 @@ core-bank/Dockerfile
 
 /docker-compose.yml
 /.dockerignore
+
+community/src/main/resources/heyoung-firebase-adminsdk.json
