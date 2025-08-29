@@ -55,7 +55,7 @@ function ScrollToTop({ setBackgroundColor }) {
         '/store-detail': '#FFFFFF', // 매장 상세 - 기본색
         '/partnership': '#EFF0FC', // 파트너십 - 연한 보라색
         '/partnership-list': '#EFF0FC', // 파트너십 리스트 - 바이올렛
-        '/payment': '#542BA8', // 결제 페이지 - 보라색
+        '/payment': '#FFFFFF', // 결제 페이지 - 보라색
         '/payment-result': '#FFFFFF', // 결제 결과 - 바이올렛
       }
       return colorMap[pathname] || 'var(--color-bg)'
