@@ -9,7 +9,16 @@ const MapViewTestPage = () => {
   const storeMarkers = convertStoresToMarkers(stores);
 
   return (
-    <div className={styles.testPageContainer}>
+    <div style={{
+      position: 'relative',
+      minHeight: '100vh',
+      backgroundColor: '#FFFFFF',
+      width: '100%',
+      boxSizing: 'border-box',
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center'
+    }}>
       {/* 지도만 표시 - 너비 제한을 위한 컨테이너 */}
 
       <MapView markers={storeMarkers} />

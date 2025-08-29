@@ -35,7 +35,16 @@ export default function PartnershipListPage() {
   ];
 
   return (
-    <div style={{ position: 'relative', padding:'60px 20px 0 20px', height: '700px', overflow: 'auto', background: '#EFF0FC' }}>
+    <div style={{
+      position: 'relative',
+      minHeight: '100vh',
+      backgroundColor: '#FFFFFF',
+      width: '100%',
+      boxSizing: 'border-box',
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center'
+    }}>
       {/* ShopInfoTextModule 컴포넌트 */}
       <div>
         <ShopInfoTextModule 

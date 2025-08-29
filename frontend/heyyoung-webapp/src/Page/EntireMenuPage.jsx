@@ -16,7 +16,16 @@ export default function EntireMenuPage() {
   }
 
   return (
-    <div style={{ position: 'relative', height: '100%', overflow: 'auto' }}>
+    <div style={{
+      position: 'relative',
+      minHeight: '100vh',
+      backgroundColor: '#FFFFFF',
+      width: '100%',
+      boxSizing: 'border-box',
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center'
+    }}>
       <BackgroundImage 
         src={entireMenuImage}
         alt="전체메뉴 배경"

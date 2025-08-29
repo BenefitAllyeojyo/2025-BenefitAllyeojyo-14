@@ -4,6 +4,7 @@ import BackgroundBottomTabImage from '../Components/atoms/BackgroundBottomTabIma
 import Banner from '../Components/atoms/Banner'
 import { BellButton } from '../Components/atoms/Button'
 import mainHomeImage from '../assets/images/pages/main-home.png'
+import logoImage from '../assets/images/logo.png'
 
 export default function MainHomePage() {
   const navigate = useNavigate()
@@ -14,11 +15,43 @@ export default function MainHomePage() {
   }
 
   return (
-    <div style={{ position: 'relative', height: '100%', overflow: 'auto' }}>
+    <div style={{
+      position: 'relative',
+      minHeight: '100vh',
+      backgroundColor: '#FFFFFF',
+      width: '100%',
+      boxSizing: 'border-box',
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center'
+    }}>
       {/* 상단 메인 이미지 */}
       <div style={{ position: 'relative' }}>
         <img src={mainHomeImage} alt="메인홈" style={{ display:'block', width:'100%', height: 'auto' }} />
         
+        {/* 로고 - 좌상단 */}
+        <div
+          style={{
+            position: 'absolute',
+            top: '12px',
+            left: '20px',
+            zIndex: 10,
+            display: 'flex',
+            alignItems: 'center',
+            height: '40px'
+          }}
+        >
+          <img 
+            src={logoImage} 
+            alt="헤이영 로고" 
+            style={{ 
+              height: '32px', 
+              width: 'auto',
+              objectFit: 'contain'
+            }} 
+          />
+        </div>
+
         {/* 메인 이미지 위의 버튼들 */}
         <div
           style={{
