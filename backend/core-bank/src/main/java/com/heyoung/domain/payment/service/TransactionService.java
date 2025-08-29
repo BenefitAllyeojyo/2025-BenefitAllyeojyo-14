@@ -8,6 +8,7 @@ import com.heyoung.domain.payment.dto.QrDataDto;
 import com.heyoung.domain.payment.dto.QrTokenDto;
 import com.heyoung.domain.payment.dto.TransactionRequestDto;
 import com.heyoung.domain.payment.dto.TransactionResponseDto;
+import com.heyoung.domain.payment.dto.response.TransactionListResponse;
 import com.heyoung.domain.payment.entity.Account;
 import com.heyoung.domain.payment.entity.Category;
 import com.heyoung.domain.payment.entity.Transaction;
@@ -28,8 +29,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import com.heyoung.global.exception.InsufficientBalanceException;
 
@@ -130,8 +135,27 @@ public class TransactionService {
         if (response.getRec() == null || response.getRec().getList() == null) {
             return Collections.emptyList();
         }
+        List<ExternalBankApiDto.TransactionHistory> historyList = response.getRec().getList();
 
-        return response.getRec().getList();
+        // Outbox 저장을 위해 DTO 변환
+        List<TransactionListResponse> outboxList = historyList.stream()
+                .map(history -> {
+                    // 외부 API의 날짜(yyyyMMdd)와 시간(HHmmss) 문자열을 Instant 객체로 변환
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
+                    LocalDateTime localDateTime = LocalDateTime.parse(history.getTransactionDate() + history.getTransactionTime(), formatter);
+                    Instant transactionInstant = localDateTime.atZone(ZoneId.of("Asia/Seoul")).toInstant();
+
+                    return TransactionListResponse.builder()
+                            .userId(memberId)
+                            .transactionTime(transactionInstant)
+                            .build();
+                })
+                .collect(Collectors.toList());
+
+        // Outbox 서비스 호출하여 변환된 내역 저장
+        outBoxCommandService.saveAccountOutBox(outboxList);
+
+        return historyList;
     }
 
 
