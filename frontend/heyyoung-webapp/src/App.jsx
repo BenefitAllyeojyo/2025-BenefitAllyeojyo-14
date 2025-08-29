@@ -12,7 +12,6 @@ const MainHomePage = lazy(() => import('./Page/MainHomePage'))
 const NotificationPage = lazy(() => import('./Page/NotificationPage'))
 const BenefitMainPage = lazy(() => import('./Page/BenefitMainPage'))
 const EntireMenuPage = lazy(() => import('./Page/EntireMenuPage'))
-const Payment = lazy(() => import('./Page/Payment'))
 const MapView = lazy(() => import('./Page/MapView'))
 const StoreDetailPage = lazy(() => import('./Page/StoreDetailPage'))
 const NotFound = lazy(() => import('./Page/NotFound'))
@@ -69,16 +68,16 @@ function ScrollToTop({ setBackgroundColor }) {
     if (window.ReactNative && window.ReactNative.navigate) {
       // 현재 라우트를 네이티브 앱에 알림
       const routeMap = {
-        '/': 'home',
-        '/notifications': 'notifications',
-        '/benefit-main': 'benefitMain',
-        '/entire-menu': 'entireMenu',
+        '/': 'home', // 완료
+        '/notifications': 'notifications', // 완료
+        '/benefit-main': 'benefitMain', // 완료
+        '/entire-menu': 'entireMenu', // 완료
         '/benefit-map': 'benefitMap',
         '/store-detail': 'storeDetail',
-        '/partnership': 'partnership',
-        '/partnership-list': 'partnershipList',
-        '/payment': 'payment',
-        '/payment-result': 'paymentResult'
+        '/partnership': 'partnership', // 완료
+        '/partnership-list': 'partnershipList', // 완료
+        '/payment': 'payment', // 완료
+        '/payment-result': 'paymentResult' 
       };
       
       const currentRoute = routeMap[pathname] || 'home';
@@ -121,7 +120,7 @@ function App() {
               <Route path="/notifications" element={<NotificationPage setBackgroundColor={setBackgroundColor} />} />
               <Route path="/benefit-main" element={<BenefitMainPage setBackgroundColor={setBackgroundColor} />} />
               <Route path="/entire-menu" element={<EntireMenuPage setBackgroundColor={setBackgroundColor} />} />
-              <Route path="/pay" element={<Payment setBackgroundColor={setBackgroundColor} />} />
+              <Route path="/pay" element={<PaymentPage setBackgroundColor={setBackgroundColor} />} />
               <Route path="/benefit-map" element={<MapView setBackgroundColor={setBackgroundColor} />} />
               <Route path="/store-detail" element={<StoreDetailPage setBackgroundColor={setBackgroundColor} />} />
               <Route path="/partnership" element={<PartnershipMainPage setBackgroundColor={setBackgroundColor} />} />
