@@ -22,16 +22,7 @@ export default function BenefitMainPage() {
   ]
 
   return (
-    <div style={{
-      position: 'relative',
-      minHeight: '100vh',
-      backgroundColor: '#FFFFFF',
-      width: '100%',
-      boxSizing: 'border-box',
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center'
-    }}>
+    <div style={{ position: 'relative', height: '100%' }}>
       <BackgroundImage 
         src={benefitMainImage}
         alt="혜택 메인 배경"

@@ -7,33 +7,22 @@ export default function NotificationPage() {
   const navigate = useNavigate()
 
   return (
-    <div style={{
-      position: 'relative',
-      minHeight: '100vh',
-      backgroundColor: '#FFFFFF',
-      width: '100%',
-      boxSizing: 'border-box',
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center'
-    }}>
-      <BackgroundImage 
-        src={notificationImage}
-        alt="알림페이지 배경"
+    <BackgroundImage 
+      src={notificationImage}
+      alt="알림페이지 배경"
+    >
+      
+      {/* 뒤로가기 버튼 영역 */}
+      <div
+        style={{
+          position: 'absolute',
+          top: '57px',
+          left: '20px',
+          zIndex: 10
+        }}
       >
-        
-        {/* 뒤로가기 버튼 영역 */}
-        <div
-          style={{
-            position: 'absolute',
-            top: '57px',
-            left: '20px',
-            zIndex: 10
-          }}
-        >
-          <BackButton />
-        </div>
-      </BackgroundImage>
-    </div>
+        <BackButton />
+      </div>
+    </BackgroundImage>
   )
 }

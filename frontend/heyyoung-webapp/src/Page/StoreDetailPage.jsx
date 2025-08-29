@@ -178,16 +178,7 @@ export default function StoreDetailPage() {
   }
 
   return (
-    <div style={{
-      position: 'relative',
-      minHeight: '100vh',
-      backgroundColor: '#FFFFFF',
-      width: '100%',
-      boxSizing: 'border-box',
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center'
-    }}>
+    <div className={styles.container}>      
       {storeDetail ? (
         <>
           {/* 지도 섹션 */}

@@ -14,7 +14,7 @@ export default function PaymentPage() {
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState(null)
 
-  // Mock data - 추후 실제 데이터로 교체 가능 
+  // Mock data - 추후 실제 데이터로 교체 가능
   const shopData = {
     shopName: "레드버튼 보드게임 X 싸피대학교 총학생회",
     shopAddress: "학생증 및 교직원증 제시 시 식음료 메뉴 20% 할인\n- 8인 이상 단체 예약시 게임비 10% 추가 할인",
@@ -53,15 +53,15 @@ export default function PaymentPage() {
   }
 
   return (
-    <div style={{
-      position: 'relative',
-      minHeight: '100vh',
+    <div style={{ 
+      position: 'relative', 
+      minHeight: '100%', 
+      overflow: 'auto',
+      overflowX: 'hidden',
       backgroundColor: '#FFFFFF',
       width: '100%',
       boxSizing: 'border-box',
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center'
+      paddingBottom: '100px' // 하단 여백 추가
     }}>
       <PayHeadButton subtitle="오늘 - Aug 15" />
       
