@@ -1,5 +1,6 @@
 package com.heyoung.domain.payment.service;
 
+import com.heyoung.domain.outbox.service.OutBoxCommandService;
 import com.heyoung.domain.payment.dto.ExternalBankApiDto;
 import com.heyoung.domain.payment.dto.QrDataDto;
 import com.heyoung.domain.payment.dto.QrTokenDto;
@@ -40,6 +41,7 @@ public class TransactionService {
     private final UserBenefitHistoryRepository userBenefitHistoryRepository;
     private final CategoryRepository categoryRepository;
     private final JwtUtil jwtUtil;
+    private final OutBoxCommandService outBoxCommandService;
 
     // 사용자 qr 데이터
     @Transactional(readOnly = true)
@@ -88,10 +90,18 @@ public class TransactionService {
         // 혜택 사용 내역 생성 및 저장
         createUserBenefitHistory(user, savedTransaction, category, requestDto);
 
+        // Outbox 테이블에 트랜잭션 완료 이벤트 저장
+        var outboxDto = new com.heyoung.domain.outbox.dto.response.TransactionResponseDto(
+                user.getId(),
+                category.getId(),
+                savedTransaction.getTransactionDateTime()
+        );
+        outBoxCommandService.saveTransactionOutBox(outboxDto);
+
         return new TransactionResponseDto(
                 savedTransaction.getId(),
                 savedTransaction.getStatus().name(),
-                savedTransaction.getAmount(),
+                requestDto.getFinalAmount(),
                 savedTransaction.getDiscountAmount(),
                 savedTransaction.getTransactionDateTime()
         );
