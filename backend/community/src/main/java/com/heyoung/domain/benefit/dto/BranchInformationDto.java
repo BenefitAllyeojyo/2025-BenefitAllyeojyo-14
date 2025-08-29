@@ -23,6 +23,7 @@ public class BranchInformationDto {
 	private String status;
 	private Long universityId;
 	private String universityName;
+	private String hostName;
 	private PartnershipBranchDto partnershipBranchDto;
 
 	public BranchInformationDto(PartnershipBranch branch) {
@@ -39,6 +40,7 @@ public class BranchInformationDto {
 		this.status = p.getStatus().name();
 		this.universityId = p.getUniversity().getId();
 		this.universityName = p.getUniversity().getName();
+		this.hostName = p.getHostName();
 		this.partnershipBranchDto = new PartnershipBranchDto(branch);
 	}
 }

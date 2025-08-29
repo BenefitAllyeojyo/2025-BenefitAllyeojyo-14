@@ -37,6 +37,8 @@ public class Partnership extends BaseEntity {
     @Column(columnDefinition = "text")
     private String notes;
 
+	private String hostName;
+
     @Enumerated(EnumType.STRING)
     @Column(length = 16, nullable = false)
     private PartnershipStatus status;
