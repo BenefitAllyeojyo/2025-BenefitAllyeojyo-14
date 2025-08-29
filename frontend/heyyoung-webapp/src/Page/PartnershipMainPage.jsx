@@ -91,7 +91,7 @@ export default function PartnershipMainPage() {
           <ZoneBox 
             image="map"
             text="캠퍼스 제휴지도 보기"
-            onClick={() => console.log('캠퍼스 제휴지도 클릭')}
+            onClick={() => navigate('/benefit-map')}
           />
         </div>
       </div>
