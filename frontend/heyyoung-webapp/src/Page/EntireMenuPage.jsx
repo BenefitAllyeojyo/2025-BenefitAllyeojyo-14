@@ -26,11 +26,11 @@ export default function EntireMenuPage() {
           style={{
             position: 'absolute',
             top: '53%', // 하단 탭바 위로 120px
-            left: '54%',
+            left: '70%',
             transform: 'translateX(-50%)',
             zIndex: 5,
             cursor: 'pointer',
-            width: '80px',
+            width: '200px',
             height: '40px',
             // 투명 배경으로 시각적으로 보이지 않음
           }}
