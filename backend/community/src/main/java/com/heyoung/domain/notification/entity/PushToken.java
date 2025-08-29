@@ -19,14 +19,14 @@ import java.time.LocalDateTime;
         name = "push_token",
         uniqueConstraints = {
                 // 긴 token 대신 tokenHash 로 유니크 제약
-                @UniqueConstraint(name = "uq_push_token_channel_hash", columnNames = {"channel", "tokenHash"})
+                @UniqueConstraint(name = "uq_push_token_channel_hash", columnNames = {"channel", "token_hash"})
         },
         indexes = {
                 // 활성 토큰 조회 (userId + active 조합)
-                @Index(name = "idx_push_token_user_active", columnList = "userId, active"),
+                @Index(name = "idx_push_token_user_active", columnList = "user_id, active"),
                 // 오래된/미사용 토큰 찾기
-                @Index(name = "idx_push_token_last_seen", columnList = "lastSeenAt"),
-                @Index(name = "idx_push_token_last_sent", columnList = "lastSentAt")
+                @Index(name = "idx_push_token_last_seen", columnList = "last_seen_at"),
+                @Index(name = "idx_push_token_last_sent", columnList = "last_sent_at")
         }
 )
 public class PushToken extends BaseEntity {
@@ -69,4 +69,50 @@ public class PushToken extends BaseEntity {
 
     @Column(length = 64)
     private String deviceVersion;
+
+    public static PushToken create(Long userId,
+                                   NotificationChannel channel,
+                                   String token,
+                                   String tokenHash,
+                                   String appVersion,
+                                   String osVersion,
+                                   String deviceVersion,
+                                   java.time.LocalDateTime now) {
+        PushToken pt = new PushToken();
+        pt.userId = userId;
+        pt.channel = channel;
+        pt.token = token;
+        pt.tokenHash = tokenHash;
+        pt.active = true;
+        pt.failCount = 0;
+        pt.invalidType = null;
+        pt.lastSeenAt = now;
+        pt.appVersion = appVersion;
+        pt.osVersion = osVersion;
+        pt.deviceVersion = deviceVersion;
+        return pt;
+    }
+
+    // 기존 레코드 갱신
+    public void refresh(Long userId,
+                        String token,
+                        String appVersion,
+                        String osVersion,
+                        String deviceVersion,
+                        java.time.LocalDateTime now) {
+        this.userId = userId;          // 토큰이 다른 유저로 이관되면 덮어쓰기
+        this.token = token;            // 원문 토큰 보관
+        this.active = true;            // 활성화
+        this.failCount = 0;            // 실패 카운터 리셋
+        this.invalidType = null;       // 무효 사유 초기화
+        this.lastSeenAt = now;
+        if (appVersion != null) this.appVersion = appVersion;
+        if (osVersion != null) this.osVersion = osVersion;
+        if (deviceVersion != null) this.deviceVersion = deviceVersion;
+    }
+
+    public void deactivate(java.time.LocalDateTime now) {
+        this.active = false;
+        this.lastSeenAt = now;
+    }
 }

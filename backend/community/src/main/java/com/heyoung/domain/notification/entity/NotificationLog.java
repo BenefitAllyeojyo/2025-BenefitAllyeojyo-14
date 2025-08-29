@@ -50,5 +50,23 @@ public class NotificationLog extends BaseEntity {
     @Column(nullable = false, length = 160)
     private String uniqKey;
 
+    public static NotificationLog sentOf(Notification notification, Long userId, String uniqKey) {
+        NotificationLog log = new NotificationLog();
+        log.notification = notification;
+        log.userId = userId;
+        log.sendStatus = com.heyoung.global.enums.SendStatus.SENT;
+        log.uniqKey = uniqKey;
+        log.occurredAt = java.time.Instant.now();
+        return log;
+    }
 
+    public static NotificationLog failedOf(Notification notification, Long userId, String uniqKey) {
+        NotificationLog log = new NotificationLog();
+        log.notification = notification;
+        log.userId = userId;
+        log.sendStatus = com.heyoung.global.enums.SendStatus.FAILED;
+        log.uniqKey = uniqKey;
+        log.occurredAt = java.time.Instant.now();
+        return log;
+    }
 }
