@@ -213,6 +213,254 @@ const MapView = ({ schoolName = '서울대학교', schoolColor }) => {
     setShowGptInput(!showGptInput);
   };
 
+  // 챗봇 입력 처리 핸들러
+  const handleGptInputSubmit = (inputValue) => {
+    console.log('챗봇 입력값:', inputValue);
+    
+    // 숫자인지 확인
+    const markerId = parseInt(inputValue);
+    if (isNaN(markerId)) {
+      console.log('숫자가 아닌 입력값:', inputValue);
+      alert('숫자를 입력해주세요.');
+      return;
+    }
+
+    // 해당 ID의 마커 찾기 (마커만 찾기)
+    const targetMarker = overlaysRef.current.find(item => {
+      // 마커 객체이고 markerData가 있는 경우
+      if (item.markerData && item.markerData.id === markerId) {
+        return true;
+      }
+      return false;
+    });
+
+    if (targetMarker) {
+      console.log('마커 찾음:', targetMarker);
+      console.log('마커 데이터:', targetMarker.markerData);
+      
+      // 챗봇 전용 마커 선택 처리 (줌 레벨 4로 고정)
+      handleChatbotMarkerSelect(targetMarker);
+    } else {
+      console.log(`ID ${markerId}에 해당하는 마커를 찾을 수 없습니다.`);
+      console.log('현재 마커들:', overlaysRef.current.filter(item => item.markerData).map(item => ({
+        id: item.markerData.id,
+        name: item.markerData.name
+      })));
+      alert(`ID ${markerId}에 해당하는 마커를 찾을 수 없습니다.`);
+    }
+  };
+
+  // 마커 클릭 처리 함수 (기존 클릭 이벤트 로직을 재사용)
+  const handleMarkerClick = (marker) => {
+    if (!marker || !mapInstanceRef.current) return;
+
+    try {
+      console.log('마커 클릭 처리 시작:', marker.markerData?.name);
+      
+      // 마커의 위치 정보 가져오기
+      const markerPosition = marker.getPosition();
+      if (!markerPosition) {
+        console.error('마커 위치 정보를 가져올 수 없습니다.');
+        return;
+      }
+
+      // 기존 마커들을 기본 상태로 복원
+      overlaysRef.current.forEach((item) => {
+        if (item.setImage && item !== marker) {
+          if (item.defaultIcon) {
+            item.setImage(item.defaultIcon);
+          }
+          item.setZIndex(1);
+
+          // 카테고리 라벨도 보라색으로 복원
+          if (item.categoryLabel && item.categoryLabel.getContent) {
+            const labelContent = item.categoryLabel.getContent();
+            if (labelContent) {
+              labelContent.style.background = '#7C3AED';
+            }
+          }
+        }
+      });
+
+      // 선택된 마커를 핑크색으로 변경
+      marker.setZIndex(1000);
+      if (marker.selectedIcon) {
+        marker.setImage(marker.selectedIcon);
+      }
+
+      // 선택된 마커의 카테고리 라벨도 핑크색으로 변경
+      if (marker.categoryLabel && marker.categoryLabel.getContent) {
+        const labelContent = marker.categoryLabel.getContent();
+        if (labelContent) {
+          labelContent.style.background = '#EC4899';
+        }
+      }
+
+      // 해당 마커의 툴팁 찾기 및 표시
+      // 마커와 같은 위치의 툴팁 오버레이 찾기
+      const tooltipOverlay = overlaysRef.current.find(item => {
+        if (item.getContent && item.getContent().className && 
+            item.getContent().className.includes(styles.tooltipOverlay)) {
+          // 위치가 같은지 확인
+          const overlayPosition = item.getPosition();
+          if (overlayPosition && 
+              Math.abs(overlayPosition.getLat() - markerPosition.getLat()) < 0.0001 &&
+              Math.abs(overlayPosition.getLng() - markerPosition.getLng()) < 0.0001) {
+            return true;
+          }
+        }
+        return false;
+      });
+
+      if (tooltipOverlay) {
+        const tooltipDiv = tooltipOverlay.getContent();
+        if (tooltipDiv) {
+          console.log('툴팁 찾음, 표시 중...');
+          
+          // 다른 툴팁들 숨기기
+          hideOtherTooltips(tooltipDiv);
+          
+          // 툴팁 표시
+          tooltipDiv.style.display = 'block';
+
+          // 지도 이동
+          setTimeout(() => {
+            centerMapForTooltip(mapInstanceRef.current, markerPosition);
+            
+            setTimeout(() => {
+              if (mapInstanceRef.current && mapInstanceRef.current.setDraggable) {
+                mapInstanceRef.current.setDraggable(true);
+              }
+            }, 500);
+          }, 100);
+
+          // 마진 재계산
+          setTimeout(() => {
+            if (tooltipDiv.style.display !== 'none') {
+              updateTooltipSizes(mapInstanceRef.current);
+            }
+          }, 800);
+        }
+      } else {
+        console.log('해당 마커의 툴팁을 찾을 수 없습니다.');
+      }
+
+    } catch (error) {
+      console.error('마커 클릭 처리 중 오류:', error);
+    }
+  };
+
+  // 챗봇으로 마커 선택 시 전용 처리 함수 (줌 레벨 4로 고정)
+  const handleChatbotMarkerSelect = (marker) => {
+    if (!marker || !mapInstanceRef.current) return;
+
+    try {
+      console.log('챗봇 마커 선택 처리 시작:', marker.markerData?.name);
+      
+      // 마커의 위치 정보 가져오기
+      const markerPosition = marker.getPosition();
+      if (!markerPosition) {
+        console.error('마커 위치 정보를 가져올 수 없습니다.');
+        return;
+      }
+
+      // 1단계: 줌 레벨을 4로 설정
+      console.log('1단계: 줌 레벨 4로 설정');
+      mapInstanceRef.current.setLevel(4);
+      
+      // 2단계: 줌 레벨 변경 완료 후 마커 위치로 이동
+      setTimeout(() => {
+        console.log('2단계: 마커 위치로 이동');
+        mapInstanceRef.current.panTo(markerPosition);
+        
+        // 3단계: 이동 완료 후 마커 클릭 처리
+        setTimeout(() => {
+          console.log('3단계: 마커 클릭 처리');
+          
+          // 기존 마커들을 기본 상태로 복원
+          overlaysRef.current.forEach((item) => {
+            if (item.setImage && item !== marker) {
+              if (item.defaultIcon) {
+                item.setImage(item.defaultIcon);
+              }
+              item.setZIndex(1);
+
+              // 카테고리 라벨도 보라색으로 복원
+              if (item.categoryLabel && item.categoryLabel.getContent) {
+                const labelContent = item.categoryLabel.getContent();
+                if (labelContent) {
+                  labelContent.style.background = '#7C3AED';
+                }
+              }
+            }
+          });
+
+          // 선택된 마커를 핑크색으로 변경
+          marker.setZIndex(1000);
+          if (marker.selectedIcon) {
+            marker.setImage(marker.selectedIcon);
+          }
+
+          // 선택된 마커의 카테고리 라벨도 핑크색으로 변경
+          if (marker.categoryLabel && marker.categoryLabel.getContent) {
+            const labelContent = marker.categoryLabel.getContent();
+            if (labelContent) {
+              labelContent.style.background = '#EC4899';
+            }
+          }
+
+          // 해당 마커의 툴팁 찾기 및 표시
+          const tooltipOverlay = overlaysRef.current.find(item => {
+            if (item.getContent && item.getContent().className && 
+                item.getContent().className.includes(styles.tooltipOverlay)) {
+              const overlayPosition = item.getPosition();
+              if (overlayPosition && 
+                  Math.abs(overlayPosition.getLat() - markerPosition.getLat()) < 0.0001 &&
+                  Math.abs(overlayPosition.getLng() - markerPosition.getLng()) < 0.0001) {
+                return true;
+              }
+            }
+            return false;
+          });
+
+          if (tooltipOverlay) {
+            const tooltipDiv = tooltipOverlay.getContent();
+            if (tooltipDiv) {
+              console.log('챗봇 툴팁 찾음, 표시 중...');
+              
+              // 다른 툴팁들 숨기기
+              hideOtherTooltips(tooltipDiv);
+              
+              // 툴팁 표시
+              tooltipDiv.style.display = 'block';
+
+              // 드래그 기능 복원
+              setTimeout(() => {
+                if (mapInstanceRef.current && mapInstanceRef.current.setDraggable) {
+                  mapInstanceRef.current.setDraggable(true);
+                }
+              }, 500);
+
+              // 마진 재계산
+              setTimeout(() => {
+                if (tooltipDiv.style.display !== 'none') {
+                  updateTooltipSizes(mapInstanceRef.current);
+                }
+              }, 800);
+            }
+          } else {
+            console.log('해당 마커의 툴팁을 찾을 수 없습니다.');
+          }
+          
+        }, 500); // 이동 완료 후 500ms 지연
+        
+      }, 500); // 줌 레벨 변경 후 500ms 지연
+
+    } catch (error) {
+      console.error('챗봇 마커 선택 처리 중 오류:', error);
+    }
+  };
+
   // 위치 버튼들 클릭 핸들러
   const handleLocationClick = () => {
     moveToCurrentLocation();
@@ -985,6 +1233,7 @@ const MapView = ({ schoolName = '서울대학교', schoolColor }) => {
     marker.defaultIcon = defaultIcon;
     marker.selectedIcon = selectedIcon;
     marker.categoryLabel = labelOverlay;
+    marker.markerData = markerData; // 마커 데이터 저장 (ID 검색용)
 
     // 2. ToolTipModule을 content로 사용 (초기에는 숨김)
     const tooltipDiv = document.createElement('div');
@@ -1111,6 +1360,9 @@ const MapView = ({ schoolName = '서울대학교', schoolColor }) => {
     overlaysRef.current.push(marker);
     overlaysRef.current.push(customOverlay);
     overlaysRef.current.push(labelOverlay);
+
+    // 마커 ID 정보 콘솔 출력 (디버깅용)
+    console.log(`마커 생성 완료 - ID: ${markerData.id}, 이름: ${markerData.name}, 카테고리: ${markerData.category}`);
   };
 
   return (
@@ -1142,7 +1394,10 @@ const MapView = ({ schoolName = '서울대학교', schoolColor }) => {
       {/* GPT 입력창 */}
       {showGptInput && (
         <div className={styles.gptInputContainer}>
-          <GptInput placeholder="주변에 제휴 가능한 카페 있으면 알려줘!" />
+          <GptInput 
+            placeholder="주변에 제휴 가능한 카페 있으면 알려줘!"
+            onInputSubmit={handleGptInputSubmit}
+          />
         </div>
       )}
 
