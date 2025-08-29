@@ -43,14 +43,14 @@ export default function PaymentResultPage() {
   return (
     <div style={{
       position: 'relative',
-      height: '100vh',
-      overflow: 'auto',
+      minHeight: '100vh',
       backgroundColor: '#FFFFFF',
       width: '100%',
       boxSizing: 'border-box',
       display: 'flex',
       flexDirection: 'column',
-      alignItems: 'center'
+      alignItems: 'center',
+      overflow: 'auto'
     }}>
       <HeadTextModule title={paymentResultData.header.title} />
       <PayTimeModule time={paymentResultData.header.time} />

@@ -12,7 +12,6 @@ const MainHomePage = lazy(() => import('./Page/MainHomePage'))
 const NotificationPage = lazy(() => import('./Page/NotificationPage'))
 const BenefitMainPage = lazy(() => import('./Page/BenefitMainPage'))
 const EntireMenuPage = lazy(() => import('./Page/EntireMenuPage'))
-const Payment = lazy(() => import('./Page/Payment'))
 const MapView = lazy(() => import('./Page/MapView'))
 const StoreDetailPage = lazy(() => import('./Page/StoreDetailPage'))
 const NotFound = lazy(() => import('./Page/NotFound'))
@@ -51,7 +50,6 @@ function ScrollToTop() {
         '/notifications': 'notifications',
         '/benefit-main': 'benefitMain',
         '/entire-menu': 'entireMenu',
-        '/pay': 'pay',
         '/benefit-map': 'benefitMap',
         '/store-detail': 'storeDetail',
         '/partnership': 'partnership',
@@ -80,7 +78,6 @@ function App() {
               <Route path="/notifications" element={<NotificationPage />} />
               <Route path="/benefit-main" element={<BenefitMainPage />} />
               <Route path="/entire-menu" element={<EntireMenuPage />} />
-              <Route path="/pay" element={<Payment />} />
               <Route path="/benefit-map" element={<MapView />} />
               <Route path="/store-detail" element={<StoreDetailPage />} />
               <Route path="/partnership" element={<PartnershipMainPage />} />
