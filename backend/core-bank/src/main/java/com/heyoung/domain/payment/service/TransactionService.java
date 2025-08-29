@@ -1,5 +1,6 @@
 package com.heyoung.domain.payment.service;
 
+import com.heyoung.domain.payment.dto.ExternalBankApiDto;
 import com.heyoung.domain.payment.dto.QrDataDto;
 import com.heyoung.domain.payment.dto.QrTokenDto;
 import com.heyoung.domain.payment.dto.TransactionRequestDto;
@@ -24,6 +25,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.time.Instant;
+import java.util.Collections;
+import java.util.List;
+
 import com.heyoung.global.exception.InsufficientBalanceException;
 
 @Service
@@ -92,6 +96,34 @@ public class TransactionService {
                 savedTransaction.getTransactionDateTime()
         );
     }
+
+    // 계좌 거래 내역 전체 조회
+    @Transactional(readOnly = true)
+    public List<ExternalBankApiDto.TransactionHistory> getTransactionHistory(Long memberId, String startDate, String endDate) {
+        User user = userRepository.findById(memberId)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 사용자"));
+        Account account = accountRepository.findByUser(user)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 계좌"));
+
+        // 외부 API 호출
+        ExternalBankApiDto.InquireTransactionHistoryResponse response = externalBankApiService.inquireTransactionHistory(
+                memberId,
+                account.getAccountNumber(),
+                startDate,
+                endDate,
+                "A",  // "A": 전체 거래 내역
+                "DESC" // "DESC": 최신순
+        );
+
+        if (response.getRec() == null || response.getRec().getList() == null) {
+            return Collections.emptyList();
+        }
+
+        return response.getRec().getList();
+    }
+
+
+
     private Transaction createTransaction(User user, Account account, Category category, TransactionRequestDto dto) {
         return Transaction.builder()
                 .user(user)
