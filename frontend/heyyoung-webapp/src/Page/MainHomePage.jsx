@@ -45,7 +45,7 @@ export default function MainHomePage() {
             src={logoImage} 
             alt="헤이영 로고" 
             style={{ 
-              height: '32px', 
+              height: '50px', 
               width: 'auto',
               objectFit: 'contain'
             }} 
