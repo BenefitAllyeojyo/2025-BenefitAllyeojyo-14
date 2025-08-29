@@ -88,6 +88,9 @@
   display: flex;
   justify-content: left;
   width: 100%;
+  touch-action: manipulation; /* 터치 최적화 */
+  -webkit-tap-highlight-color: transparent; /* 터치 하이라이트 제거 */
+  pointer-events: auto; /* 터치 이벤트 확실히 처리 */
 }
 
 .TipContainer {

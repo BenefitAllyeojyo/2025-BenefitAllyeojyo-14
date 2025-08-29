@@ -6,17 +6,27 @@ export default function ToolTipModule({ name, content, address, lat, lng, phone,
   const partnership = partnerships?.find(p => p.partnershipId === partnershipId);
   const discountInfo = partnership ? `${partnership.discountRate}% 할인` : '할인 정보 없음';
 
-  const handleDetailClick = () => {
+  const handleDetailClick = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    
     console.log('ToolTipModule handleDetailClick 호출됨');
     console.log('ToolTipModule storeId:', storeId);
     console.log('ToolTipModule props:', { name, storeId, partnershipId });
+    console.log('이벤트 객체:', e);
     
     if (storeId) {
       console.log('storeId가 있음, 세션스토리지에 저장하고 페이지 이동');
-      // 세션스토리지에 storeId 저장
-      sessionStorage.setItem('selectedStoreId', storeId);
-      // Router 컨텍스트 밖에서 작동하도록 window.location.href 사용
-      window.location.href = `/store-detail`;
+      try {
+        // 세션스토리지에 storeId 저장
+        sessionStorage.setItem('selectedStoreId', storeId);
+        console.log('세션스토리지 저장 완료');
+        
+        // Router 컨텍스트 밖에서 작동하도록 window.location.href 사용
+        window.location.href = `/store-detail`;
+      } catch (error) {
+        console.error('상세보기 페이지 이동 실패:', error);
+      }
     } else {
       console.log('storeId가 없습니다');
     }
