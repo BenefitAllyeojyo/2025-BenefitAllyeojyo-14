@@ -17,7 +17,7 @@ export default function AppShell({ children }) {
           position: 'relative',
           overflow: 'hidden',
           overflowY: 'auto',
-          boxShadow: '0 0 20px rgba(0,0,0,0.3)'
+          // boxShadow: '0 0 20px rgba(0,0,0,0.3)'
         }}
       >
         {children}
