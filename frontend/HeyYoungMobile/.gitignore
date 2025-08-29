@@ -1,0 +1,24 @@
+# Firebase 설정 파일 (민감한 정보 포함)
+google-services.json
+GoogleService-Info.plist
+firebase.json
+.firebaserc
+
+# 환경 변수 파일
+.env
+.env.local
+.env.development
+.env.production
+
+# 기타
+node_modules/
+.expo/
+dist/
+npm-debug.*
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
+*.orig.*
+web-build/

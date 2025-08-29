@@ -4,84 +4,52 @@
     "slug": "HeyYoungMobile",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/images/heyyoungLogo.png",
     "userInterfaceStyle": "light",
-    "newArchEnabled": true,
-    "platforms": ["ios", "android", "web"],
     "splash": {
-      "image": "./assets/splash-icon.png",
+      "image": "./assets/images/heyyoungLogo.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.heyoung.heyyoungmobile",
-      "buildNumber": "1.0.0",
-      "infoPlist": {
-        "NSAppTransportSecurity": {
-          "NSAllowsArbitraryLoads": true
-        },
-        "UIBackgroundModes": [
-          "remote-notification",
-          "background-fetch"
-        ]
-      }
+      "bundleIdentifier": "com.seogadol.HeyYoungMobile"
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/images/heyyoungLogo.png",
         "backgroundColor": "#ffffff"
       },
-      "edgeToEdgeEnabled": true,
-      "package": "com.heyoung.heyyoungmobile",
-      "versionCode": 1,
-      "usesCleartextTraffic": true,
-      "permissions": [
-        "android.permission.RECEIVE_BOOT_COMPLETED",
-        "android.permission.VIBRATE",
-        "android.permission.WAKE_LOCK"
-      ]
+      "package": "com.seogadol.HeyYoungMobile"
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/images/heyyoungLogo.png"
     },
     "notification": {
       "icon": "./assets/images/heyyoungLogo.png",
-      "color": "#7435FD",
+      "color": "#ffffff",
       "iosDisplayInForeground": true,
       "androidMode": "default",
-      "androidCollapsedTitle": "새로운 혜택이 도착했습니다!",
-      "androidChannelId": "benefits",
-      "androidChannelName": "혜택 알림",
-      "androidChannelDescription": "새로운 혜택과 할인 정보를 알려드립니다",
+      "androidCollapsedTitle": "새로운 알림",
+      "androidChannelId": "default",
+      "androidChannelName": "기본 알림",
+      "androidChannelDescription": "기본 알림 채널",
       "androidImportance": "high",
       "androidVibratePattern": [0, 250, 250, 250],
       "androidSound": "default",
-      "androidColor": "#7435FD"
+      "androidColor": "#ffffff"
     },
     "plugins": [
-      [
-        "expo-notifications",
-        {
-          "icon": "./assets/images/heyyoungLogo.png",
-          "color": "#7435FD",
-          "mode": "production"
-        }
-      ]
+      "expo-notifications"
     ],
     "extra": {
       "eas": {
-        "projectId": "your-project-id"
+        "projectId": "43a19c02-a987-4172-8ec9-8af48657eeb0"
       }
     },
-    "experiments": {
-      "tsconfigPaths": true
-    },
-    "updates": {
-      "enabled": false
-    },
-    "runtimeVersion": {
-      "policy": "sdkVersion"
-    }
+    "owner": "seogadol"
   }
 }

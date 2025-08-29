@@ -12,6 +12,7 @@ import {
   BackHandler,
   Linking,
   Image,
+  Clipboard,
 } from 'react-native';
 import { WebView, WebViewNavigation } from 'react-native-webview';
 import { SafeAreaView, SafeAreaProvider } from 'react-native-safe-area-context';
@@ -31,6 +32,7 @@ export default function App() {
   const [webViewKey, setWebViewKey] = useState(0);
   const [currentRoute, setCurrentRoute] = useState('home');
   const [pushToken, setPushToken] = useState<string | null>(null);
+  const [fcmToken, setFcmToken] = useState<string | null>(null);
 
   const webViewRef = useRef<WebView>(null);
 
@@ -44,11 +46,15 @@ export default function App() {
         // 푸시 알림 권한 요청
         const hasPermission = await PushNotificationService.requestPermissions();
         if (hasPermission) {
-          // 푸시 토큰 가져오기
-          const token = await PushNotificationService.getPushToken();
-          if (token) {
-            setPushToken(token);
-            console.log('푸시 토큰 설정 완료:', token);
+          // 토큰 변경 감지 및 백엔드에 전송
+          const success = await PushNotificationService.checkAndUpdateToken();
+          if (success) {
+            console.log('푸시 토큰 초기화 완료!');
+            
+            // 토큰 정보 출력 (디버깅용)
+            await PushNotificationService.logTokenInfo();
+          } else {
+            console.log('푸시 토큰 초기화 실패');
           }
         }
       } catch (error) {
@@ -121,14 +127,12 @@ export default function App() {
         // 푸시 알림 권한 요청
         const hasPermission = await PushNotificationService.requestPermissions();
         if (hasPermission) {
-          // 푸시 토큰 가져오기
-          const token = await PushNotificationService.getPushToken();
-          if (token) {
-            setPushToken(token);
-            console.log('푸시 토큰 설정 완료:', token);
-            
-            // 서버에 토큰 전송 (실제 API 엔드포인트로 변경 필요)
-            // await PushNotificationService.sendTokenToServer(token);
+          // 토큰 변경 감지 및 백엔드에 전송
+          const success = await PushNotificationService.checkAndUpdateToken();
+          if (success) {
+            console.log('푸시 토큰 초기화 완료!');
+          } else {
+            console.log('푸시 토큰 초기화 실패');
           }
         }
       } catch (error) {
@@ -260,16 +264,44 @@ export default function App() {
   };
 
   // 테스트용 푸시 알림 보내기
-  const handleTestNotification = async () => {
+  const handleTestNotification = () => {
+    PushNotificationService.sendLocalNotification('테스트 알림', '이것은 로컬 테스트 알림입니다!');
+  };
+
+  const handleGetExpoPushToken = async () => {
+    setIsLoading(true);
+    console.log('📱 Expo Push 토큰 처리 시작...');
+    
     try {
-      await PushNotificationService.sendLocalNotification(
-        '테스트 알림',
-        '푸시 알림이 정상적으로 작동합니다!',
-        { type: 'TEST', timestamp: Date.now() }
-      );
-      console.log('테스트 알림 전송 완료');
+      const result = await PushNotificationService.handleExpoPushToken();
+      console.log('🔑 Expo Push 토큰 처리 결과:', JSON.stringify(result, null, 2));
+      
+      if (result.success) {
+        setFcmToken(result.expoToken);
+        console.log('✅ Expo Push 토큰 성공 (전체):', result.expoToken);
+        console.log('📱 메시지:', result.message);
+      } else {
+        setFcmToken(null);
+        console.log('❌ Expo Push 토큰 실패:', result.message);
+        Alert.alert('Expo Push 토큰 실패', result.message);
+      }
     } catch (error) {
-      console.error('테스트 알림 전송 실패:', error);
+      console.error('❌ Expo Push 토큰 처리 오류:', error);
+      setFcmToken(null);
+      Alert.alert('오류', 'Expo Push 토큰을 가져오는 중 오류가 발생했습니다.');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const copyFCMToken = async () => {
+    if (fcmToken) {
+      try {
+        await Clipboard.setString(fcmToken);
+        Alert.alert('복사 완료', 'FCM 토큰이 클립보드에 복사되었습니다.');
+      } catch (error) {
+        Alert.alert('복사 실패', 'FCM 토큰 복사에 실패했습니다.');
+      }
     }
   };
 
@@ -596,12 +628,32 @@ export default function App() {
 
       {/* 테스트용 푸시 알림 버튼 (개발 중에만 표시) */}
       {__DEV__ && (
-        <TouchableOpacity
-          style={styles.testNotificationButton}
-          onPress={handleTestNotification}
-        >
-          <Text style={styles.testNotificationButtonText}>테스트 알림</Text>
-        </TouchableOpacity>
+        <View style={styles.testButtonsContainer}>
+          <TouchableOpacity style={styles.testButton} onPress={handleTestNotification}>
+            <Text style={styles.testButtonText}>테스트 알림</Text>
+          </TouchableOpacity>
+          <TouchableOpacity 
+            style={[styles.testButton, isLoading && styles.testButtonDisabled]} 
+            onPress={handleGetExpoPushToken}
+            disabled={isLoading}
+          >
+            <Text style={styles.testButtonText}>
+              {isLoading ? '로딩 중...' : 'Expo Push 토큰 가져오기'}
+            </Text>
+          </TouchableOpacity>
+          
+          {fcmToken && (
+            <View style={styles.tokenContainer}>
+              <Text style={styles.tokenLabel}>Expo Push 토큰:</Text>
+              <Text style={styles.tokenText} numberOfLines={3}>
+                {fcmToken}
+              </Text>
+              <TouchableOpacity style={styles.copyButton} onPress={copyFCMToken}>
+                <Text style={styles.copyButtonText}>복사하기</Text>
+              </TouchableOpacity>
+            </View>
+          )}
+        </View>
       )}
 
       {/* 현재 라우트 표시 (디버깅용) */}
@@ -706,17 +758,56 @@ const styles = StyleSheet.create({
     color: '#7435FD',
     fontWeight: 'bold',
   },
-  testNotificationButton: {
+  testButtonsContainer: {
     position: 'absolute',
     top: Platform.OS === 'ios' ? 100 : (StatusBar.currentHeight || 0) + 10,
     right: 20,
-    backgroundColor: '#7435FD',
-    paddingHorizontal: 16,
-    paddingVertical: 8,
-    borderRadius: 20,
+    flexDirection: 'row',
+    gap: 8,
     zIndex: 10,
   },
-  testNotificationButtonText: {
+  testButton: {
+    backgroundColor: '#7435FD',
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    borderRadius: 15,
+  },
+  testButtonDisabled: {
+    backgroundColor: '#ccc',
+    opacity: 0.7,
+  },
+  testButtonText: {
+    color: 'white',
+    fontSize: 12,
+    fontWeight: 'bold',
+  },
+  tokenContainer: {
+    marginTop: 10,
+    backgroundColor: '#f0f0f0',
+    padding: 10,
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: '#ccc',
+  },
+  tokenLabel: {
+    fontSize: 12,
+    color: '#555',
+    marginBottom: 5,
+  },
+  tokenText: {
+    fontSize: 12,
+    color: '#333',
+    fontFamily: 'monospace',
+    lineHeight: 18,
+  },
+  copyButton: {
+    marginTop: 5,
+    backgroundColor: '#7435FD',
+    paddingVertical: 5,
+    paddingHorizontal: 10,
+    borderRadius: 8,
+  },
+  copyButtonText: {
     color: 'white',
     fontSize: 12,
     fontWeight: 'bold',
