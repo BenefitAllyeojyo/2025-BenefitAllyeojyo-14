@@ -51,10 +51,10 @@ const convertApiStoresToMarkers = (partnershipsData) => {
 
 const SlidingPanel = ({ currentLocation, onStoreSelect }) => {
   const [isSlidingPanelOpen, setIsSlidingPanelOpen] = useState(false);
-  const [panelHeight, setPanelHeight] = useState(30);
+  const [panelHeight, setPanelHeight] = useState(60);
   const [isDragging, setIsDragging] = useState(false);
-  const [dragStartHeight, setDragStartHeight] = useState(30);
-  const currentPanelHeight = useRef(30);
+  const [dragStartHeight, setDragStartHeight] = useState(60);
+  const currentPanelHeight = useRef(60);
   const [stores, setStores] = useState([]);
   const [filteredStores, setFilteredStores] = useState([]); // 필터링된 가게 목록
   const [isLoading, setIsLoading] = useState(false);
@@ -175,6 +175,7 @@ const SlidingPanel = ({ currentLocation, onStoreSelect }) => {
   // 마우스 드래그 이벤트
   const handleMouseDown = (e) => {
     e.preventDefault();
+    e.stopPropagation();
     console.log('마우스 다운 - 드래그 시작');
     setIsDragging(true);
     setDragStartHeight(panelHeight);
@@ -183,50 +184,39 @@ const SlidingPanel = ({ currentLocation, onStoreSelect }) => {
     let hasMoved = false;
 
     const handleMouseMove = (e) => {
+      e.preventDefault();
+      e.stopPropagation();
       const deltaY = startY - e.clientY;
-      if (Math.abs(deltaY) > 5) {
-        hasMoved = true;
-      }
+      hasMoved = true;
+      
       const newHeight = Math.max(60, Math.min(460, dragStartHeight + deltaY));
       currentPanelHeight.current = newHeight;
       setPanelHeight(newHeight);
       console.log('드래그 중 - 높이:', newHeight, 'deltaY:', deltaY);
     };
 
-    const handleMouseUp = () => {
+    const handleMouseUp = (e) => {
+      e.preventDefault();
+      e.stopPropagation();
       document.removeEventListener('mousemove', handleMouseMove);
       document.removeEventListener('mouseup', handleMouseUp);
       setIsDragging(false);
 
       const finalHeight = currentPanelHeight.current;
-      console.log(
-        '드래그 완료 - 최종 높이:',
-        finalHeight,
-        'dragStartHeight:',
-        dragStartHeight,
-        'hasMoved:',
-        hasMoved
-      );
+      console.log('마우스 드래그 완료 - 최종 높이:', finalHeight);
 
-      // 사용자가 의도적으로 드래그한 경우 현재 위치에 고정
-      if (hasMoved && Math.abs(finalHeight - dragStartHeight) > 10) {
-        // 드래그가 10px 이상 움직였으면 의도적인 드래그로 간주
-        // 현재 드래그한 위치에 그대로 고정
-        console.log('의도적 드래그 - 현재 위치 유지:', finalHeight);
+      // 드래그가 있었으면 현재 위치에 고정
+      if (hasMoved) {
         setPanelHeight(finalHeight);
+        // 드래그로 열린 상태인지 확인
         if (finalHeight > 250) {
           setIsSlidingPanelOpen(true);
         } else {
           setIsSlidingPanelOpen(false);
         }
-      } else if (!hasMoved) {
-        // 드래그가 없었으면 클릭으로 간주하여 토글
-        console.log('클릭으로 간주 - 패널 토글');
-        handlePanelToggle();
       } else {
-        // 드래그가 거의 없었으면 원래 위치로 복귀
-        console.log('우발적 터치 - 원래 위치로 복귀:', dragStartHeight);
-        setPanelHeight(dragStartHeight);
+        // 드래그가 없었으면 클릭으로 간주하여 토글
+        handlePanelToggle();
       }
     };
 
@@ -236,6 +226,8 @@ const SlidingPanel = ({ currentLocation, onStoreSelect }) => {
 
   // 터치 드래그 이벤트
   const handleTouchStart = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
     const touch = e.touches[0];
     console.log('터치 시작 - 드래그 시작');
     setIsDragging(true);
@@ -245,51 +237,40 @@ const SlidingPanel = ({ currentLocation, onStoreSelect }) => {
     let hasMoved = false;
 
     const handleTouchMove = (e) => {
+      e.preventDefault();
+      e.stopPropagation();
       const touch = e.touches[0];
       const deltaY = startY - touch.clientY;
-      if (Math.abs(deltaY) > 5) {
-        hasMoved = true;
-      }
+      hasMoved = true;
+      
       const newHeight = Math.max(60, Math.min(460, dragStartHeight + deltaY));
       currentPanelHeight.current = newHeight;
       setPanelHeight(newHeight);
       console.log('터치 드래그 중 - 높이:', newHeight, 'deltaY:', deltaY);
     };
 
-    const handleTouchEnd = () => {
+    const handleTouchEnd = (e) => {
+      e.preventDefault();
+      e.stopPropagation();
       document.removeEventListener('touchmove', handleTouchMove);
       document.removeEventListener('touchend', handleTouchEnd);
       setIsDragging(false);
 
       const finalHeight = currentPanelHeight.current;
-      console.log(
-        '터치 드래그 완료 - 최종 높이:',
-        finalHeight,
-        'dragStartHeight:',
-        dragStartHeight,
-        'hasMoved:',
-        hasMoved
-      );
+      console.log('터치 드래그 완료 - 최종 높이:', finalHeight);
 
-      // 사용자가 의도적으로 드래그한 경우 현재 위치에 고정
-      if (hasMoved && Math.abs(finalHeight - dragStartHeight) > 10) {
-        // 드래그가 10px 이상 움직였으면 의도적인 드래그로 간주
-        // 현재 드래그한 위치에 그대로 고정
-        console.log('의도적 터치 드래그 - 현재 위치 유지:', finalHeight);
+      // 드래그가 있었으면 현재 위치에 고정
+      if (hasMoved) {
         setPanelHeight(finalHeight);
+        // 드래그로 열린 상태인지 확인
         if (finalHeight > 250) {
           setIsSlidingPanelOpen(true);
         } else {
           setIsSlidingPanelOpen(false);
         }
-      } else if (!hasMoved) {
-        // 드래그가 없었으면 클릭으로 간주하여 토글
-        console.log('클릭으로 간주 - 패널 토글');
-        handlePanelToggle();
       } else {
-        // 드래그가 거의 없었으면 원래 위치로 복귀
-        console.log('우발적 터치 - 원래 위치로 복귀:', dragStartHeight);
-        setPanelHeight(dragStartHeight);
+        // 드래그가 없었으면 클릭으로 간주하여 토글
+        handlePanelToggle();
       }
     };
 
