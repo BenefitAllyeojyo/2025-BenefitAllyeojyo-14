@@ -3,6 +3,8 @@ import PartnershipCard from './PartnershipCard';
 import CarouselControls from './CarouselControls';
 import styles from './PartnershipCarouselBanner.module.css';
 
+
+
 export default function PartnershipCarouselBanner({
   width = "350px",
   height = "480px",
@@ -66,17 +68,52 @@ export default function PartnershipCarouselBanner({
     setCurrentX(0);
   };
 
-  // 기본 제휴 정보 (partnerships가 없을 때 사용)
+  // 기본 제휴 정보 (partnerships가 없을 때 사용) - 새로운 데이터 구조
   const defaultPartnerships = [
     {
       id: 1,
-      shopName: "레드버튼 강북점",
-      shopAddress: "서울특별시 강북구 한천로 139길 42",
-      tag: "보드게임카페"
+      shopName: "스타벅스 관악서울대입구R점",
+      shopAddress: "서울 관악구 관악로 158",
+      tag: "카페",
+      terms: "10% off for university students",
+      hostName: "총학생회"
+    },
+    {
+      id: 2,
+      shopName: "스타벅스 서울대입구역점",
+      shopAddress: "서울 관악구 남부순환로 1812",
+      tag: "카페",
+      terms: "10% off for university students",
+      hostName: "총학생회"
+    },
+    {
+      id: 3,
+      shopName: "스타벅스 서울대입구역8번출구점",
+      shopAddress: "서울 관악구 남부순환로 1831",
+      tag: "카페",
+      terms: "10% off for university students",
+      hostName: "총학생회"
+    },
+    {
+      id: 4,
+      shopName: "올리브영 관악 타운",
+      shopAddress: "서울 관악구 관악로 173",
+      tag: "뷰티",
+      terms: "10% off for university students",
+      hostName: "컴퓨터공학과 학생회"
+    },
+    {
+      id: 5,
+      shopName: "올리브영 서울대입구역점",
+      shopAddress: "서울 관악구 남부순환로 1840 올리브영",
+      tag: "뷰티",
+      terms: "10% off for university students",
+      hostName: "컴퓨터공학과 학생회"
     }
   ];
 
-  const displayPartnerships = partnerships.length > 0 ? partnerships : defaultPartnerships;
+  // partnerships prop이 있으면 사용하고, 없으면 목데이터 사용
+  const displayPartnerships = partnerships && partnerships.length > 0 ? partnerships : defaultPartnerships;
 
   if (displayPartnerships.length === 0) {
     return <div className={styles.noDataMessage}>제휴 정보가 없습니다.</div>;

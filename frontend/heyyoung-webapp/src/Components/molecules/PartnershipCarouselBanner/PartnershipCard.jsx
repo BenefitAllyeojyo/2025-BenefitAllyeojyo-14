@@ -50,8 +50,10 @@ export default function PartnershipCard({
         <LongVioletBtn
           label="제휴 혜택 상세 보기"
           onClick={() => {
-            console.log('헤이영 pay 결제 버튼 클릭', partnership.id);
-            navigate('/payment');
+            console.log('제휴 혜택 상세보기 클릭', partnership.id);
+            // store-detail 페이지로 이동하면서 id 전달
+            sessionStorage.setItem('selectedStoreId', partnership.id);
+            navigate('/store-detail');
           }}
         />
       </div>
