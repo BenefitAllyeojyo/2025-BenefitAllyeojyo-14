@@ -4,6 +4,7 @@ import BackgroundBottomTabImage from '../Components/atoms/BackgroundBottomTabIma
 import Banner from '../Components/atoms/Banner'
 import { BellButton } from '../Components/atoms/Button'
 import mainHomeImage from '../assets/images/pages/main-home.png'
+import logoImage from '../assets/images/logo.png'
 
 export default function MainHomePage() {
   const navigate = useNavigate()
@@ -29,6 +30,26 @@ export default function MainHomePage() {
           }}
         >
           <BellButton />
+        </div>
+
+        {/* 로고 - 알림 버튼과 같은 높이 */}
+        <div
+          style={{
+            position: 'absolute',
+            top: '12px',
+            left: '20px',
+            zIndex: 10
+          }}
+        >
+          <img 
+            src={logoImage} 
+            alt="로고" 
+            style={{ 
+              height: '45px', 
+              width: 'auto',
+              display: 'block'
+            }} 
+          />
         </div>
 
 
