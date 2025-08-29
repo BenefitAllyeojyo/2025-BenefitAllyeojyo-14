@@ -3,20 +3,34 @@ const GPT_API_URL = 'http://localhost:5000';
 /**
  * GPT API 호출 함수
  * @param {string} message - 사용자 입력 메시지
+ * @param {Array} availableStores - 사용 가능한 스토어 목록
  * @returns {Promise<Object>} GPT 응답 데이터
  */
-export const callGptApi = async (message) => {
+export const callGptApi = async (message, availableStores = []) => {
   try {
     console.log('🤖 GPT API 호출 시작:', message);
+    console.log('🏪 사용 가능한 스토어:', availableStores);
+    
+    // 스토어 데이터를 GPT가 이해할 수 있는 형태로 변환
+    const storeData = availableStores.map(store => ({
+      id: store.id,
+      name: store.name,
+      businessHours: store.businessHours || null
+    }));
+    
+    const requestData = {
+      userQuestion: message,
+      availableStores: storeData
+    };
+    
+    console.log('📤 GPT API 요청 데이터:', requestData);
     
     const response = await fetch(`${GPT_API_URL}/chat`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({
-        message: message,
-      }),
+      body: JSON.stringify(requestData),
     });
 
     if (!response.ok) {

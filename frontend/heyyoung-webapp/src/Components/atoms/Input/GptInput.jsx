@@ -6,7 +6,8 @@ import { callGptApi } from '../../../services/api/gpt';
 const GptInput = ({ 
   placeholder = "Search", 
   onInputSubmit,
-  showResponse = true 
+  showResponse = true,
+  availableStores = []
 }) => {
     const [inputValue, setInputValue] = useState('');
 
@@ -20,7 +21,7 @@ const GptInput = ({
         console.log('🤖 GPT 입력 제출:', inputValue);
 
         try {
-            const response = await callGptApi(inputValue);
+            const response = await callGptApi(inputValue, availableStores);
             console.log('✅ GPT API 응답:', response);
 
             if (response.success) {

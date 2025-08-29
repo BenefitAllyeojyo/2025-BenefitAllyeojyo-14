@@ -1417,16 +1417,17 @@ const MapView = ({ schoolName = '서울대학교', schoolColor }) => {
         />
       )}
 
-             {/* GPT 입력창 */}
-       {showGptInput && (
-         <div className={styles.gptInputContainer}>
-           <GptInput 
-             placeholder="무엇을 도와드릴까요?"
-             onInputSubmit={handleGptInputSubmit}
-             showResponse={true}
-           />
-         </div>
-       )}
+                             {/* GPT 입력창 */}
+                {showGptInput && (
+                  <div className={styles.gptInputContainer}>
+                    <GptInput 
+                      placeholder="무엇을 도와드릴까요?"
+                      onInputSubmit={handleGptInputSubmit}
+                      showResponse={true}
+                      availableStores={testMarkers}
+                    />
+                  </div>
+                )}
 
        {/* 챗봇 말풍선 */}
        <ChatBubble 
