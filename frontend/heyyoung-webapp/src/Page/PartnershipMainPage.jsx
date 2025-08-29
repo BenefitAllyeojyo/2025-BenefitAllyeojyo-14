@@ -16,6 +16,7 @@ const mockSavingData = {
 }
 
 const mockPartnershipData = {
+  branchId: 1, // API 연결용 branchId
   title: "설빙 강남점",
   subtitle: "모든 메뉴 10% 할인",
   distance: "현 위치에서 540m"
@@ -146,7 +147,40 @@ export default function PartnershipMainPage() {
           title={mockPartnershipData.title}
           subtitle={mockPartnershipData.subtitle}
           distance={mockPartnershipData.distance}
-          onClick={() => console.log('제휴처 카드 클릭')}
+          onClick={async () => {
+            try {
+              console.log('제휴처 카드 클릭 - API 호출 시작');
+              
+              // API 호출: /partnerships/{branchId}
+              const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '/api';
+              const response = await fetch(`${API_BASE_URL}/partnerships/${mockPartnershipData.branchId}`, {
+                method: 'GET',
+                headers: {
+                  accept: '*/*',
+                },
+              });
+
+              if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+              }
+
+              const data = await response.json();
+              console.log('Partnership API Response:', data);
+
+              // API 응답을 세션스토리지에 저장
+              if (data.result) {
+                sessionStorage.setItem('storeDetailData', JSON.stringify(data.result));
+                console.log('Store detail data saved to sessionStorage');
+              }
+
+              // /store-detail로 이동
+              navigate('/store-detail');
+            } catch (error) {
+              console.error('API 호출 실패:', error);
+              // 에러 발생 시에도 /store-detail로 이동 (기본 데이터 사용)
+              navigate('/store-detail');
+            }
+          }}
         />
       </div>
 

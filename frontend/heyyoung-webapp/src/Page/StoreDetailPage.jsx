@@ -19,6 +19,22 @@ export default function StoreDetailPage() {
     // 세션스토리지에서 storeId 가져오기
     const idFromSession = sessionStorage.getItem('selectedStoreId');
     
+    // 세션스토리지에서 storeDetailData 가져오기 (PartnershipMainPage에서 저장된 데이터)
+    const storeDetailData = sessionStorage.getItem('storeDetailData');
+    
+    if (storeDetailData) {
+      try {
+        const parsedData = JSON.parse(storeDetailData);
+        console.log('세션스토리지에서 가져온 storeDetailData:', parsedData);
+        setStoreDetail(parsedData);
+        setStoreId(parsedData.partnershipBranchDto?.id || '1');
+        setLoading(false);
+        return; // API 호출하지 않고 바로 데이터 사용
+      } catch (error) {
+        console.error('세션스토리지 데이터 파싱 실패:', error);
+      }
+    }
+    
     const finalStoreId = idFromQuery || idFromSession;
     
     if (finalStoreId) {
