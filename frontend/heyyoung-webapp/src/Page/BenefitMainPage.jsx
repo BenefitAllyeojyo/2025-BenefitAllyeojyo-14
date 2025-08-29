@@ -5,10 +5,13 @@ import benefitMainImage from '../assets/images/pages/benefit-main.PNG'
 import carousel1Image from '../assets/images/carousel/carousel1.png'
 import carousel2Image from '../assets/images/carousel/carousel2.png'
 import carousel3Image from '../assets/images/carousel/carousel3.png'
-import { Carousel } from '@/Components/molecules/Carousel'
+import carousel4Image from '../assets/images/carousel/carousel4.png'
 import logoImage from '../assets/images/logo.png'
+import { Carousel } from '@/Components/molecules/Carousel'
 
 export default function BenefitMainPage() {
+  const navigate = useNavigate()
+
   // 카루셀 데이터
   const carouselSlides = [
     {
@@ -19,6 +22,10 @@ export default function BenefitMainPage() {
     },
     {
       image: carousel3Image,
+    },
+    {
+      image: carousel4Image,
+      onClick: () => navigate('/partnership')
     }
   ]
 
