@@ -252,8 +252,6 @@ const SlidingPanel = ({ currentLocation, onStoreSelect }) => {
     const handleTouchEnd = (e) => {
       e.preventDefault();
       e.stopPropagation();
-      document.removeEventListener('touchmove', handleTouchMove);
-      document.removeEventListener('touchend', handleTouchEnd);
       setIsDragging(false);
 
       const finalHeight = currentPanelHeight.current;
@@ -274,8 +272,10 @@ const SlidingPanel = ({ currentLocation, onStoreSelect }) => {
       }
     };
 
-    document.addEventListener('touchmove', handleTouchMove);
-    document.addEventListener('touchend', handleTouchEnd);
+    // 터치 이벤트를 컴포넌트에 직접 바인딩
+    const handle = e.currentTarget;
+    handle.addEventListener('touchmove', handleTouchMove, { passive: false });
+    handle.addEventListener('touchend', handleTouchEnd, { passive: false });
   };
 
   return (
@@ -290,6 +290,8 @@ const SlidingPanel = ({ currentLocation, onStoreSelect }) => {
         className={styles.slidingPanelHandle}
         onMouseDown={handleMouseDown}
         onTouchStart={handleTouchStart}
+        onTouchMove={(e) => console.log('터치 무브 이벤트 발생')}
+        onTouchEnd={(e) => console.log('터치 엔드 이벤트 발생')}
       >
         <div className={styles.handleIcon}>{isSlidingPanelOpen ? '▼' : '▲'}</div>
       </div>
