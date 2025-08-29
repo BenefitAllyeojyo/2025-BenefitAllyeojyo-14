@@ -2,12 +2,12 @@ package com.heyoung.domain.payment.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
+
+import java.math.BigDecimal;
 
 @Getter
 @AllArgsConstructor
-@NoArgsConstructor
-public class QrDataDto {
-    private Long userId;
+public class AccountBalanceDto {
     private String accountNumber;
+    private BigDecimal balance;
 }

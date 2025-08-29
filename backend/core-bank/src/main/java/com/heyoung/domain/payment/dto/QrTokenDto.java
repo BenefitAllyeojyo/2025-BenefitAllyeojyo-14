@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class QrDataDto {
-    private Long userId;
-    private String accountNumber;
+public class QrTokenDto {
+    private String qrToken;
 }

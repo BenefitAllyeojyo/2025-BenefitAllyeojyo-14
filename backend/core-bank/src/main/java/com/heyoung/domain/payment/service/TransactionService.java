@@ -1,6 +1,7 @@
 package com.heyoung.domain.payment.service;
 
 import com.heyoung.domain.payment.dto.QrDataDto;
+import com.heyoung.domain.payment.dto.QrTokenDto;
 import com.heyoung.domain.payment.dto.TransactionRequestDto;
 import com.heyoung.domain.payment.dto.TransactionResponseDto;
 import com.heyoung.domain.payment.entity.Account;
@@ -38,19 +39,22 @@ public class TransactionService {
 
     // 사용자 qr 데이터
     @Transactional(readOnly = true)
-    public QrDataDto generateQrData(Long memberId) {
+    public QrTokenDto generateQrData(Long memberId) {
         User user = userRepository.findById(memberId)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 사용자"));
         Account account = accountRepository.findByUser(user)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 계좌"));
         String qrToken = jwtUtil.generateQrToken(user.getId(), account.getAccountNumber());
-        return new QrDataDto(qrToken);
+        return new QrTokenDto(qrToken);
     }
 
     // 사용자 잔액 기반 거래 가능 여부 파악 후 출금
     @Transactional
     public TransactionResponseDto executeTransaction(TransactionRequestDto requestDto) {
-        User user = userRepository.findById(requestDto.getUserId())
+        QrDataDto qrDataDto = jwtUtil.parseQrToken(requestDto.getQrToken());
+        Long userId = qrDataDto.getUserId();
+
+        User user = userRepository.findById(userId)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 사용자"));
         Account account = accountRepository.findByUser(user)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 계좌"));
