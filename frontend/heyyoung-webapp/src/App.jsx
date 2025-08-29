@@ -49,14 +49,14 @@ function ScrollToTop({ setBackgroundColor }) {
         '/': '#F2F2F2', // 메인 홈 - 회색
         '/notifications': '#F2F2F2', // 알림 - 바이올렛
         '/benefit-main': 'var(--grad-benefit)', // 혜택 메인 - 그라데이션
-        '/entire-menu': '#f5f6fa', // 전체 메뉴 - 기본색
+        '/entire-menu': '#FFFFFF', // 전체 메뉴 - 기본색
         '/pay': '#542BA8', // 결제 - 보라색
-        '/benefit-map': '#7635FD', // 지도 - 바이올렛
-        '/store-detail': '#f5f6fa', // 매장 상세 - 기본색
+        '/benefit-map': '#F2F2F2', // 지도 - 바이올렛
+        '/store-detail': '#FFFFFF', // 매장 상세 - 기본색
         '/partnership': '#EFF0FC', // 파트너십 - 연한 보라색
-        '/partnership-list': '#7635FD', // 파트너십 리스트 - 바이올렛
+        '/partnership-list': '#EFF0FC', // 파트너십 리스트 - 바이올렛
         '/payment': '#542BA8', // 결제 페이지 - 보라색
-        '/payment-result': '#7635FD', // 결제 결과 - 바이올렛
+        '/payment-result': '#FFFFFF', // 결제 결과 - 바이올렛
       }
       return colorMap[pathname] || 'var(--color-bg)'
     }
