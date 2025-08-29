@@ -274,7 +274,7 @@ export default function PartnershipMainPage() {
         {/* 제휴처 카드 */}
         <BigCardBtn
           title={partnershipData?.partnershipBranchDto?.name || "제휴처 정보 로딩 중..."}
-          subtitle={partnershipData?.partnershipBranchDto?.description || "혜택 정보를 불러오는 중..."}
+          subtitle={partnershipData?.terms || "혜택 정보를 불러오는 중..."}
           distance={getPartnershipDistance()}
           onClick={async () => {
             try {
