@@ -46,12 +46,12 @@ public class TransactionClient {
 		return body.getResult();
 	}
 
-	public PaymentResponseDto executePayment(PaymentRequestDto requestDto) {
+	public PaymentResponseDto executePayment(TransactionRequestDto transactionRequestDto) {
 		String url = paymentApiBaseUrl + "/transactions/execute";
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_JSON);
 
-		HttpEntity<PaymentRequestDto> request = new HttpEntity<>(requestDto, headers);
+		HttpEntity<TransactionRequestDto> request = new HttpEntity<>(transactionRequestDto, headers);
 
 		ResponseEntity<BaseResponse<PaymentResponseDto>> resp = restTemplate.exchange(
 			url,
