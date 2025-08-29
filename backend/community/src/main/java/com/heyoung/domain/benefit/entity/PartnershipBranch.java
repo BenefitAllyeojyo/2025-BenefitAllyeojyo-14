@@ -44,7 +44,7 @@ public class PartnershipBranch extends BaseEntity {
     @Column(length = 16, nullable = false)
     private PartnershipStatus status;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "partnership_id", nullable = false)
     private Partnership partnership;
 
