@@ -6,6 +6,7 @@ import carousel1Image from '../assets/images/carousel/carousel1.png'
 import carousel2Image from '../assets/images/carousel/carousel2.png'
 import carousel3Image from '../assets/images/carousel/carousel3.png'
 import { Carousel } from '@/Components/molecules/Carousel'
+import logoImage from '../assets/images/logo.png'
 
 export default function BenefitMainPage() {
   // 카루셀 데이터
@@ -29,6 +30,25 @@ export default function BenefitMainPage() {
       >
       </BackgroundImage>
 
+      {/* 로고 - 상단 왼쪽에 배치 */}
+      <div
+        style={{
+          position: 'absolute',
+          top: '12px',
+          left: '20px',
+          zIndex: 10
+        }}
+      >
+        <img 
+          src={logoImage} 
+          alt="로고" 
+          style={{ 
+            height: '45px', 
+            width: 'auto',
+            display: 'block'
+          }} 
+        />
+      </div>
 
       {/* 카루셀 컴포넌트 추가 */}
       <div style={{ 

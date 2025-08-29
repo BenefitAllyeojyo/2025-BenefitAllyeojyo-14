@@ -20,7 +20,12 @@ export default function Carousel({ slides = [] }) {
     setCurrentSlide(index);
   };
 
-
+  // 슬라이드 클릭 핸들러
+  const handleSlideClick = (slide, index) => {
+    if (slide.onClick) {
+      slide.onClick();
+    }
+  };
 
   // 터치/마우스 이벤트 핸들러
   const handleTouchStart = (e) => {
@@ -93,7 +98,12 @@ export default function Carousel({ slides = [] }) {
           }}
         >
           {slides.map((slide, index) => (
-            <div key={index} className={styles.slide}>
+            <div 
+              key={index} 
+              className={styles.slide}
+              onClick={() => handleSlideClick(slide, index)}
+              style={{ cursor: slide.onClick ? 'pointer' : 'default' }}
+            >
               <div className={styles.slideContent}>
                 <div className={styles.imageContainer}>
                   <img 
