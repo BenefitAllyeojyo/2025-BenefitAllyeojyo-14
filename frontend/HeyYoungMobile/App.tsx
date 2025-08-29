@@ -627,7 +627,7 @@ export default function App() {
       </View>
 
       {/* 테스트용 푸시 알림 버튼 (개발 중에만 표시) */}
-      {__DEV__ && (
+      {/* {__DEV__ && (
         <View style={styles.testButtonsContainer}>
           <TouchableOpacity style={styles.testButton} onPress={handleTestNotification}>
             <Text style={styles.testButtonText}>테스트 알림</Text>
@@ -654,7 +654,7 @@ export default function App() {
             </View>
           )}
         </View>
-      )}
+      )} */}
 
       {/* 현재 라우트 표시 (디버깅용) */}
       {/* <View style={styles.routeIndicator}>
