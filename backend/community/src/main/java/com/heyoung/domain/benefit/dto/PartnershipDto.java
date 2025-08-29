@@ -21,6 +21,7 @@ public class PartnershipDto {
     private String status;
     private Long universityId;
     private String universityName;
+	private String hostName;
 	private List<PartnershipBranchDto> partnershipBranchDto;
 
     public PartnershipDto(Partnership p) {
@@ -36,6 +37,7 @@ public class PartnershipDto {
         this.status = p.getStatus().name();
         this.universityId = p.getUniversity().getId();
         this.universityName = p.getUniversity().getName();
+		this.hostName = p.getHostName();
 		this.partnershipBranchDto = p.getPartnershipBranches().stream()
 			.map(PartnershipBranchDto::new)
 			.toList();
