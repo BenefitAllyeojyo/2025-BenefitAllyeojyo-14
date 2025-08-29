@@ -107,7 +107,7 @@ export default function App() {
 
   // SPA 라우트 정의
   const routes = {
-    home: 'https://meek-babka-83628e.netlify.app/ㄴ',
+    home: 'https://meek-babka-83628e.netlify.app/',
     notifications: 'https://meek-babka-83628e.netlify.app/notifications',
     benefitMain: 'https://meek-babka-83628e.netlify.app/benefit-main',
     entireMenu: 'https://meek-babka-83628e.netlify.app/entire-menu',
