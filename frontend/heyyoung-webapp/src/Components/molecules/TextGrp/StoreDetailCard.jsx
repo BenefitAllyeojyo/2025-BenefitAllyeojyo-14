@@ -16,7 +16,11 @@ const StoreDetailCard = ({ storeDetail }) => {
     storeDetail;
 
   const handlePaymentClick = () => {
-    // 결제 페이지로 이동
+    // partnershipBranchDto를 세션스토리지에 저장하고 결제 페이지로 이동
+    if (partnershipBranchDto) {
+      sessionStorage.setItem('paymentData', JSON.stringify(partnershipBranchDto));
+      console.log('결제 데이터 저장:', partnershipBranchDto);
+    }
     navigate('/payment');
   };
 
@@ -59,7 +63,7 @@ const StoreDetailCard = ({ storeDetail }) => {
           discountAmount={discountAmount}
         />
 
-        <HostInfoModule Host="싸피대학교 총학생회" />
+        <HostInfoModule Host={partnershipBranchDto?.hostName} />
 
         <LongPurpleBtn label="헤이영 Pay로 제휴 결제하기" onClick={handlePaymentClick} />
       </div>

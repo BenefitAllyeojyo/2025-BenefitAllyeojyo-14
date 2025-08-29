@@ -13,9 +13,28 @@ export default function PaymentPage() {
   const [qrData, setQrData] = useState(null)
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState(null)
+  const [paymentData, setPaymentData] = useState(null)
 
-  // Mock data - 추후 실제 데이터로 교체 가능
-  const shopData = {
+  // sessionStorage에서 결제 데이터 가져오기
+  useEffect(() => {
+    const storedData = sessionStorage.getItem('paymentData')
+    if (storedData) {
+      try {
+        const parsedData = JSON.parse(storedData)
+        setPaymentData(parsedData)
+        console.log('결제 페이지에서 받은 데이터:', parsedData)
+      } catch (error) {
+        console.error('결제 데이터 파싱 실패:', error)
+      }
+    }
+  }, [])
+
+  // Mock data - 추후 실제 데이터로 교체 가능 (paymentData가 있으면 사용)
+  const shopData = paymentData ? {
+    shopName: paymentData.name || "매장명 없음",
+    shopAddress: paymentData.address || "주소 정보 없음",
+    tag: paymentData.category || "" // 카테고리를 태그로 사용
+  } : {
     shopName: "레드버튼 보드게임 X 싸피대학교 총학생회",
     shopAddress: "학생증 및 교직원증 제시 시 식음료 메뉴 20% 할인\n- 8인 이상 단체 예약시 게임비 10% 추가 할인",
     tag: "" // 태그 버튼 없음

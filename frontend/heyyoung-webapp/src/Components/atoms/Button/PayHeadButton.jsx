@@ -35,9 +35,9 @@ export default function PayHeadButton({
         <h3 className={styles.title}>
           헤이영 Pay 결제
         </h3>
-        <p className={styles.subtitle}>
+        {/* <p className={styles.subtitle}>
           {subtitle}
-        </p>
+        </p> */}
       </div>
     </div>
   )
