@@ -2,6 +2,7 @@ package com.heyoung.domain.payment.client;
 
 import java.util.List;
 
+import com.heyoung.domain.payment.dto.UserTotalSavingsDto;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
@@ -64,6 +65,28 @@ public class TransactionClient {
 		ensureSuccess(body);
 		return body.getResult();
 	}
+
+	// 아낀 금액 조회
+	public UserTotalSavingsDto requestTotalSavings(Long memberId) {
+		String url = paymentApiBaseUrl + "/benefits/savings";
+
+		HttpHeaders headers = new HttpHeaders();
+		headers.setAccept(List.of(MediaType.APPLICATION_JSON));
+		HttpEntity<Void> httpEntity = new HttpEntity<>(headers);
+
+		// core-bank API 호출
+		ResponseEntity<BaseResponse<UserTotalSavingsDto>> resp = restTemplate.exchange(
+				url,
+				HttpMethod.GET,
+				httpEntity,
+				new ParameterizedTypeReference<>() {}
+		);
+
+		BaseResponse<UserTotalSavingsDto> body = ensureBody(resp);
+		ensureSuccess(body);
+		return body.getResult();
+	}
+
 
 	private <T> BaseResponse<T> ensureBody(ResponseEntity<BaseResponse<T>> resp) {
 		if (resp.getBody() == null) {
