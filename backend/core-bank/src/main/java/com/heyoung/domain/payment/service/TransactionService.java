@@ -115,7 +115,7 @@ public class TransactionService {
     }
 
     // 계좌 거래 내역 전체 조회
-    @Transactional(readOnly = true)
+    @Transactional()
     public List<ExternalBankApiDto.TransactionHistory> getTransactionHistory(Long memberId, String startDate, String endDate) {
         User user = userRepository.findById(memberId)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 사용자"));
