@@ -265,7 +265,7 @@ export default function App() {
 
   // 테스트용 푸시 알림 보내기
   const handleTestNotification = () => {
-    PushNotificationService.sendLocalNotification('테스트 알림', '이것은 로컬 테스트 알림입니다!');
+    PushNotificationService.sendLocalNotification('안녕하세요!', '제가 보이시나요..!');
   };
 
   const handleGetExpoPushToken = async () => {
