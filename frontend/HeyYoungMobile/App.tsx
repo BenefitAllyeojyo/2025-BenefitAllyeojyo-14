@@ -11,10 +11,14 @@ import {
   Platform,
   BackHandler,
   Linking,
+  Image,
+  Clipboard,
 } from 'react-native';
 import { WebView, WebViewNavigation } from 'react-native-webview';
 import { SafeAreaView, SafeAreaProvider } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
+import * as Notifications from 'expo-notifications';
+import { PushNotificationService } from './src/services/pushNotification';
 
 const { width, height } = Dimensions.get('window');
 
@@ -27,12 +31,83 @@ export default function App() {
   const [isOffline, setIsOffline] = useState(false);
   const [webViewKey, setWebViewKey] = useState(0);
   const [currentRoute, setCurrentRoute] = useState('home');
+  const [pushToken, setPushToken] = useState<string | null>(null);
+  const [fcmToken, setFcmToken] = useState<string | null>(null);
 
   const webViewRef = useRef<WebView>(null);
 
+  // 푸시 알림 초기화
+  useEffect(() => {
+    const initializePushNotifications = async () => {
+      try {
+        // Android 채널 설정
+        await PushNotificationService.setupAndroidChannel();
+        
+        // 푸시 알림 권한 요청
+        const hasPermission = await PushNotificationService.requestPermissions();
+        if (hasPermission) {
+          // 토큰 변경 감지 및 백엔드에 전송
+          const success = await PushNotificationService.checkAndUpdateToken();
+          if (success) {
+            console.log('푸시 토큰 초기화 완료!');
+            
+            // 토큰 정보 출력 (디버깅용)
+            await PushNotificationService.logTokenInfo();
+          } else {
+            console.log('푸시 토큰 초기화 실패');
+          }
+        }
+      } catch (error) {
+        console.error('푸시 알림 초기화 실패:', error);
+      }
+    };
+
+    initializePushNotifications();
+  }, []);
+
+  // 푸시 알림 리스너 설정
+  useEffect(() => {
+    // 앱이 포그라운드에 있을 때 푸시 알림 처리
+    const foregroundSubscription = Notifications.addNotificationReceivedListener(notification => {
+      console.log('포그라운드 푸시 알림 수신:', notification);
+      
+      // 웹뷰에 푸시 알림 정보 전달
+      if (webViewRef.current) {
+        webViewRef.current.postMessage(JSON.stringify({
+          type: 'PUSH_NOTIFICATION',
+          data: notification.request.content.data
+        }));
+      }
+    });
+
+    // 푸시 알림 클릭 시 처리
+    const responseSubscription = Notifications.addNotificationResponseReceivedListener(response => {
+      console.log('푸시 알림 클릭됨:', response);
+      
+      const data = response.notification.request.content.data;
+      
+      // 특정 푸시 알림에 따른 앱 동작
+      if (data?.type === 'NEW_BENEFIT') {
+        // 혜택 페이지로 이동
+        navigateToRoute('benefitMain');
+      } else if (data?.type === 'PAYMENT_REMINDER') {
+        // 결제 페이지로 이동
+        navigateToRoute('pay');
+      } else if (data?.type === 'NOTIFICATION') {
+        // 알림 페이지로 이동
+        navigateToRoute('notifications');
+      }
+    });
+
+    return () => {
+      foregroundSubscription.remove();
+      responseSubscription.remove();
+    };
+  }, []);
+
   // SPA 라우트 정의
   const routes = {
-    home: 'https://meek-babka-83628e.netlify.app/',
+    home: 'https://meek-babka-83628e.netlify.app/benefit-map',
     notifications: 'https://meek-babka-83628e.netlify.app/notifications',
     benefitMain: 'https://meek-babka-83628e.netlify.app/benefit-main',
     entireMenu: 'https://meek-babka-83628e.netlify.app/entire-menu',
@@ -41,6 +116,72 @@ export default function App() {
     benefitMap: 'https://meek-babka-83628e.netlify.app/benefit-map',
     storeDetail: 'https://meek-babka-83628e.netlify.app/store-detail',
   };
+
+  // 푸시 알림 초기화
+  useEffect(() => {
+    const initializePushNotifications = async () => {
+      try {
+        // Android 채널 설정
+        await PushNotificationService.setupAndroidChannel();
+        
+        // 푸시 알림 권한 요청
+        const hasPermission = await PushNotificationService.requestPermissions();
+        if (hasPermission) {
+          // 토큰 변경 감지 및 백엔드에 전송
+          const success = await PushNotificationService.checkAndUpdateToken();
+          if (success) {
+            console.log('푸시 토큰 초기화 완료!');
+          } else {
+            console.log('푸시 토큰 초기화 실패');
+          }
+        }
+      } catch (error) {
+        console.error('푸시 알림 초기화 실패:', error);
+      }
+    };
+
+    initializePushNotifications();
+  }, []);
+
+  // 푸시 알림 리스너 설정
+  useEffect(() => {
+    // 앱이 포그라운드에 있을 때 푸시 알림 처리
+    const foregroundSubscription = Notifications.addNotificationReceivedListener(notification => {
+      console.log('포그라운드 푸시 알림 수신:', notification);
+      
+      // 웹뷰에 푸시 알림 정보 전달
+      if (webViewRef.current) {
+        webViewRef.current.postMessage(JSON.stringify({
+          type: 'PUSH_NOTIFICATION',
+          data: notification.request.content.data
+        }));
+      }
+    });
+
+    // 푸시 알림 클릭 시 처리
+    const responseSubscription = Notifications.addNotificationResponseReceivedListener(response => {
+      console.log('푸시 알림 클릭됨:', response);
+      
+      const data = response.notification.request.content.data;
+      
+      // 특정 푸시 알림에 따른 앱 동작
+      if (data?.type === 'NEW_BENEFIT') {
+        // 혜택 페이지로 이동
+        navigateToRoute('benefitMain');
+      } else if (data?.type === 'PAYMENT_REMINDER') {
+        // 결제 페이지로 이동
+        navigateToRoute('pay');
+      } else if (data?.type === 'NOTIFICATION') {
+        // 알림 페이지로 이동
+        navigateToRoute('notifications');
+      }
+    });
+
+    return () => {
+      foregroundSubscription.remove();
+      responseSubscription.remove();
+    };
+  }, []);
 
   // Android 뒤로가기 버튼 처리 (SPA 라우팅과 연동)
   useEffect(() => {
@@ -100,6 +241,70 @@ export default function App() {
     }
   };
 
+  // 하단 탭 클릭 핸들러
+  const handleTabClick = (tab: string) => {
+    console.log(`${tab} 탭 클릭됨`);
+    
+    // 현재 탭과 같은 탭을 클릭하면 아무것도 하지 않음
+    if (tab === currentRoute) {
+      return;
+    }
+    
+    switch(tab) {
+      case 'home': // 학사 탭
+        navigateToRoute('home');
+        break;
+      case 'benefit': // 혜택 탭
+        navigateToRoute('benefitMain');
+        break;
+      case 'menu': // 메뉴 탭
+        navigateToRoute('entireMenu');
+        break;
+    }
+  };
+
+  // 테스트용 푸시 알림 보내기
+  const handleTestNotification = () => {
+    PushNotificationService.sendLocalNotification('안녕하세요!', '제가 보이시나요..!');
+  };
+
+  const handleGetExpoPushToken = async () => {
+    setIsLoading(true);
+    console.log('📱 Expo Push 토큰 처리 시작...');
+    
+    try {
+      const result = await PushNotificationService.handleExpoPushToken();
+      console.log('🔑 Expo Push 토큰 처리 결과:', JSON.stringify(result, null, 2));
+      
+      if (result.success) {
+        setFcmToken(result.expoToken);
+        console.log('✅ Expo Push 토큰 성공 (전체):', result.expoToken);
+        console.log('📱 메시지:', result.message);
+      } else {
+        setFcmToken(null);
+        console.log('❌ Expo Push 토큰 실패:', result.message);
+        Alert.alert('Expo Push 토큰 실패', result.message);
+      }
+    } catch (error) {
+      console.error('❌ Expo Push 토큰 처리 오류:', error);
+      setFcmToken(null);
+      Alert.alert('오류', 'Expo Push 토큰을 가져오는 중 오류가 발생했습니다.');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const copyFCMToken = async () => {
+    if (fcmToken) {
+      try {
+        await Clipboard.setString(fcmToken);
+        Alert.alert('복사 완료', 'FCM 토큰이 클립보드에 복사되었습니다.');
+      } catch (error) {
+        Alert.alert('복사 실패', 'FCM 토큰 복사에 실패했습니다.');
+      }
+    }
+  };
+
   const handleWebViewError = (syntheticEvent: any) => {
     const { nativeEvent } = syntheticEvent;
     console.warn('WebView error: ', nativeEvent);
@@ -145,6 +350,15 @@ export default function App() {
           type: 'NAVIGATE',
           route: 'home'
         }));
+      },
+      onPushNotification: function(data) {
+        console.log('웹뷰에서 푸시 알림 수신:', data);
+        
+        // 푸시 알림에 따른 웹 페이지 동작
+        if (data.type === 'NEW_BENEFIT') {
+          // 혜택 페이지에서 특정 혜택 하이라이트
+          console.log('새로운 혜택 알림:', data);
+        }
       }
     };
     
@@ -284,37 +498,6 @@ export default function App() {
         translucent={true}
       />
       
-      {/* 상단 네비게이션 바 - SPA 라우팅용 */}
-      {/* <View style={styles.navigationBar}>
-        <TouchableOpacity 
-          style={[styles.navButton, !canGoBack && styles.navButtonDisabled]} 
-          onPress={() => webViewRef.current?.goBack()}
-          disabled={!canGoBack}
-        >
-          <Ionicons name="arrow-back" size={20} color={canGoBack ? "#333" : "#ccc"} />
-        </TouchableOpacity>
-        
-        <TouchableOpacity style={styles.navButton} onPress={() => navigateToRoute('home')}>
-          <Ionicons name="home" size={20} color={currentRoute === 'home' ? "#7435FD" : "#333"} />
-        </TouchableOpacity>
-        
-        <TouchableOpacity style={styles.navButton} onPress={() => navigateToRoute('benefitMain')}>
-          <Ionicons name="gift" size={20} color={currentRoute === 'benefitMain' ? "#7435FD" : "#333"} />
-        </TouchableOpacity>
-        
-        <TouchableOpacity style={styles.navButton} onPress={() => navigateToRoute('benefitMap')}>
-          <Ionicons name="map" size={20} color={currentRoute === 'benefitMap' ? "#7435FD" : "#333"} />
-        </TouchableOpacity>
-        
-        <TouchableOpacity style={styles.navButton} onPress={() => navigateToRoute('entireMenu')}>
-          <Ionicons name="menu" size={20} color={currentRoute === 'entireMenu' ? "#7435FD" : "#333"} />
-        </TouchableOpacity>
-        
-        <TouchableOpacity style={styles.navButton} onPress={() => navigateToRoute('notifications')}>
-          <Ionicons name="notifications" size={20} color={currentRoute === 'notifications' ? "#7435FD" : "#333"} />
-        </TouchableOpacity>
-      </View> */}
-
       {/* SPA 페이지 전환 로딩 인디케이터 */}
       {isLoading && (
         <View style={styles.loadingOverlay}>
@@ -367,6 +550,112 @@ export default function App() {
         nestedScrollEnabled={true}
       />
 
+      {/* React Native 하단 네비게이션 바 */}
+      <View style={styles.bottomNavigationBar}>
+        {/* 하단바 배경 이미지 */}
+        {/* <Image 
+          source={getTabImage()}
+          style={styles.bottomTabImage}
+          resizeMode="stretch"
+        /> */}
+        
+        {/* 3개 섹션으로 나눈 탭 버튼들 */}
+        <View style={styles.tabButtonsContainer}>
+          {/* 학사 섹션 (왼쪽 1/3) */}
+          <TouchableOpacity
+            style={styles.tabButton}
+            onPress={() => handleTabClick('home')}
+            activeOpacity={0.7}
+          >
+            <View style={styles.tabContent}>
+              <Ionicons 
+                name="school" 
+                size={24} 
+                color={currentRoute === 'home' ? "#7435FD" : "#666"} 
+              />
+              <Text style={[
+                styles.tabText, 
+                currentRoute === 'home' && styles.tabTextActive
+              ]}>
+                학사
+              </Text>
+            </View>
+          </TouchableOpacity>
+
+          {/* 혜택 섹션 (가운데 1/3) */}
+          <TouchableOpacity
+            style={styles.tabButton}
+            onPress={() => handleTabClick('benefit')}
+            activeOpacity={0.7}
+          >
+            <View style={styles.tabContent}>
+              <Ionicons 
+                name="gift" 
+                size={24} 
+                color={currentRoute === 'benefitMain' ? "#7435FD" : "#666"} 
+              />
+              <Text style={[
+                styles.tabText, 
+                currentRoute === 'benefitMain' && styles.tabTextActive
+              ]}>
+                혜택
+              </Text>
+            </View>
+          </TouchableOpacity>
+
+          {/* 전체메뉴 섹션 (오른쪽 1/3) */}
+          <TouchableOpacity
+            style={styles.tabButton}
+            onPress={() => handleTabClick('menu')}
+            activeOpacity={0.7}
+          >
+            <View style={styles.tabContent}>
+              <Ionicons 
+                name="menu" 
+                size={24} 
+                color={currentRoute === 'entireMenu' ? "#7435FD" : "#666"} 
+              />
+              <Text style={[
+                styles.tabText, 
+                currentRoute === 'entireMenu' && styles.tabTextActive
+              ]}>
+                메뉴
+              </Text>
+            </View>
+          </TouchableOpacity>
+        </View>
+      </View>
+
+      {/* 테스트용 푸시 알림 버튼 (개발 중에만 표시) */}
+      {__DEV__ && (
+        <View style={styles.testButtonsContainer}>
+          <TouchableOpacity style={styles.testButton} onPress={handleTestNotification}>
+            <Text style={styles.testButtonText}>테스트 알림</Text>
+          </TouchableOpacity>
+          <TouchableOpacity 
+            style={[styles.testButton, isLoading && styles.testButtonDisabled]} 
+            onPress={handleGetExpoPushToken}
+            disabled={isLoading}
+          >
+            <Text style={styles.testButtonText}>
+              {isLoading ? '로딩 중...' : 'Expo Push 토큰 가져오기'}
+            </Text>
+          </TouchableOpacity>
+          
+          {fcmToken && (
+            <View style={styles.tokenContainer}>
+              <Text style={styles.tokenLabel}>Expo Push 토큰:</Text>
+              <Text style={styles.tokenText} numberOfLines={3}>
+                {fcmToken}
+              </Text>
+              <TouchableOpacity style={styles.copyButton} onPress={copyFCMToken}>
+                <Text style={styles.copyButtonText}>복사하기</Text>
+              </TouchableOpacity>
+            </View>
+          )}
+        </View>
+      )}
+
       {/* 현재 라우트 표시 (디버깅용) */}
       {/* <View style={styles.routeIndicator}>
         <Text style={styles.routeText}>현재: {currentRoute}</Text>
@@ -383,27 +672,6 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     justifyContent: 'center',
     alignItems: 'center',
-  },
-  navigationBar: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    alignItems: 'center',
-    backgroundColor: '#fff',
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    borderBottomWidth: 1,
-    borderBottomColor: '#eee',
-    position: 'absolute',
-    top: Platform.OS === 'ios' ? 40 : StatusBar.currentHeight,
-    left: 0,
-    right: 0,
-    zIndex: 10,
-  },
-  navButton: {
-    padding: 10,
-  },
-  navButtonDisabled: {
-    opacity: 0.5,
   },
   loadingOverlay: {
     position: 'absolute',
@@ -423,7 +691,7 @@ const styles = StyleSheet.create({
   },
   routeIndicator: {
     position: 'absolute',
-    top: Platform.OS === 'ios' ? 100 : (StatusBar.currentHeight || 0) + 10, // 네비게이션 바 아래에 위치
+    top: Platform.OS === 'ios' ? 100 : (StatusBar.currentHeight || 0) + 10,
     left: 20,
     backgroundColor: 'rgba(255, 255, 255, 0.8)',
     padding: 5,
@@ -434,5 +702,114 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: '#333',
   },
+  bottomNavigationBar: {
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    height: 90,
+    backgroundColor: 'white',
+    borderTopWidth: 1,
+    borderTopColor: '#eee',
+    zIndex: 999,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: -2,
+    },
+    shadowOpacity: 0.1,
+    shadowRadius: 3,
+    elevation: 5,
+  },
+  bottomTabImage: {
+    // 이미지가 없으므로 제거
+    display: 'none',
+  },
+  tabButtonsContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+    position: 'absolute',
+    bottom: 15,
+    left: 0,
+    right: 0,
+    height: 60,
+    paddingHorizontal: 20,
+  },
+  tabButton: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 8,
+    paddingHorizontal: 12,
+    borderRadius: 8,
+  },
+  tabContent: {
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  tabText: {
+    marginTop: 4,
+    fontSize: 11,
+    color: '#666',
+    fontWeight: '500',
+  },
+  tabTextActive: {
+    color: '#7435FD',
+    fontWeight: 'bold',
+  },
+  testButtonsContainer: {
+    position: 'absolute',
+    top: Platform.OS === 'ios' ? 100 : (StatusBar.currentHeight || 0) + 10,
+    right: 20,
+    flexDirection: 'row',
+    gap: 8,
+    zIndex: 10,
+  },
+  testButton: {
+    backgroundColor: '#7435FD',
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    borderRadius: 15,
+  },
+  testButtonDisabled: {
+    backgroundColor: '#ccc',
+    opacity: 0.7,
+  },
+  testButtonText: {
+    color: 'white',
+    fontSize: 12,
+    fontWeight: 'bold',
+  },
+  tokenContainer: {
+    marginTop: 10,
+    backgroundColor: '#f0f0f0',
+    padding: 10,
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: '#ccc',
+  },
+  tokenLabel: {
+    fontSize: 12,
+    color: '#555',
+    marginBottom: 5,
+  },
+  tokenText: {
+    fontSize: 12,
+    color: '#333',
+    fontFamily: 'monospace',
+    lineHeight: 18,
+  },
+  copyButton: {
+    marginTop: 5,
+    backgroundColor: '#7435FD',
+    paddingVertical: 5,
+    paddingHorizontal: 10,
+    borderRadius: 8,
+  },
+  copyButtonText: {
+    color: 'white',
+    fontSize: 12,
+    fontWeight: 'bold',
+  },
 });
-
