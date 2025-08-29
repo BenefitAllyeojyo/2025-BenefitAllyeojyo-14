@@ -1,4 +1,4 @@
-const GPT_API_URL = 'http://localhost:5000';
+const GPT_API_URL = 'http://localhost:5050';
 
 /**
  * GPT API 호출 함수
@@ -15,17 +15,19 @@ export const callGptApi = async (message, availableStores = []) => {
     const storeData = availableStores.map(store => ({
       id: store.id,
       name: store.name,
-      businessHours: store.businessHours || null
+      hours: store.businessHours || {}
     }));
     
     const requestData = {
-      userQuestion: message,
-      availableStores: storeData
+      message: message,
+      context: {
+        stores: storeData
+      }
     };
     
     console.log('📤 GPT API 요청 데이터:', requestData);
     
-    const response = await fetch(`${GPT_API_URL}/chat`, {
+    const response = await fetch(`${GPT_API_URL}/api/chat`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -40,11 +42,11 @@ export const callGptApi = async (message, availableStores = []) => {
                     const data = await response.json();
                 console.log('✅ GPT API 응답:', data);
 
-                // 백엔드에서 number 필드로 오는 경우 처리
-                if (data.number !== undefined) {
+                // 백엔드에서 score 필드로 오는 경우 처리
+                if (data.score !== undefined) {
                   return {
                     success: true,
-                    message: data.number.toString(),
+                    message: data.score.toString(),
                   };
                 }
 
