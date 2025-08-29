@@ -45,7 +45,7 @@ export const fetchCategories = async () => {
           textColor: '#FFFFFF'
         },
         'CONVENIENCE STORE': {
-          code: 'convenience',
+          code: 'convenience store',
           displayName: '편의점',
           icon: '🏪',
           color: '#10B981',
