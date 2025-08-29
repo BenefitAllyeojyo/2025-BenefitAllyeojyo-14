@@ -50,7 +50,6 @@ function ScrollToTop({ setBackgroundColor }) {
         '/notifications': '#F2F2F2', // 알림 - 바이올렛
         '/benefit-main': '#F7F8FA', // 혜택 메인 - 그라데이션
         '/entire-menu': '#FFFFFF', // 전체 메뉴 - 기본색
-        '/pay': '#542BA8', // 결제 - 보라색
         '/benefit-map': '#F2F2F2', // 지도 - 바이올렛
         '/store-detail': '#FFFFFF', // 매장 상세 - 기본색
         '/partnership': '#EFF0FC', // 파트너십 - 연한 보라색
@@ -74,7 +73,6 @@ function ScrollToTop({ setBackgroundColor }) {
         '/notifications': 'notifications',
         '/benefit-main': 'benefitMain',
         '/entire-menu': 'entireMenu',
-        '/pay': 'pay',
         '/benefit-map': 'benefitMap',
         '/store-detail': 'storeDetail',
         '/partnership': 'partnership',
