@@ -8,31 +8,57 @@ import logo from '../assets/images/logo.png';
 export default function PartnershipListPage() {
   const navigate = useNavigate();
 
-  // 제휴 정보 데이터
+  // 제휴 정보 데이터 - 새로운 데이터 구조로 업데이트 (위도/경도 포함)
   const partnerships = [
     {
       id: 1,
-      shopName: "레드버튼 강북점",
-      shopAddress: "서울특별시 강북구 한천로 139길 42",
-      tag: "보드게임카페"
+      shopName: "스타벅스 관악서울대입구R점",
+      shopAddress: "서울 관악구 관악로 158",
+      tag: "카페",
+      terms: "10% off for university students",
+      hostName: "총학생회",
+      latitude: 126.95280377997965,
+      longitude: 37.47927529407993
     },
     {
       id: 2,
-      shopName: "스타벅스 강남점",
-      shopAddress: "서울특별시 강남구 테헤란로 123",
-      tag: "카페"
+      shopName: "스타벅스 서울대입구역점",
+      shopAddress: "서울 관악구 남부순환로 1812",
+      tag: "카페",
+      terms: "10% off for university students",
+      hostName: "총학생회",
+      latitude: 126.95135823610674,
+      longitude: 37.48116232181828
     },
     {
       id: 3,
-      shopName: "올리브영 홍대점",
-      shopAddress: "서울특별시 마포구 홍대로 456",
-      tag: "뷰티"
+      shopName: "스타벅스 서울대입구역8번출구점",
+      shopAddress: "서울 관악구 남부순환로 1831",
+      tag: "카페",
+      terms: "10% off for university students",
+      hostName: "총학생회",
+      latitude: 126.95365619637556,
+      longitude: 37.4811767606375
     },
     {
       id: 4,
-      shopName: "이마트 잠실점",
-      shopAddress: "서울특별시 송파구 올림픽로 240",
-      tag: "마트"
+      shopName: "올리브영 관악 타운",
+      shopAddress: "서울 관악구 관악로 173",
+      tag: "뷰티",
+      terms: "10% off for university students",
+      hostName: "컴퓨터공학과 학생회",
+      latitude: 126.95227152324334,
+      longitude: 37.480662634299556
+    },
+    {
+      id: 5,
+      shopName: "올리브영 서울대입구역점",
+      shopAddress: "서울 관악구 남부순환로 1840 올리브영",
+      tag: "뷰티",
+      terms: "10% off for university students",
+      hostName: "컴퓨터공학과 학생회",
+      latitude: 126.95430397934122,
+      longitude: 37.48034357962654
     }
   ];
 

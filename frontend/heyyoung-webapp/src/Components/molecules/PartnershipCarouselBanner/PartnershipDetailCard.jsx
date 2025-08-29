@@ -8,6 +8,7 @@ export default function PartnershipDetailCard({
   width = "300px",
   height = "275px"
 }) {
+  
   const mapRef = useRef(null);
   const mapInstanceRef = useRef(null);
 
@@ -19,19 +20,30 @@ export default function PartnershipDetailCard({
 
   const initializeMap = () => {
     if (window.kakao && window.kakao.maps) {
-      // 강남역 좌표 (위도: 37.498095, 경도: 127.027610)
-      const gangnamStationLat = 37.498095;
-      const gangnamStationLng = 127.027610;
+      // partnership의 위도/경도가 있으면 사용, 없으면 기본값 사용
+      let centerLat, centerLng, markerTitle;
+      
+      if (displayPartnership.latitude && displayPartnership.longitude) {
+        // partnership의 좌표 사용
+        centerLat = displayPartnership.longitude; // 위도
+        centerLng = displayPartnership.latitude;  // 경도
+        markerTitle = displayPartnership.shopName;
+      } else {
+        // 기본값 (서울대입구역 근처)
+        centerLat = 37.481162; // 위도
+        centerLng = 126.951358; // 경도
+        markerTitle = "서울대입구역";
+      }
       
       const options = {
-        center: new window.kakao.maps.LatLng(gangnamStationLat, gangnamStationLng),
+        center: new window.kakao.maps.LatLng(centerLat, centerLng),
         level: 3
       };
 
       mapInstanceRef.current = new window.kakao.maps.Map(mapRef.current, options);
 
-      // 강남역에 커스텀 핀 마커 추가
-      addCustomPinMarker(gangnamStationLat, gangnamStationLng, "강남역");
+      // 해당 위치에 커스텀 핀 마커 추가
+      addCustomPinMarker(centerLat, centerLng, markerTitle);
     }
   };
 
@@ -74,14 +86,14 @@ export default function PartnershipDetailCard({
     });
   };
 
-  // 기본 제휴 정보 (partnership이 없을 때 사용)
+  // 기본 제휴 정보 (partnership이 없을 때 사용) - 새로운 데이터 구조
   const defaultPartnership = {
     id: 1,
-    shopName: "레드버튼 강북점",
-    shopAddress: "서울특별시 강북구 한천로 139길 42",
-    tag: "보드게임카페",
-    terms: "학생증 및 교직원증 제시 시 식음료 메뉴 20% 할인\n- 8인 이상 단체 예약시 게임비 10% 추가 할인",
-    hostName: "싸피대학교 총학생회"
+    shopName: "스타벅스 관악서울대입구R점",
+    shopAddress: "서울 관악구 관악로 158",
+    tag: "카페",
+    terms: "10% off for university students",
+    hostName: "총학생회"
   };
 
   const displayPartnership = partnership || defaultPartnership;
@@ -95,7 +107,7 @@ export default function PartnershipDetailCard({
       <div className={styles.aboutSection}>
         <AboutTextModule
           title="ABOUT"
-          content={displayPartnership.terms || "제휴 혜택 정보가 없습니다."}
+          Content={displayPartnership.terms || "제휴 혜택 정보가 없습니다."}
         />
       </div>
 
@@ -110,7 +122,7 @@ export default function PartnershipDetailCard({
       {/* 주최자 정보 섹션 */}
       <div className={styles.hostSection}>
         <HostInfoModule
-          hostName={displayPartnership.hostName || "주최자 정보 없음"}
+          Host={displayPartnership.hostName || "주최자 정보 없음"}
           hostIcon={import.meta.env.BASE_URL + "assets/images/character/PLI_Face.png"}
         />
       </div>

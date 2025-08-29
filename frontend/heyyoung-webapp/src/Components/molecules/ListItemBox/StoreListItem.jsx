@@ -31,6 +31,7 @@ const getCategoryName = (category) => {
     'HEALTH': '건강',
     'BEAUTY': '뷰티',
     'ENTERTAINMENT': '엔터테인먼트',
+    'CONVENIENCE STORE': '편의점',
     'SPORTS': '스포츠',
     'OTHER': '기타'
   };
