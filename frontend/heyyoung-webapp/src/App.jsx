@@ -48,7 +48,7 @@ function ScrollToTop({ setBackgroundColor }) {
       const colorMap = {
         '/': '#F2F2F2', // 메인 홈 - 회색
         '/notifications': '#F2F2F2', // 알림 - 바이올렛
-        '/benefit-main': 'var(--grad-benefit)', // 혜택 메인 - 그라데이션
+        '/benefit-main': '#F7F8FA', // 혜택 메인 - 그라데이션
         '/entire-menu': '#FFFFFF', // 전체 메뉴 - 기본색
         '/pay': '#542BA8', // 결제 - 보라색
         '/benefit-map': '#F2F2F2', // 지도 - 바이올렛
