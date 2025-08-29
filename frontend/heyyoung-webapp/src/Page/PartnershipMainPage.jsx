@@ -5,6 +5,7 @@ import BackgroundBottomTabImage from '../Components/atoms/BackgroundBottomTabIma
 import { SavingBox } from '../Components/molecules/TextGrp'
 import BigCardBtn from '../Components/atoms/Button/BigCardBtn'
 import { ZoneBox } from '../Components/molecules/CardGrp'
+import logoImage from '../assets/images/logo.png'
 
 // Mock Data
 const mockSavingData = {
@@ -22,7 +23,7 @@ export default function PartnershipMainPage() {
   const navigate = useNavigate()
 
   const handleShopClick = () => {
-    navigate('/partnership/list')
+    navigate('/partnership-list')
   }
 
   return (
@@ -30,8 +31,29 @@ export default function PartnershipMainPage() {
       position: 'relative', 
       height: '720px',
       backgroundColor: '#EFF0FC',
-      overflow: 'hidden'
+      overflow: 'hidden',
+      paddingTop: '30px'
     }}>
+      {/* 로고 - 상단 왼쪽에 배치 */}
+      <div
+        style={{
+          position: 'absolute',
+          top: '42px',
+          left: '9px',
+          zIndex: 10
+        }}
+      >
+        <img 
+          src={logoImage} 
+          alt="로고" 
+          style={{ 
+            height: '50px', 
+            width: 'auto',
+            display: 'block'
+          }} 
+        />
+      </div>
+
       {/* 메인 콘텐츠 */}
       <div style={{ 
         padding: '20px', 
@@ -39,8 +61,6 @@ export default function PartnershipMainPage() {
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        paddingTop: '60px', // 앱 상태바(33px) + 알림 버튼 공간(27px)
-        paddingBottom: '100px' // 하단 네비게이션 공간 확보
       }}>
         {/* 상단 알림 버튼 - 오른쪽 */}
         <div style={{
