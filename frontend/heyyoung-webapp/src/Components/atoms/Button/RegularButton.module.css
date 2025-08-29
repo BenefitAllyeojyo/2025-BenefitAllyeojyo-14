@@ -30,12 +30,20 @@
   font-style: normal;
   font-weight: var(--font-weight-action);
   line-height: normal;
+  touch-action: manipulation; /* 터치 최적화 */
+  -webkit-tap-highlight-color: transparent; /* 터치 하이라이트 제거 */
+  user-select: none;
+  -webkit-user-select: none;
 }
 
 
 
 .regularButton:not(:disabled) {
   cursor: pointer;
+  touch-action: manipulation; /* 터치 최적화 */
+  -webkit-tap-highlight-color: transparent; /* 터치 하이라이트 제거 */
+  user-select: none;
+  -webkit-user-select: none;
 }
 
 .regularButton:disabled {
