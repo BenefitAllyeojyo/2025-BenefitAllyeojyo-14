@@ -1,5 +1,6 @@
 package com.heyoung.domain.payment.service;
 
+import com.heyoung.domain.payment.dto.UserTotalSavingsDto;
 import org.springframework.stereotype.Service;
 
 import com.heyoung.domain.benefit.entity.PartnershipBranch;
@@ -34,5 +35,10 @@ public class PaymentService {
 		);
 
 		return transactionClient.executePayment(transactionRequestDto);
+	}
+
+	// 아낀 금액 조회
+	public UserTotalSavingsDto getTotalSavings(Long memberId) {
+		return transactionClient.requestTotalSavings(memberId);
 	}
 }
