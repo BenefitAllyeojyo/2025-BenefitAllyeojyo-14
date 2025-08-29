@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 /**
  * 외부 은행 API와의 통신을 위한 DTO들을 모아놓은 클래스
@@ -147,5 +148,97 @@ public class ExternalBankApiDto {
 
         @JsonProperty("transactionDate")
         private String transactionDate;
+    }
+
+    // 3. 계좌 거래 내역 조회
+    /**
+     * 거래 내역 조회 요청 DTO
+     */
+    @Getter
+    @AllArgsConstructor
+    public static class InquireTransactionHistoryRequest {
+        @JsonProperty("Header")
+        private Header Header;
+
+        @JsonProperty("accountNo")
+        private String accountNo;
+
+        @JsonProperty("startDate")
+        private String startDate; // YYYYMMDD
+
+        @JsonProperty("endDate")
+        private String endDate; // YYYYMMDD
+
+        @JsonProperty("transactionType")
+        private String transactionType; // A: 전체, M: 입금, D: 출금
+
+        @JsonProperty("orderByType")
+        private String orderByType; // ASC: 오름차순(이전거래), DESC: 내림차순(최근거래)
+    }
+
+    /**
+     * 거래 내역 조회 응답 DTO
+     */
+    @Getter
+    @Setter
+    @NoArgsConstructor
+    public static class InquireTransactionHistoryResponse {
+        @JsonProperty("Header")
+        private Header Header;
+
+        @JsonProperty("REC")
+        private HistoryRec rec;
+    }
+
+    /**
+     * 거래 내역 조회 응답의 REC 필드 내부 객체
+     */
+    @Getter
+    @Setter
+    @NoArgsConstructor
+    public static class HistoryRec {
+        @JsonProperty("totalCount")
+        private String totalCount;
+
+        @JsonProperty("list")
+        private List<TransactionHistory> list;
+    }
+
+    /**
+     * 개별 거래 내역 정보
+     */
+    @Getter
+    @Setter
+    @NoArgsConstructor
+    public static class TransactionHistory {
+        @JsonProperty("transactionUniqueNo")
+        private Long transactionUniqueNo;
+
+        @JsonProperty("transactionDate")
+        private String transactionDate;
+
+        @JsonProperty("transactionTime")
+        private String transactionTime;
+
+        @JsonProperty("transactionType")
+        private String transactionType;
+
+        @JsonProperty("transactionTypeName")
+        private String transactionTypeName;
+
+        @JsonProperty("transactionAccountNo")
+        private String transactionAccountNo;
+
+        @JsonProperty("transactionBalance")
+        private Long transactionBalance;
+
+        @JsonProperty("transactionSummary")
+        private String transactionSummary;
+
+        @JsonProperty("transactionAfterBalance")
+        private Long transactionAfterBalance;
+
+        @JsonProperty("transactionMemo")
+        private String transactionMemo;
     }
 }

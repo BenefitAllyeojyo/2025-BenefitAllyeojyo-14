@@ -1,8 +1,6 @@
 package com.heyoung.domain.payment.controller;
 
-import com.heyoung.domain.payment.dto.QrTokenDto;
-import com.heyoung.domain.payment.dto.TransactionRequestDto;
-import com.heyoung.domain.payment.dto.TransactionResponseDto;
+import com.heyoung.domain.payment.dto.*;
 import com.heyoung.domain.payment.service.TransactionService;
 import com.heyoung.global.config.MemberId;
 import com.heyoung.global.exception.BaseResponse;
@@ -11,6 +9,8 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Tag(name="거래 및 결제 API", description = "QR 데이터 생성 및 결제 실행을 담당합니다.")
 @RestController
@@ -32,5 +32,16 @@ public class TransactionController {
         // 가맹점으로부터 결제 요청을 받아 처리
         TransactionResponseDto response = transactionService.executeTransaction(requestDto);
         return BaseResponse.onSuccess(response, ResponseCode.OK);
+    }
+
+    @Operation(summary = "계좌 거래 내역 조회 API", description = "지정된 기간의 계좌 거래 내역을 조회하는 API입니다.")
+    @GetMapping("/history")
+    public BaseResponse<List<ExternalBankApiDto.TransactionHistory>> getTransactionHistory(
+            @MemberId Long memberId,
+            @RequestParam("startDate") String startDate,
+            @RequestParam("endDate") String endDate
+    ) {
+        List<ExternalBankApiDto.TransactionHistory> history = transactionService.getTransactionHistory(memberId, startDate, endDate);
+        return BaseResponse.onSuccess(history, ResponseCode.OK);
     }
 }
