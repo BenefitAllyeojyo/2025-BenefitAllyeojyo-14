@@ -6,6 +6,7 @@ import { SavingBox } from '../Components/molecules/TextGrp'
 import BigCardBtn from '../Components/atoms/Button/BigCardBtn'
 import { ZoneBox } from '../Components/molecules/CardGrp'
 import logoImage from '../assets/images/logo.png'
+import solGoImage from '../assets/images/character/SOL_GO.png'
 
 // Mock Data
 const mockSavingData = {
@@ -37,7 +38,7 @@ export default function PartnershipMainPage() {
       <div
         style={{
           position: 'absolute',
-          top: '42px',
+          top: '12px',
           left: '9px',
           zIndex: 10
         }}
@@ -101,9 +102,9 @@ export default function PartnershipMainPage() {
         bottom: '66px', // 하단 탭 이미지 바로 위
         left: '0',
         width: '375px',
-        height: '222px',
+        height: '280px', // 222px에서 320px로 증가
         background: '#F3F6F9',
-        padding: '20px'
+        padding: '60px 20px 20px 20px' // 위쪽 패딩을 60px로 늘림
       }}>
         {/* 실시간 추천 제휴처 제목 */}
         <div style={{
@@ -131,6 +132,26 @@ export default function PartnershipMainPage() {
       {/* <BackgroundBottomTabImage 
         currentTab="benefit"
       /> */}
+
+      {/* SOL_GO 이미지 - 하단에 배치 */}
+      <div
+        style={{
+          position: 'absolute',
+          bottom: '250px',
+          right: '20px',
+          zIndex: 10
+        }}
+      >
+        <img 
+          src={solGoImage} 
+          alt="SOL_GO" 
+          style={{ 
+            height: '80px', 
+            width: 'auto',
+            display: 'block'
+          }} 
+        />
+      </div>
     </div>
   )
 }
