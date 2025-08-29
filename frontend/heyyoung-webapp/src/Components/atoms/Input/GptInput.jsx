@@ -10,23 +10,31 @@ const GptInput = ({
   availableStores = []
 }) => {
     const [inputValue, setInputValue] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
 
     const handleInputChange = (e) => {
         setInputValue(e.target.value);
     };
 
     const handleSubmit = async () => {
-        if (!inputValue.trim()) return;
+        if (!inputValue.trim() || isLoading) return;
 
-        console.log('🤖 GPT 입력 제출:', inputValue);
+        const currentInput = inputValue.trim();
+        console.log('🤖 GPT 입력 제출:', currentInput);
+
+        // 로딩 상태 시작
+        setIsLoading(true);
+
+        // 입력창 즉시 비우기
+        setInputValue('');
 
         // 로딩 시작 알림
         if (onInputSubmit) {
-            onInputSubmit(inputValue.trim(), null, null, true);
+            onInputSubmit(currentInput, null, null, true);
         }
 
         try {
-            const response = await callGptApi(inputValue, availableStores);
+            const response = await callGptApi(currentInput, availableStores);
             console.log('✅ GPT API 응답:', response);
 
             if (response.success) {
@@ -40,7 +48,7 @@ const GptInput = ({
                 
                 // 부모 컴포넌트에 GPT 응답과 마커 ID 전달
                 if (onInputSubmit) {
-                    onInputSubmit(inputValue.trim(), markerId, gptResponse, false);
+                    onInputSubmit(currentInput, markerId, gptResponse, false);
                 }
             } else {
                 console.error('❌ GPT API 실패:', response.message);
@@ -48,7 +56,8 @@ const GptInput = ({
         } catch (err) {
             console.error('❌ GPT 입력 처리 오류:', err);
         } finally {
-            setInputValue(''); // 입력 후 초기화
+            // 로딩 상태 종료
+            setIsLoading(false);
         }
     };
 
@@ -71,7 +80,7 @@ const GptInput = ({
                 />
                 <SearchBtn 
                     onClick={handleSubmit}
-                    disabled={!inputValue.trim()}
+                    disabled={!inputValue.trim() || isLoading}
                 >
                     🔍
                 </SearchBtn>
