@@ -2,6 +2,7 @@ import { useNavigate } from 'react-router-dom'
 import BackgroundImage from '../Components/atoms/BackgroundImage'
 import BackgroundBottomTabImage from '../Components/atoms/BackgroundBottomTabImage'
 import entireMenuImage from '../assets/images/pages/entire-menu.PNG'
+import logoImage from '../assets/images/logo.png'
 
 export default function EntireMenuPage() {
   const navigate = useNavigate()
@@ -37,6 +38,26 @@ export default function EntireMenuPage() {
           onClick={handlePartnershipClick}
         />
       </BackgroundImage>
+
+      {/* 로고 - 상단 왼쪽에 배치 */}
+      <div
+        style={{
+          position: 'absolute',
+          top: '55px',
+          left: '9px',
+          zIndex: 10
+        }}
+      >
+        <img 
+          src={logoImage} 
+          alt="로고" 
+          style={{ 
+            height: '50px', 
+            width: 'auto',
+            display: 'block'
+          }} 
+        />
+      </div>
 
       {/* 하단 탭 이미지 - AppShell 컨테이너 하단에 고정 */}
       {/* <BackgroundBottomTabImage 
