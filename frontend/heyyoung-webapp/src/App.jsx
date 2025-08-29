@@ -55,7 +55,7 @@ function ScrollToTop() {
         '/benefit-map': 'benefitMap',
         '/store-detail': 'storeDetail',
         '/partnership': 'partnership',
-        '/partnership/list': 'partnershipList',
+        '/partnership-list': 'partnershipList',
         '/payment': 'payment',
         '/payment-result': 'paymentResult'
       };
@@ -84,7 +84,7 @@ function App() {
               <Route path="/benefit-map" element={<MapView />} />
               <Route path="/store-detail" element={<StoreDetailPage />} />
               <Route path="/partnership" element={<PartnershipMainPage />} />
-              <Route path="/partnership/list" element={<PartnershipListPage />} />
+              <Route path="/partnership-list" element={<PartnershipListPage />} />
               <Route path="/payment" element={<PaymentPage />} />
               <Route path="/payment-result" element={<PaymentResultPage />} />
               <Route path="*" element={<NotFound />} />
