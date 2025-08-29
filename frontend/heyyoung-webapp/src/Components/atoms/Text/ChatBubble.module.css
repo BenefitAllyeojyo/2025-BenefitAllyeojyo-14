@@ -1,0 +1,68 @@
+.chatBubbleContainer {
+  position: absolute;
+  bottom: 120px; /* GPT 입력창 위에 위치 */
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10000;
+  animation: bubbleAppear 0.3s ease-out;
+}
+
+.chatBubble {
+  position: relative;
+  background: #542BA8;
+  color: white;
+  padding: 12px 16px;
+  border-radius: 18px;
+  max-width: 320px;
+  box-shadow: 0 4px 12px rgba(84, 43, 168, 0.3);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.4;
+  text-align: center;
+}
+
+.bubbleContent {
+  position: relative;
+  z-index: 2;
+}
+
+.bubbleText {
+  display: block;
+  word-wrap: break-word;
+  white-space: pre-wrap;
+}
+
+.bubbleTail {
+  position: absolute;
+  bottom: -8px;
+  right: 20px;
+  width: 0;
+  height: 0;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-top: 8px solid #542BA8;
+}
+
+@keyframes bubbleAppear {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+  .chatBubble {
+    max-width: 280px;
+    font-size: 13px;
+    padding: 10px 14px;
+  }
+  
+  .chatBubbleContainer {
+    bottom: 110px;
+  }
+}

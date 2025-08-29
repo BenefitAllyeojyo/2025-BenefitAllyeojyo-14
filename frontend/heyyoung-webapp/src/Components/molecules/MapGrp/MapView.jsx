@@ -8,6 +8,7 @@ import CharacterButtonGroup from './CharacterButtonGroup';
 import CategoryButtons from './CategoryButtons';
 import SlidingPanel from './SlidingPanel';
 import GptInput from '../../atoms/Input/GptInput';
+import ChatBubble from '../../atoms/Text/ChatBubble';
 import { ListItemBox } from '../ListItemBox/index';
 import { mapConfig as defaultMapConfig } from '../../../mocks/stores';
 import { useStores } from '../../../hooks/useStores';
@@ -28,6 +29,8 @@ const MapView = ({ schoolName = '서울대학교', schoolColor }) => {
   const [currentLocation, setCurrentLocation] = useState(null);
   const [currentLocationMarker, setCurrentLocationMarker] = useState(null);
   const [selectedStore, setSelectedStore] = useState(null); // 선택된 가게 정보
+  const [chatBubbleMessage, setChatBubbleMessage] = useState('');
+  const [showChatBubble, setShowChatBubble] = useState(false);
 
   // 커스텀 훅으로 스토어와 파트너십 데이터 가져오기
   const { stores: apiStores, partnerships, isLoading, error } = useStores(1);
@@ -235,8 +238,15 @@ const MapView = ({ schoolName = '서울대학교', schoolColor }) => {
       return;
     }
     
-    // 말풍선 메시지 표시 (콘솔로 대체)
+    // 말풍선 메시지 표시
     console.log('💬 챗봇 말풍선:', message);
+    setChatBubbleMessage(message);
+    setShowChatBubble(true);
+    
+    // 3초 후 말풍선 숨기기
+    setTimeout(() => {
+      setShowChatBubble(false);
+    }, 3000);
     
     // 마커 선택이 필요한 경우
     if (shouldSelectMarker) {
@@ -1407,16 +1417,22 @@ const MapView = ({ schoolName = '서울대학교', schoolColor }) => {
         />
       )}
 
-      {/* GPT 입력창 */}
-      {showGptInput && (
-        <div className={styles.gptInputContainer}>
-          <GptInput 
-            placeholder="무엇을 도와드릴까요?"
-            onInputSubmit={handleGptInputSubmit}
-            showResponse={true}
-          />
-        </div>
-      )}
+             {/* GPT 입력창 */}
+       {showGptInput && (
+         <div className={styles.gptInputContainer}>
+           <GptInput 
+             placeholder="무엇을 도와드릴까요?"
+             onInputSubmit={handleGptInputSubmit}
+             showResponse={true}
+           />
+         </div>
+       )}
+
+       {/* 챗봇 말풍선 */}
+       <ChatBubble 
+         message={chatBubbleMessage}
+         isVisible={showChatBubble}
+       />
 
       {/* 슬라이딩 패널 */}
       <SlidingPanel 
