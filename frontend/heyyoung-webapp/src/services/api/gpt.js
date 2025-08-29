@@ -1,4 +1,4 @@
-const GPT_API_URL = 'http://localhost:5050';
+const GPT_API_URL = import.meta.env.VITE_GPT_API_URL || 'http://localhost:5050';
 
 /**
  * GPT API 호출 함수
