@@ -114,15 +114,15 @@ ON CONFLICT (id) DO NOTHING;
 
 -- user_university 더미 매핑 (user_id → university_id)
 -- university_id는 실제 존재하는 대학교 id로 바꿔서 쓰면 됨
-INSERT INTO user_university (user_id, university_id, created_date, updated_date)
+INSERT INTO user_university (id, user_id, university_id, created_date, updated_date)
 VALUES
-    (1001, 1, NOW(), NOW()),
-    (1002, 1, NOW(), NOW()),
-    (1003, 2, NOW(), NOW()),
-    (1004, 3, NOW(), NOW()),
-    (1005, 4, NOW(), NOW()),
-    (1006, 5, NOW(), NOW()),
-    (1007, 6, NOW(), NOW());
+    (2, 1001, 1, NOW(), NOW()),
+    (3, 1002, 1, NOW(), NOW()),
+    (4, 1003, 2, NOW(), NOW()),
+    (5, 1004, 3, NOW(), NOW()),
+    (6, 1005, 4, NOW(), NOW()),
+    (7, 1006, 5, NOW(), NOW()),
+    (8, 1007, 6, NOW(), NOW());
 
 
 --Category 더미 데이터
