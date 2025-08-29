@@ -243,7 +243,7 @@ const SlidingPanel = ({ currentLocation, onStoreSelect }) => {
       const deltaY = startY - touch.clientY;
       hasMoved = true;
       
-      const newHeight = Math.max(60, Math.min(460, dragStartHeight + deltaY));
+      const newHeight = Math.max(70, Math.min(460, dragStartHeight + deltaY));
       currentPanelHeight.current = newHeight;
       setPanelHeight(newHeight);
       console.log('터치 드래그 중 - 높이:', newHeight, 'deltaY:', deltaY);
