@@ -214,39 +214,55 @@ const MapView = ({ schoolName = '서울대학교', schoolColor }) => {
   };
 
   // 챗봇 입력 처리 핸들러
-  const handleGptInputSubmit = (inputValue) => {
+  const handleGptInputSubmit = (inputValue, markerId, gptResponse) => {
     console.log('챗봇 입력값:', inputValue);
+    console.log('GPT 응답:', gptResponse);
+    console.log('추출된 마커 ID:', markerId);
     
-    // 숫자인지 확인
-    const markerId = parseInt(inputValue);
-    if (isNaN(markerId)) {
-      console.log('숫자가 아닌 입력값:', inputValue);
-      alert('숫자를 입력해주세요.');
+    // GPT 응답에 따른 메시지 결정
+    let message = '';
+    let shouldSelectMarker = false;
+    
+    if (markerId >= 1) {
+      message = '맞춤형 제휴 업점이에요!';
+      shouldSelectMarker = true;
+    } else if (markerId === -1) {
+      message = '지금 영업중인 맞춤형 제휴 업체가 없습니다';
+    } else if (markerId === -2) {
+      message = '제휴 업체에 대한 질문을 해주세요!';
+    } else {
+      console.log('⚠️ 알 수 없는 GPT 응답:', gptResponse);
       return;
     }
+    
+    // 말풍선 메시지 표시 (콘솔로 대체)
+    console.log('💬 챗봇 말풍선:', message);
+    
+    // 마커 선택이 필요한 경우
+    if (shouldSelectMarker) {
+      // 해당 ID의 마커 찾기 (마커만 찾기)
+      const targetMarker = overlaysRef.current.find(item => {
+        // 마커 객체이고 markerData가 있는 경우
+        if (item.markerData && item.markerData.id === markerId) {
+          return true;
+        }
+        return false;
+      });
 
-    // 해당 ID의 마커 찾기 (마커만 찾기)
-    const targetMarker = overlaysRef.current.find(item => {
-      // 마커 객체이고 markerData가 있는 경우
-      if (item.markerData && item.markerData.id === markerId) {
-        return true;
+      if (targetMarker) {
+        console.log('마커 찾음:', targetMarker);
+        console.log('마커 데이터:', targetMarker.markerData);
+        
+        // 챗봇 전용 마커 선택 처리 (줌 레벨 4로 고정)
+        handleChatbotMarkerSelect(targetMarker);
+      } else {
+        console.log(`ID ${markerId}에 해당하는 마커를 찾을 수 없습니다.`);
+        console.log('현재 마커들:', overlaysRef.current.filter(item => item.markerData).map(item => ({
+          id: item.markerData.id,
+          name: item.markerData.name
+        })));
+        console.log(`⚠️ ID ${markerId}에 해당하는 마커를 찾을 수 없습니다.`);
       }
-      return false;
-    });
-
-    if (targetMarker) {
-      console.log('마커 찾음:', targetMarker);
-      console.log('마커 데이터:', targetMarker.markerData);
-      
-      // 챗봇 전용 마커 선택 처리 (줌 레벨 4로 고정)
-      handleChatbotMarkerSelect(targetMarker);
-    } else {
-      console.log(`ID ${markerId}에 해당하는 마커를 찾을 수 없습니다.`);
-      console.log('현재 마커들:', overlaysRef.current.filter(item => item.markerData).map(item => ({
-        id: item.markerData.id,
-        name: item.markerData.name
-      })));
-      alert(`ID ${markerId}에 해당하는 마커를 찾을 수 없습니다.`);
     }
   };
 
@@ -1395,8 +1411,9 @@ const MapView = ({ schoolName = '서울대학교', schoolColor }) => {
       {showGptInput && (
         <div className={styles.gptInputContainer}>
           <GptInput 
-            placeholder="주변에 제휴 가능한 카페 있으면 알려줘!"
+            placeholder="무엇을 도와드릴까요?"
             onInputSubmit={handleGptInputSubmit}
+            showResponse={true}
           />
         </div>
       )}
