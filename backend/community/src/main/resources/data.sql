@@ -155,17 +155,17 @@ INSERT INTO partnership (
 (
     1, 'Starbucks', 1, 10.00, 1000.00,
     '10% off for university students', 'Notes about the partnership',
-    'ACTIVE', 1, "총학생회", NOW(), NOW()
+    'ACTIVE', 1, '총학생회', NOW(), NOW()
 ),
 (
     2, 'OliveYoung', 2, 10.00, 3000.00,
     '10% off for university students', 'Notes about the partnership',
-    'ACTIVE', 1, "컴퓨터공학과 학생회", NOW(), NOW()
+    'ACTIVE', 1, '컴퓨터공학과 학생회', NOW(), NOW()
 ),
 (
     3, 'CU', 3, 10.00, 3000.00,
     '10% off for university students', 'Notes about the partnership',
-    'EXPIRED', 1, "총학생회", NOW(), NOW()
+    'EXPIRED', 1, '총학생회', NOW(), NOW()
 )
 ON CONFLICT (id) DO NOTHING;
 
