@@ -1,8 +1,8 @@
-export default function AppShell({ children }) {
+export default function AppShell({ children, backgroundColor = 'var(--color-bg)' }) {
   return (
     <div style={{ 
       height:'100vh', 
-      background:'var(--color-bg)', 
+      background: backgroundColor, 
       display: 'flex', 
       justifyContent: 'center', 
       alignItems: 'center',

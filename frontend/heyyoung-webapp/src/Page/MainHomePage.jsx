@@ -15,7 +15,11 @@ export default function MainHomePage() {
   }
 
   return (
-    <div style={{ position: 'relative', height: '100%', overflow: 'auto' }}>
+    <div style={{ 
+      position: 'relative', 
+      height: '100%', 
+      overflow: 'auto'
+    }}>
       {/* 상단 메인 이미지 */}
       <div style={{ position: 'relative' }}>
         <img src={mainHomeImage} alt="메인홈" style={{ display:'block', width:'100%', height: 'auto' }} />
