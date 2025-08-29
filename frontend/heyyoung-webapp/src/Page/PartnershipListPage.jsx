@@ -2,6 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import BackgroundBottomTabImage from '../Components/atoms/BackgroundBottomTabImage';
 import ShopInfoTextModule from '../Components/molecules/TextGrp/ShopInfoTextModule';
 import PartnershipCarouselBanner from '../Components/molecules/PartnershipCarouselBanner';
+import { BackButton } from '../Components/atoms/Button';
 
 export default function PartnershipListPage() {
   const navigate = useNavigate();
@@ -36,6 +37,18 @@ export default function PartnershipListPage() {
 
   return (
     <div style={{ position: 'relative', padding:'60px 20px 0 20px', height: '700px', overflow: 'auto', background: '#EFF0FC' }}>
+      {/* 뒤로가기 버튼 영역 */}
+      <div
+        style={{
+          position: 'absolute',
+          top: '17px',
+          right: '20px',
+          zIndex: 10
+        }}
+      >
+        <BackButton />
+      </div>
+
       {/* ShopInfoTextModule 컴포넌트 */}
       <div>
         <ShopInfoTextModule 
