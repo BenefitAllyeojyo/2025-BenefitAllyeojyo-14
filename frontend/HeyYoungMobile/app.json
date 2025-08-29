@@ -1,44 +1,55 @@
 {
   "expo": {
-    "name": "HeyYoungMobile",
+    "name": "헤이영, 혜택을 알려줘!",
     "slug": "HeyYoungMobile",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/images/heyyoungLogo.png",
     "userInterfaceStyle": "light",
-    "newArchEnabled": true,
-    "platforms": ["ios", "android", "web"],
     "splash": {
-      "image": "./assets/splash-icon.png",
+      "image": "./assets/images/heyyoungLogo.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.heyoung.heyyoungmobile",
-      "buildNumber": "1.0.0",
-      "infoPlist": {
-        "NSAppTransportSecurity": {
-          "NSAllowsArbitraryLoads": true
-        }
-      }
+      "bundleIdentifier": "com.seogadol.HeyYoungMobile"
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/images/heyyoungLogo.png",
         "backgroundColor": "#ffffff"
       },
-      "edgeToEdgeEnabled": true,
-      "package": "com.heyoung.heyyoungmobile",
-      "versionCode": 1
+      "package": "com.seogadol.HeyYoungMobile"
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/images/heyyoungLogo.png"
     },
+    "notification": {
+      "icon": "./assets/images/heyyoungLogo.png",
+      "color": "#ffffff",
+      "iosDisplayInForeground": true,
+      "androidMode": "default",
+      "androidCollapsedTitle": "새로운 알림",
+      "androidChannelId": "default",
+      "androidChannelName": "기본 알림",
+      "androidChannelDescription": "기본 알림 채널",
+      "androidImportance": "high",
+      "androidVibratePattern": [0, 250, 250, 250],
+      "androidSound": "default",
+      "androidColor": "#ffffff"
+    },
+    "plugins": [
+      "expo-notifications"
+    ],
     "extra": {
       "eas": {
-        "projectId": "your-project-id"
+        "projectId": "43a19c02-a987-4172-8ec9-8af48657eeb0"
       }
-    }
+    },
+    "owner": "seogadol"
   }
 }

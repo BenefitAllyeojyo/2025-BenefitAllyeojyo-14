@@ -1,37 +1,24 @@
-# Learn more https://docs.github.com/en/get-started/getting-started-with-git/ignoring-files
+# Firebase 설정 파일 (민감한 정보 포함)
+google-services.json
+GoogleService-Info.plist
+firebase.json
+.firebaserc
 
-# dependencies
+# 환경 변수 파일
+.env
+.env.local
+.env.development
+.env.production
+
+# 기타
 node_modules/
-
-# Expo
 .expo/
 dist/
-web-build/
-expo-env.d.ts
-
-# Native
-.kotlin/
-*.orig.*
+npm-debug.*
 *.jks
 *.p8
 *.p12
 *.key
 *.mobileprovision
-
-# Metro
-.metro-health-check*
-
-# debug
-npm-debug.*
-yarn-debug.*
-yarn-error.*
-
-# macOS
-.DS_Store
-*.pem
-
-# local env files
-.env*.local
-
-# typescript
-*.tsbuildinfo
+*.orig.*
+web-build/
