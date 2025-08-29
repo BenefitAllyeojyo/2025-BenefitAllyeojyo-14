@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import BellButton from '../Components/atoms/Button/BellButton'
 import BackgroundBottomTabImage from '../Components/atoms/BackgroundBottomTabImage'
@@ -7,11 +7,12 @@ import BigCardBtn from '../Components/atoms/Button/BigCardBtn'
 import { ZoneBox } from '../Components/molecules/CardGrp'
 import logoImage from '../assets/images/logo.png'
 import solGoImage from '../assets/images/character/SOL_GO.png'
+import { fetchUserTotalSavings } from '../services/api'
 
 // Mock Data
 const mockSavingData = {
   leftText: "이번달 아낀 금액",
-  rightText: "123,456,789원"
+  rightText: "로딩 중..." // 초기값, 실제로는 API에서 가져옴
 }
 
 const mockPartnershipData = {
@@ -22,6 +23,27 @@ const mockPartnershipData = {
 
 export default function PartnershipMainPage() {
   const navigate = useNavigate()
+  const [savingsData, setSavingsData] = useState(null)
+  const [isLoading, setIsLoading] = useState(true)
+
+  // 저장 금액 데이터 로드
+  useEffect(() => {
+    const loadSavingsData = async () => {
+      try {
+        setIsLoading(true)
+        const response = await fetchUserTotalSavings()
+        if (response.isSuccess) {
+          setSavingsData(response.result)
+        }
+      } catch (error) {
+        console.error('저장 금액 로드 실패:', error)
+      } finally {
+        setIsLoading(false)
+      }
+    }
+
+    loadSavingsData()
+  }, [])
 
   const handleShopClick = () => {
     navigate('/partnership-list')
@@ -73,7 +95,7 @@ export default function PartnershipMainPage() {
         {/* SavingBox */}
         <SavingBox 
           leftText={mockSavingData.leftText}
-          rightText={mockSavingData.rightText}
+          rightText={savingsData ? `${savingsData.totalSavedAmount.toLocaleString('ko-KR')}원` : isLoading ? '로딩 중...' : '0원'}
         />
 
         {/* ZoneBox들 */}
