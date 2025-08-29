@@ -31,6 +31,7 @@ const MapView = ({ schoolName = '서울대학교', schoolColor }) => {
   const [selectedStore, setSelectedStore] = useState(null); // 선택된 가게 정보
   const [chatBubbleMessage, setChatBubbleMessage] = useState('');
   const [showChatBubble, setShowChatBubble] = useState(false);
+  const [isGptLoading, setIsGptLoading] = useState(false);
 
   // 커스텀 훅으로 스토어와 파트너십 데이터 가져오기
   const { stores: apiStores, partnerships, isLoading, error } = useStores(1);
@@ -217,7 +218,17 @@ const MapView = ({ schoolName = '서울대학교', schoolColor }) => {
   };
 
   // 챗봇 입력 처리 핸들러
-  const handleGptInputSubmit = (inputValue, markerId, gptResponse) => {
+  const handleGptInputSubmit = (inputValue, markerId, gptResponse, isLoading = false) => {
+    // 로딩 상태 처리
+    if (isLoading) {
+      setChatBubbleMessage('...');
+      setShowChatBubble(true);
+      setIsGptLoading(true);
+      return;
+    }
+
+    // 로딩 완료 시
+    setIsGptLoading(false);
     console.log('챗봇 입력값:', inputValue);
     console.log('GPT 응답:', gptResponse);
     console.log('추출된 마커 ID:', markerId);
@@ -1421,7 +1432,7 @@ const MapView = ({ schoolName = '서울대학교', schoolColor }) => {
                 {showGptInput && (
                   <div className={styles.gptInputContainer}>
                     <GptInput 
-                      placeholder="무엇을 도와드릴까요?"
+                      placeholder="ex) 지금 영업중인 카페 추천해줘!"
                       onInputSubmit={handleGptInputSubmit}
                       showResponse={true}
                       availableStores={testMarkers}
@@ -1429,11 +1440,11 @@ const MapView = ({ schoolName = '서울대학교', schoolColor }) => {
                   </div>
                 )}
 
-       {/* 챗봇 말풍선 */}
-       <ChatBubble 
-         message={chatBubbleMessage}
-         isVisible={showChatBubble}
-       />
+               {/* 챗봇 말풍선 */}
+        <ChatBubble 
+          message={isGptLoading ? '생각중입니다...' : chatBubbleMessage}
+          isVisible={showChatBubble}
+        />
 
       {/* 슬라이딩 패널 */}
       <SlidingPanel 

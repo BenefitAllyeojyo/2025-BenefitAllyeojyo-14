@@ -20,6 +20,11 @@ const GptInput = ({
 
         console.log('🤖 GPT 입력 제출:', inputValue);
 
+        // 로딩 시작 알림
+        if (onInputSubmit) {
+            onInputSubmit(inputValue.trim(), null, null, true);
+        }
+
         try {
             const response = await callGptApi(inputValue, availableStores);
             console.log('✅ GPT API 응답:', response);
@@ -35,7 +40,7 @@ const GptInput = ({
                 
                 // 부모 컴포넌트에 GPT 응답과 마커 ID 전달
                 if (onInputSubmit) {
-                    onInputSubmit(inputValue.trim(), markerId, gptResponse);
+                    onInputSubmit(inputValue.trim(), markerId, gptResponse, false);
                 }
             } else {
                 console.error('❌ GPT API 실패:', response.message);
