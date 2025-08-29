@@ -73,7 +73,6 @@ export default function NotificationPage() {
         <div style={{
           flex: 1,
           overflow: 'auto',
-          padding: '20px 24px'
         }}>
           {/* 알림 컴포넌트들을 map으로 반복 */}
           {mockNotifications.map((notification) => (
