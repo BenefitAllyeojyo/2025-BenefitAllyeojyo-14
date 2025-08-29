@@ -32,7 +32,6 @@ export default function PartnershipMainPage() {
       height: '720px',
       backgroundColor: '#EFF0FC',
       overflow: 'hidden',
-      paddingTop: '30px'
     }}>
       {/* 로고 - 상단 왼쪽에 배치 */}
       <div
