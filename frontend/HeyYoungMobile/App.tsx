@@ -672,6 +672,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     justifyContent: 'center',
     alignItems: 'center',
+    marginBottom: 0, // bottom bar 높이만큼 여백 추가
   },
   loadingOverlay: {
     position: 'absolute',
