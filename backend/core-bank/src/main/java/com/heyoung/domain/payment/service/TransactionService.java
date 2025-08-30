@@ -4,6 +4,7 @@ import com.heyoung.domain.outbox.service.OutBoxCommandService;
 import com.heyoung.domain.outbox.service.OutBoxCommandService;
 import com.heyoung.domain.payment.dto.ExternalBankApiDto;
 import com.heyoung.domain.outbox.service.OutBoxCommandService;
+import com.heyoung.domain.payment.dto.PaymentCheckResponse;
 import com.heyoung.domain.payment.dto.QrDataDto;
 import com.heyoung.domain.payment.dto.QrTokenDto;
 import com.heyoung.domain.payment.dto.TransactionRequestDto;
@@ -34,6 +35,7 @@ import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import com.heyoung.global.exception.InsufficientBalanceException;
@@ -157,6 +159,27 @@ public class TransactionService {
 
         return historyList;
     }
+
+	@Transactional
+	public PaymentCheckResponse checkPayment(Long  memberId) {
+		Optional<Transaction> transaction = transactionRepository.findByUserId(memberId);
+
+		if (transaction.isPresent() &&
+			transaction.get().getCreatedDate() != null &&
+			transaction.get().getCreatedDate().isAfter(Instant.now().minusSeconds(5))) {
+
+			Transaction t = transaction.get();
+			return new PaymentCheckResponse(
+				true,
+				t.getAmount().subtract(t.getDiscountAmount()),
+				t.getAmount(),
+				t.getMerchantName()
+			);
+
+		} else {
+			return new PaymentCheckResponse(false, BigDecimal.ZERO, BigDecimal.ZERO, "no");
+		}
+	}
 
 
 
