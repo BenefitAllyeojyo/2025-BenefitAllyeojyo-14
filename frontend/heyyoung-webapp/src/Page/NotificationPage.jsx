@@ -12,21 +12,24 @@ export default function NotificationPage() {
   const mockNotifications = [
     {
       id: 1,
-      title: "트래블카드 만들면 1만원 받고",
-      subtitle: "새로운 혜택이 쿠폰함에 들어왔어요.",
-      description: "지금 바로 확인하고 혜택을 받으세요"
+      partnershipId: 1, // 스타벅스
+      title: "스타벅스 할인 혜택",
+      subtitle: "학생증 제시 시 20% 할인",
+      description: "모든 음료 메뉴에 적용되는 특별 할인"
     },
     {
       id: 2,
-      title: "스타벅스 할인 쿠폰",
-      subtitle: "학생증 제시 시 20% 할인",
-      description: "오늘 하루만 사용 가능한 특별 혜택"
+      partnershipId: 2, // 올리브영
+      title: "올리브영 제휴 혜택",
+      subtitle: "학생증 제시 시 15% 할인",
+      description: "화장품, 생활용품 등 모든 상품에 적용"
     },
     {
       id: 3,
-      title: "새로운 제휴 매장 추가",
-      subtitle: "올리브영, 이마트 등 5개 매장",
-      description: "더 많은 혜택을 누려보세요"
+      partnershipId: 3, // CU 편의점
+      title: "CU 편의점 할인",
+      subtitle: "학생증 제시 시 10% 할인",
+      description: "음료, 간식, 생활용품 할인 혜택"
     }
   ]
 

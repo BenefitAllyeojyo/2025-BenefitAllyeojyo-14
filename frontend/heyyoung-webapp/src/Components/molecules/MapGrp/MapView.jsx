@@ -1250,7 +1250,7 @@ const MapView = ({ schoolName = '서울대학교', schoolColor }) => {
     const categoryDisplayNames = {
       cafe: '카페',
       beauty: '뷰티',
-      convenience: '편의점',
+      'convenience store': '편의점',
       restaurant: '음식점',
       shopping: '쇼핑',
     };
