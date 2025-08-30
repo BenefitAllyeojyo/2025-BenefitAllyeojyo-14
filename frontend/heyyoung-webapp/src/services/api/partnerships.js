@@ -22,7 +22,6 @@ export const fetchPartnerships = async (memberId = 1) => {
     
     return data.result;
   } catch (error) {
-    console.error('파트너십 정보 가져오기 실패:', error);
     throw error;
   }
 };

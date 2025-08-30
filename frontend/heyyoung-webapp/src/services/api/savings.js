@@ -21,7 +21,6 @@ export const fetchUserTotalSavings = async () => {
     
     return data;
   } catch (error) {
-    console.error('저장 금액 조회 실패:', error);
     throw error;
   }
 };
@@ -51,7 +50,6 @@ export const fetchMonthlySavings = async (year, month) => {
       }
     };
   } catch (error) {
-    console.error('월별 저장 금액 조회 실패:', error);
     throw error;
   }
 };

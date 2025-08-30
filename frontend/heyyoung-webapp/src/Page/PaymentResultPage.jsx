@@ -36,7 +36,6 @@ export default function PaymentResultPage() {
           button: {
             label: "메인으로",
             onClick: () => {
-              console.log('메인으로 버튼 클릭');
               navigate('/')
             }
           }
@@ -51,9 +50,9 @@ export default function PaymentResultPage() {
           hostName: "싸피대학교 총학생회"
         })
 
-        console.log('결제 결과 페이지에서 받은 데이터:', parsedData)
+        // 결제 데이터 처리 완료
       } catch (error) {
-        console.error('결제 결과 데이터 파싱 실패:', error)
+        // 파싱 실패 시 기본 데이터 사용
         // 파싱 실패 시 기본 데이터 사용
         setDefaultData()
       }
@@ -82,7 +81,6 @@ export default function PaymentResultPage() {
       button: {
         label: "메인으로",
         onClick: () => {
-          console.log('메인으로 버튼 클릭');
           navigate('/')
         }
       }

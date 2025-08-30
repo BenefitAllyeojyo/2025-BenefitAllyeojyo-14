@@ -20,7 +20,6 @@ const GptInput = ({
         if (!inputValue.trim() || isLoading) return;
 
         const currentInput = inputValue.trim();
-        console.log('🤖 GPT 입력 제출:', currentInput);
 
         // 로딩 상태 시작
         setIsLoading(true);
@@ -35,26 +34,19 @@ const GptInput = ({
 
         try {
             const response = await callGptApi(currentInput, availableStores);
-            console.log('✅ GPT API 응답:', response);
 
             if (response.success) {
-                console.log('🤖 GPT 응답 메시지:', response.message);
-                
                 // GPT 응답에서 숫자 추출
                 const gptResponse = response.message;
                 const markerId = parseInt(gptResponse);
-                
-                console.log('🔢 추출된 마커 ID:', markerId);
                 
                 // 부모 컴포넌트에 GPT 응답과 마커 ID 전달
                 if (onInputSubmit) {
                     onInputSubmit(currentInput, markerId, gptResponse, false);
                 }
-            } else {
-                console.error('❌ GPT API 실패:', response.message);
             }
         } catch (err) {
-            console.error('❌ GPT 입력 처리 오류:', err);
+            // GPT 입력 처리 오류 시 무시
         } finally {
             // 로딩 상태 종료
             setIsLoading(false);

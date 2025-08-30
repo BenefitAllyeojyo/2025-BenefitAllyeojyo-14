@@ -25,13 +25,12 @@ export default function StoreDetailPage() {
     if (storeDetailData) {
       try {
         const parsedData = JSON.parse(storeDetailData);
-        console.log('세션스토리지에서 가져온 storeDetailData:', parsedData);
         setStoreDetail(parsedData);
         setStoreId(parsedData.partnershipBranchDto?.id || '1');
         setLoading(false);
         return; // API 호출하지 않고 바로 데이터 사용
       } catch (error) {
-        console.error('세션스토리지 데이터 파싱 실패:', error);
+        // 파싱 실패 시 기본 데이터 사용
       }
     }
     
@@ -41,7 +40,6 @@ export default function StoreDetailPage() {
       setStoreId(finalStoreId);
       fetchStoreDetail(finalStoreId);
     } else {
-      console.log('storeId를 찾을 수 없습니다');
       setLoading(false);
     }
   }, []);
@@ -49,10 +47,6 @@ export default function StoreDetailPage() {
   // 지도 초기화
   useEffect(() => {
     if (storeDetail && storeDetail.partnershipBranchDto) {
-      console.log('지도 초기화 시작');
-      console.log('storeDetail:', storeDetail);
-      console.log('partnershipBranchDto:', storeDetail.partnershipBranchDto);
-      
       // 약간의 지연을 두고 지도 초기화 (DOM이 완전히 렌더링된 후)
       setTimeout(() => {
         initializeMap();

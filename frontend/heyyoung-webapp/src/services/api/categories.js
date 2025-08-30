@@ -101,8 +101,6 @@ export const fetchCategories = async () => {
     // API 실패 시 빈 배열 반환
     return [];
   } catch (error) {
-    console.error('카테고리 정보 가져오기 실패:', error);
-    
     // 에러 시 기본 카테고리 반환
     return [
       {
@@ -177,18 +175,11 @@ export const fetchStoresByCategory = async (categoryCode) => {
         partnership => partnership.categoryName === targetCategory
       );
       
-      console.log(`카테고리 ${categoryCode} 파트너십 데이터 가져오기 성공:`, filteredPartnerships.length, '개');
       return filteredPartnerships;
     }
     
     return [];
   } catch (error) {
-    if (error.name === 'AbortError') {
-      console.warn(`카테고리 ${categoryCode} 스토어 API 호출 타임아웃 - 빈 배열 반환`);
-    } else {
-      console.error('카테고리별 스토어 정보 가져오기 실패:', error);
-    }
-    
     // API 실패 시 빈 배열 반환 (UI가 깨지지 않도록)
     return [];
   }

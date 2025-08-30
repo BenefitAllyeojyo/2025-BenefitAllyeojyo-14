@@ -8,9 +8,6 @@ const GPT_API_URL = import.meta.env.VITE_GPT_API_URL || 'http://localhost:5050';
  */
 export const callGptApi = async (message, availableStores = []) => {
   try {
-    console.log('🤖 GPT API 호출 시작:', message);
-    console.log('🏪 사용 가능한 스토어:', availableStores);
-    
     // 스토어 데이터를 GPT가 이해할 수 있는 형태로 변환
     const storeData = availableStores.map(store => ({
       id: store.id,
@@ -25,8 +22,6 @@ export const callGptApi = async (message, availableStores = []) => {
       }
     };
     
-    console.log('📤 GPT API 요청 데이터:', requestData);
-    
     const response = await fetch(`${GPT_API_URL}/api/chat`, {
       method: 'POST',
       headers: {
@@ -40,7 +35,6 @@ export const callGptApi = async (message, availableStores = []) => {
     }
 
                     const data = await response.json();
-                console.log('✅ GPT API 응답:', data);
 
                 // 백엔드에서 score 필드로 오는 경우 처리
                 if (data.score !== undefined) {
@@ -56,7 +50,6 @@ export const callGptApi = async (message, availableStores = []) => {
                 };
     
   } catch (error) {
-    console.error('❌ GPT API 호출 오류:', error);
     return {
       success: false,
       error: error.message,

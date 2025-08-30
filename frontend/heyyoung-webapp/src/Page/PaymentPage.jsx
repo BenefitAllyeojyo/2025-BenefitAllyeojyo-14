@@ -26,9 +26,8 @@ export default function PaymentPage() {
       try {
         const parsedData = JSON.parse(storedData)
         setPaymentData(parsedData)
-        console.log('결제 페이지에서 받은 데이터:', parsedData)
       } catch (error) {
-        console.error('결제 데이터 파싱 실패:', error)
+        // 파싱 실패 시 기본 데이터 사용
       }
     }
   }, [])
@@ -66,7 +65,6 @@ export default function PaymentPage() {
           startPaymentPolling(result.qrToken)
         }
       } catch (err) {
-        console.error('QR 데이터 로드 실패:', err)
         setError(err.message)
       } finally {
         setIsLoading(false)
@@ -84,19 +82,14 @@ export default function PaymentPage() {
     let pollCount = 0
     const maxPolls = 30 // 30번 (60초)
     
-    console.log('결제 상태 폴링 시작:', qrToken, `(최대 ${maxPolls}번, 2초마다)`)
-    
     const pollPaymentStatus = async () => {
       try {
         pollCount++
-        console.log(`결제 상태 확인 ${pollCount}/${maxPolls}`)
         
         const result = await checkPaymentStatus(qrToken)
-        console.log('결제 상태 확인 결과:', result)
         
         // result.success가 true인 경우에만 결제 완료로 처리
         if (result.success === true) {
-          console.log('결제 완료! PaymentResult 페이지로 이동')
           stopPaymentPolling()
           
           // 결제 결과 데이터를 sessionStorage에 저장
@@ -124,19 +117,16 @@ export default function PaymentPage() {
         
         // 최대 폴링 횟수에 도달하면 중지
         if (pollCount >= maxPolls) {
-          console.log(`최대 폴링 횟수(${maxPolls})에 도달하여 폴링 중지`)
           stopPaymentPolling()
           return
         }
         
         // result.success가 false인 경우는 아무것도 하지 않음 (계속 폴링)
       } catch (error) {
-        console.error('결제 상태 확인 중 오류:', error)
         // 오류가 발생해도 폴링은 계속 진행 (최대 횟수까지)
         
         // 최대 폴링 횟수에 도달하면 중지
         if (pollCount >= maxPolls) {
-          console.log(`최대 폴링 횟수(${maxPolls})에 도달하여 폴링 중지`)
           stopPaymentPolling()
           return
         }
@@ -157,7 +147,6 @@ export default function PaymentPage() {
       pollingIntervalRef.current = null
     }
     setIsPolling(false)
-    console.log('결제 상태 폴링 중지')
   }
 
   // 컴포넌트 언마운트 시 폴링 중지

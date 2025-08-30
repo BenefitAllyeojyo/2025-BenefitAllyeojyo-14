@@ -62,7 +62,6 @@ function ScrollToTop({ setBackgroundColor }) {
     // 배경색 업데이트
     const newBackgroundColor = getBackgroundColor(pathname);
     setBackgroundColor(newBackgroundColor);
-    console.log('페이지 변경:', pathname, '배경색:', newBackgroundColor);
     
     // SPA 페이지 변경 이벤트 발생
     if (window.ReactNative && window.ReactNative.navigate) {
@@ -81,7 +80,6 @@ function ScrollToTop({ setBackgroundColor }) {
       };
       
       const currentRoute = routeMap[pathname] || 'home';
-      console.log('현재 라우트:', currentRoute);
     }
   }, [pathname, setBackgroundColor]);
 

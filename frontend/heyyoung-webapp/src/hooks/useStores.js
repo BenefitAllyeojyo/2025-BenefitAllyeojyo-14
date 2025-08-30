@@ -42,15 +42,12 @@ export const useStores = (memberId = 1) => {
         }));
         setPartnerships(basicPartnerships);
         
-        console.log('useStores 훅에서 로드된 파트너십:', partnershipsData.length, '개');
-        console.log('useStores 훅에서 로드된 기본 파트너십 정보:', basicPartnerships.length, '개');
+        // 파트너십 데이터 로드 완료
       } catch (error) {
         if (error.name === 'AbortError') {
-          console.log('useStores 훅 요청이 취소됨');
           return;
         }
         
-        console.error('useStores 훅에서 데이터 로드 실패:', error);
         setError(error);
         
         // 에러 발생 시 빈 배열 사용

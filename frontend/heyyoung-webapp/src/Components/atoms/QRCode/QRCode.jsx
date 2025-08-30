@@ -20,9 +20,9 @@ export default function QRCodeComponent({
           }
         })
         setQrCodeUrl(url)
-      } catch (error) {
-        console.error('QR 코드 생성 실패:', error)
-      }
+          } catch (error) {
+      // QR 코드 생성 실패 시 무시
+    }
     }
 
     generateQRCode()

@@ -29,19 +29,11 @@ export const fetchStores = async () => {
     
     if (data.isSuccess && data.result) {
       // API 응답 구조 그대로 반환 (partnershipBranchDto 포함)
-      console.log('API에서 파트너십 데이터 가져오기 성공:', data.result.length, '개');
       return data.result;
     } else {
-      console.warn('API 응답 오류:', data.message || '알 수 없는 오류');
       return [];
     }
   } catch (error) {
-    if (error.name === 'AbortError') {
-      console.warn('API 호출 타임아웃 (10초)');
-    } else {
-      console.error('스토어 정보 가져오기 실패:', error);
-    }
-    
     // API 실패 시 빈 배열 반환하여 앱이 중단되지 않도록 함
     return [];
   }

@@ -54,21 +54,16 @@ export default function PartnershipMainPage() {
   // 푸시 토큰을 서버에 등록하는 함수
   const registerPushToken = async () => {
     try {
-      console.log('🚀 푸시 토큰 등록 시작...');
-      
       // 이미 등록된 경우 스킵
       if (pushTokenRegistered) {
-        console.log('✅ 푸시 토큰이 이미 등록되어 있습니다.');
         return;
       }
 
       // 푸시 토큰 생성
       const token = generatePushToken();
-      console.log('📱 생성된 푸시 토큰:', token);
       
       // 디바이스 정보 가져오기
       const deviceInfo = getDeviceInfo();
-      console.log('📱 디바이스 정보:', deviceInfo);
       
       // API 요청 데이터 준비
       const requestData = {
@@ -78,8 +73,6 @@ export default function PartnershipMainPage() {
         osVersion: deviceInfo.osVersion,
         deviceVersion: deviceInfo.deviceVersion
       };
-      
-      console.log('📤 서버로 전송할 데이터:', requestData);
       
       // API 호출: /token/register
       const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '/api';
@@ -92,11 +85,8 @@ export default function PartnershipMainPage() {
         body: JSON.stringify(requestData)
       });
       
-      console.log('📡 서버 응답 상태:', response.status);
-      
       if (response.ok) {
         const result = await response.json();
-        console.log('✅ 푸시 토큰 등록 성공:', result);
         setPushTokenRegistered(true);
         
         // 로컬 스토리지에 등록 완료 상태 저장
@@ -106,12 +96,10 @@ export default function PartnershipMainPage() {
         
       } else {
         const errorData = await response.text();
-        console.error('❌ 푸시 토큰 등록 실패:', response.status, errorData);
         throw new Error(`서버 응답 오류: ${response.status}`);
       }
       
     } catch (error) {
-      console.error('❌ 푸시 토큰 등록 중 오류:', error);
       // 에러가 발생해도 앱은 계속 작동하도록 함
     }
   };
@@ -125,10 +113,8 @@ export default function PartnershipMainPage() {
             latitude: position.coords.latitude,
             longitude: position.coords.longitude
           });
-          console.log('사용자 위치:', position.coords);
         },
         (error) => {
-          console.error('위치 정보 가져오기 실패:', error);
           // 기본 위치 (서울)
           setUserLocation({
             latitude: 37.5665,
@@ -137,7 +123,6 @@ export default function PartnershipMainPage() {
         }
       );
     } else {
-      console.log('Geolocation이 지원되지 않습니다');
       // 기본 위치 (서울)
       setUserLocation({
         latitude: 37.5665,
@@ -186,17 +171,14 @@ export default function PartnershipMainPage() {
         }
         
         const recommendData = await recommendResponse.json();
-        console.log('추천 제휴처 API 응답:', recommendData);
         
         // 추천 데이터가 없거나 partnershipBranchId가 0이면 처리하지 않음
         if (!recommendData.isSuccess || !recommendData.result || !recommendData.result.partnershipBranchId) {
-          console.log('추천 제휴처가 없습니다');
           setPartnershipData(null);
           return;
         }
         
         const partnershipBranchId = recommendData.result.partnershipBranchId;
-        console.log('추천된 제휴처 ID:', partnershipBranchId);
         
         // 2단계: 추천된 제휴처 상세 정보 가져오기
         const detailResponse = await fetch(`${API_BASE_URL}/partnerships/${partnershipBranchId}`);
@@ -206,14 +188,11 @@ export default function PartnershipMainPage() {
         }
         
         const detailData = await detailResponse.json();
-        console.log('제휴처 상세 API 응답:', detailData);
         
         if (detailData.result) {
           setPartnershipData(detailData.result);
-          console.log('제휴처 데이터 로드 성공:', detailData.result);
         }
       } catch (error) {
-        console.error('제휴처 데이터 로드 실패:', error);
         setPartnershipData(null);
       }
     };
@@ -231,7 +210,7 @@ export default function PartnershipMainPage() {
           setSavingsData(response.result)
         }
       } catch (error) {
-        console.error('저장 금액 로드 실패:', error)
+        // 저장 금액 로드 실패 시 무시
       } finally {
         setIsLoading(false)
       }
@@ -296,14 +275,8 @@ export default function PartnershipMainPage() {
         storeLon
       );
       
-      console.log('교체 후 거리:', distanceInMeters, 'm');
+      // 거리 계산 완료
     }
-
-    console.log('거리 계산 정보:', {
-      userLocation: { lat: userLocation.latitude, lng: userLocation.longitude },
-      storeLocation: { lat: storeLat, lng: storeLon },
-      distance: distanceInMeters
-    });
 
     // 1000m 이상이면 km로 표시, 미만이면 m로 표시
     if (distanceInMeters >= 1000) {
@@ -442,18 +415,15 @@ export default function PartnershipMainPage() {
                 }
 
                 const data = await response.json();
-                console.log('Partnership API Response:', data);
 
                 // API 응답을 세션스토리지에 저장
                 if (data.result) {
                   sessionStorage.setItem('storeDetailData', JSON.stringify(data.result));
-                  console.log('Store detail data saved to sessionStorage');
                 }
 
                 // /store-detail로 이동
                 navigate('/store-detail');
               } catch (error) {
-                console.error('API 호출 실패:', error);
                 // 에러 발생 시에도 /store-detail로 이동 (기본 데이터 사용)
                 navigate('/store-detail');
               }

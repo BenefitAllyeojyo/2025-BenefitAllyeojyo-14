@@ -38,12 +38,10 @@ const MapView = ({ schoolName = '서울대학교', schoolColor }) => {
 
   // 가게 선택 시 처리하는 함수
   const handleStoreSelect = useCallback((store) => {
-    console.log('가게 선택됨:', store);
     setSelectedStore(store);
     
     // 선택된 가게만 마커로 표시하고 지도를 해당 위치로 이동
     if (store && mapInstanceRef.current) {
-      console.log('지도 이동 시작:', store.name, store.lat, store.lng);
       
       // 기존 마커들 제거
       clearAllOverlays(mapInstanceRef.current);
@@ -55,7 +53,6 @@ const MapView = ({ schoolName = '서울대학교', schoolColor }) => {
       setTimeout(() => {
         try {
           const storeLatLng = new kakao.maps.LatLng(store.lat, store.lng);
-          console.log('지도 이동 시도:', storeLatLng);
           
           // 마커가 지도 중앙 상단에 오도록 오프셋 조정
           const offsetLat = store.lat - 0.0015; // 위도에 약간의 오프셋 추가 (상단으로)
@@ -64,10 +61,8 @@ const MapView = ({ schoolName = '서울대학교', schoolColor }) => {
           // panTo 대신 setCenter 사용 (더 확실함)
           mapInstanceRef.current.setCenter(centerLatLng);
           mapInstanceRef.current.setLevel(3); // 적절한 줌 레벨로 설정
-          
-          console.log('지도 이동 완료:', store.name, '오프셋 적용:', centerLatLng);
         } catch (error) {
-          console.error('지도 이동 실패:', error);
+          // 지도 이동 실패 시 무시
         }
       }, 200); // 마커 추가 후 충분한 지연을 두고 이동
     }
@@ -85,14 +80,7 @@ const MapView = ({ schoolName = '서울대학교', schoolColor }) => {
     lng: 126.95135823610674,
   };
 
-  // 디버깅을 위한 로그
-  console.log('MapView - useStores 훅 상태:', {
-    apiStoresLength: apiStores?.length,
-    apiStores: apiStores,
-    partnershipsLength: partnerships?.length,
-    isLoading,
-    error,
-  });
+  // useStores 훅 상태
 
   // 카테고리 데이터 로딩
   useEffect(() => {
@@ -110,7 +98,7 @@ const MapView = ({ schoolName = '서울대학교', schoolColor }) => {
           }, 100);
         }
       } catch (error) {
-        console.error('카테고리 로딩 실패:', error);
+        // 카테고리 로딩 실패 시 무시
       }
     };
 
@@ -130,10 +118,8 @@ const MapView = ({ schoolName = '서울대학교', schoolColor }) => {
       let apiUrl;
       if (categoryCode === 'ALL') {
         apiUrl = `${API_BASE_URL}/partnerships/university`;
-        console.log(`📡 API 호출: ${apiUrl} (전체 카테고리)`);
       } else {
         apiUrl = `${API_BASE_URL}/partnerships/university?category=${categoryCode.toUpperCase()}`;
-        console.log(`📡 API 호출: ${apiUrl}`);
       }
 
       const response = await fetch(apiUrl);
