@@ -1,6 +1,7 @@
 package com.heyoung.domain.notification.repository;
 
 import com.heyoung.domain.notification.entity.NotificationLog;
+import com.heyoung.global.enums.SendStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -23,6 +24,8 @@ public interface NotificationLogRepository extends JpaRepository<NotificationLog
     """)
     Set<Long> findSentPartnershipIdsSince(@Param("userId") Long userId,
                                           @Param("cutoff") Instant cutoff);
+
+    NotificationLog findTopByUserIdAndSendStatusAndIsReadOrderByOccurredAtDesc(Long userId, SendStatus sendStatus, Boolean isRead);
 
     boolean existsByUniqKey(String uniqKey);
 }

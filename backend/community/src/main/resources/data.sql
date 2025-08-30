@@ -283,3 +283,234 @@ VALUES
          LIMIT 1),                                   -- 임의의 활성 제휴 하나
         NOW(), NOW()
     );
+INSERT INTO notification
+(user_id, title, content, type, channel, click_url, image_path,
+ send_status, scheduled_at, partnership_id, created_date, updated_date)
+VALUES
+    (
+        1001,                                        -- << 테스트할 사용자 ID
+        '[테스트] 곧 발송 예정2',                       -- title
+        '곧 발송되는지 점검하는 더미 메시지입니다.',     -- content
+        'PAYMENT_BASED',                              -- NotificationType (너희 enum 값으로 맞춰)
+        'EXPO',                                       -- NotificationChannel (INAPP/PUSH 중 실제 발송 로직이 보는 값)
+        'https://example.com',                        -- click_url
+        'https://picsum.photos/200',                  -- image_path
+        'SCHEDULED',                                  -- SendStatus
+        NOW() + INTERVAL '60 seconds',                -- 30초 뒤 발송
+        (SELECT p.id
+         FROM partnership p
+         WHERE p.status = 'ACTIVE'
+         ORDER BY p.id DESC
+         LIMIT 1),                                   -- 임의의 활성 제휴 하나
+        NOW(), NOW()
+    );
+INSERT INTO notification
+(user_id, title, content, type, channel, click_url, image_path,
+ send_status, scheduled_at, partnership_id, created_date, updated_date)
+VALUES
+    (
+        1001,                                        -- << 테스트할 사용자 ID
+        '[테스트] 곧 발송 예정3',                       -- title
+        '곧 발송되는지 점검하는 더미 메시지입니다.',     -- content
+        'PAYMENT_BASED',                              -- NotificationType (너희 enum 값으로 맞춰)
+        'EXPO',                                       -- NotificationChannel (INAPP/PUSH 중 실제 발송 로직이 보는 값)
+        'https://example.com',                        -- click_url
+        'https://picsum.photos/200',                  -- image_path
+        'SCHEDULED',                                  -- SendStatus
+        NOW() + INTERVAL '10 seconds',                -- 30초 뒤 발송
+        (SELECT p.id
+         FROM partnership p
+         WHERE p.status = 'ACTIVE'
+         ORDER BY p.id DESC
+         LIMIT 1),                                   -- 임의의 활성 제휴 하나
+        NOW(), NOW()
+    );
+INSERT INTO notification
+(user_id, title, content, type, channel, click_url, image_path,
+ send_status, scheduled_at, partnership_id, created_date, updated_date)
+VALUES
+    (
+        1001,                                        -- << 테스트할 사용자 ID
+        '[테스트] 곧 발송 예정4',                       -- title
+        '곧 발송되는지 점검하는 더미 메시지입니다.',     -- content
+        'PAYMENT_BASED',                              -- NotificationType (너희 enum 값으로 맞춰)
+        'EXPO',                                       -- NotificationChannel (INAPP/PUSH 중 실제 발송 로직이 보는 값)
+        'https://example.com',                        -- click_url
+        'https://picsum.photos/200',                  -- image_path
+        'SCHEDULED',                                  -- SendStatus
+        NOW() + INTERVAL '10 seconds',                -- 30초 뒤 발송
+        (SELECT p.id
+         FROM partnership p
+         WHERE p.status = 'ACTIVE'
+         ORDER BY p.id DESC
+         LIMIT 1),                                   -- 임의의 활성 제휴 하나
+        NOW(), NOW()
+    );
+INSERT INTO notification
+(user_id, title, content, type, channel, click_url, image_path,
+ send_status, scheduled_at, partnership_id, created_date, updated_date)
+VALUES
+    (
+        1001,                                        -- << 테스트할 사용자 ID
+        '[테스트] 곧 발송 예정5',                       -- title
+        '곧 발송되는지 점검하는 더미 메시지입니다.',     -- content
+        'PAYMENT_BASED',                              -- NotificationType (너희 enum 값으로 맞춰)
+        'EXPO',                                       -- NotificationChannel (INAPP/PUSH 중 실제 발송 로직이 보는 값)
+        'https://example.com',                        -- click_url
+        'https://picsum.photos/200',                  -- image_path
+        'SCHEDULED',                                  -- SendStatus
+        NOW() + INTERVAL '10 seconds',                -- 30초 뒤 발송
+        (SELECT p.id
+         FROM partnership p
+         WHERE p.status = 'ACTIVE'
+         ORDER BY p.id DESC
+         LIMIT 1),                                   -- 임의의 활성 제휴 하나
+        NOW(), NOW()
+    );
+INSERT INTO notification
+(user_id, title, content, type, channel, click_url, image_path,
+ send_status, scheduled_at, partnership_id, created_date, updated_date)
+VALUES
+    (
+        1001,                                        -- << 테스트할 사용자 ID
+        '[테스트] 곧 발송 예정6',                       -- title
+        '곧 발송되는지 점검하는 더미 메시지입니다.',     -- content
+        'PAYMENT_BASED',                              -- NotificationType (너희 enum 값으로 맞춰)
+        'EXPO',                                       -- NotificationChannel (INAPP/PUSH 중 실제 발송 로직이 보는 값)
+        'https://example.com',                        -- click_url
+        'https://picsum.photos/200',                  -- image_path
+        'SCHEDULED',                                  -- SendStatus
+        NOW() + INTERVAL '10 seconds',                -- 30초 뒤 발송
+        (SELECT p.id
+         FROM partnership p
+         WHERE p.status = 'ACTIVE'
+         ORDER BY p.id DESC
+         LIMIT 1),                                   -- 임의의 활성 제휴 하나
+        NOW(), NOW()
+    );
+INSERT INTO notification
+(user_id, title, content, type, channel, click_url, image_path,
+ send_status, scheduled_at, partnership_id, created_date, updated_date)
+VALUES
+    (
+        1001,                                        -- << 테스트할 사용자 ID
+        '[테스트] 곧 발송 예정7',                       -- title
+        '곧 발송되는지 점검하는 더미 메시지입니다.',     -- content
+        'PAYMENT_BASED',                              -- NotificationType (너희 enum 값으로 맞춰)
+        'EXPO',                                       -- NotificationChannel (INAPP/PUSH 중 실제 발송 로직이 보는 값)
+        'https://example.com',                        -- click_url
+        'https://picsum.photos/200',                  -- image_path
+        'SCHEDULED',                                  -- SendStatus
+        NOW() + INTERVAL '10 seconds',                -- 30초 뒤 발송
+        (SELECT p.id
+         FROM partnership p
+         WHERE p.status = 'ACTIVE'
+         ORDER BY p.id DESC
+         LIMIT 1),                                   -- 임의의 활성 제휴 하나
+        NOW(), NOW()
+    );
+INSERT INTO notification
+(user_id, title, content, type, channel, click_url, image_path,
+ send_status, scheduled_at, partnership_id, created_date, updated_date)
+VALUES
+    (
+        1001,                                        -- << 테스트할 사용자 ID
+        '[테스트] 곧 발송 예정8',                       -- title
+        '곧 발송되는지 점검하는 더미 메시지입니다.',     -- content
+        'PAYMENT_BASED',                              -- NotificationType (너희 enum 값으로 맞춰)
+        'EXPO',                                       -- NotificationChannel (INAPP/PUSH 중 실제 발송 로직이 보는 값)
+        'https://example.com',                        -- click_url
+        'https://picsum.photos/200',                  -- image_path
+        'SCHEDULED',                                  -- SendStatus
+        NOW() + INTERVAL '10 seconds',                -- 30초 뒤 발송
+        (SELECT p.id
+         FROM partnership p
+         WHERE p.status = 'ACTIVE'
+         ORDER BY p.id DESC
+         LIMIT 1),                                   -- 임의의 활성 제휴 하나
+        NOW(), NOW()
+    );
+INSERT INTO notification
+(user_id, title, content, type, channel, click_url, image_path,
+ send_status, scheduled_at, partnership_id, created_date, updated_date)
+VALUES
+    (
+        1001,                                        -- << 테스트할 사용자 ID
+        '[테스트] 곧 발송 예정9',                       -- title
+        '곧 발송되는지 점검하는 더미 메시지입니다.',     -- content
+        'PAYMENT_BASED',                              -- NotificationType (너희 enum 값으로 맞춰)
+        'EXPO',                                       -- NotificationChannel (INAPP/PUSH 중 실제 발송 로직이 보는 값)
+        'https://example.com',                        -- click_url
+        'https://picsum.photos/200',                  -- image_path
+        'SCHEDULED',                                  -- SendStatus
+        NOW() + INTERVAL '10 seconds',                -- 30초 뒤 발송
+        (SELECT p.id
+         FROM partnership p
+         WHERE p.status = 'ACTIVE'
+         ORDER BY p.id DESC
+         LIMIT 1),                                   -- 임의의 활성 제휴 하나
+        NOW(), NOW()
+    );
+INSERT INTO notification
+(user_id, title, content, type, channel, click_url, image_path,
+ send_status, scheduled_at, partnership_id, created_date, updated_date)
+VALUES
+    (
+        1001,                                        -- << 테스트할 사용자 ID
+        '[테스트] 곧 발송 예정10',                       -- title
+        '곧 발송되는지 점검하는 더미 메시지입니다.',     -- content
+        'PAYMENT_BASED',                              -- NotificationType (너희 enum 값으로 맞춰)
+        'EXPO',                                       -- NotificationChannel (INAPP/PUSH 중 실제 발송 로직이 보는 값)
+        'https://example.com',                        -- click_url
+        'https://picsum.photos/200',                  -- image_path
+        'SCHEDULED',                                  -- SendStatus
+        NOW() + INTERVAL '10 seconds',                -- 30초 뒤 발송
+        (SELECT p.id
+         FROM partnership p
+         WHERE p.status = 'ACTIVE'
+         ORDER BY p.id DESC
+         LIMIT 1),                                   -- 임의의 활성 제휴 하나
+        NOW(), NOW()
+    );
+INSERT INTO notification
+(user_id, title, content, type, channel, click_url, image_path,
+ send_status, scheduled_at, partnership_id, created_date, updated_date)
+VALUES
+    (
+        1001,                                        -- << 테스트할 사용자 ID
+        '[테스트] 곧 발송 예정11',                       -- title
+        '곧 발송되는지 점검하는 더미 메시지입니다.',     -- content
+        'PAYMENT_BASED',                              -- NotificationType (너희 enum 값으로 맞춰)
+        'EXPO',                                       -- NotificationChannel (INAPP/PUSH 중 실제 발송 로직이 보는 값)
+        'https://example.com',                        -- click_url
+        'https://picsum.photos/200',                  -- image_path
+        'SCHEDULED',                                  -- SendStatus
+        NOW() + INTERVAL '10 seconds',                -- 30초 뒤 발송
+        (SELECT p.id
+         FROM partnership p
+         WHERE p.status = 'ACTIVE'
+         ORDER BY p.id DESC
+         LIMIT 1),                                   -- 임의의 활성 제휴 하나
+        NOW(), NOW()
+    );
+INSERT INTO notification
+(user_id, title, content, type, channel, click_url, image_path,
+ send_status, scheduled_at, partnership_id, created_date, updated_date)
+VALUES
+    (
+        1001,                                        -- << 테스트할 사용자 ID
+        '[테스트] 곧 발송 예정12',                       -- title
+        '곧 발송되는지 점검하는 더미 메시지입니다.',     -- content
+        'PAYMENT_BASED',                              -- NotificationType (너희 enum 값으로 맞춰)
+        'EXPO',                                       -- NotificationChannel (INAPP/PUSH 중 실제 발송 로직이 보는 값)
+        'https://example.com',                        -- click_url
+        'https://picsum.photos/200',                  -- image_path
+        'SCHEDULED',                                  -- SendStatus
+        NOW() + INTERVAL '10 seconds',                -- 30초 뒤 발송
+        (SELECT p.id
+         FROM partnership p
+         WHERE p.status = 'ACTIVE'
+         ORDER BY p.id DESC
+         LIMIT 1),                                   -- 임의의 활성 제휴 하나
+        NOW(), NOW()
+    );
