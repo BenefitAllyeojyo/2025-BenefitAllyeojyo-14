@@ -3,7 +3,7 @@ VALUES (1, '6cf1c68c-2c4f-4c33-8694-d0f9136ec54c', 'tjdwntjdeo@naver.com', 'bene
 ON CONFLICT (id) DO NOTHING;
 
 INSERT INTO account (id, account_number, balance, bank_name, bank_code, holder_name, user_id, created_date, updated_date)
-VALUES (1, '0010557208817301', 999999900, '한국은행', 'BANK_OF_KOREA',  'holderName', 1, NOW(), NOW())
+VALUES (1, 'WKWe5NYclihvTKjWyOFIs1DUSyAI5cDJxlMIN59HST9R/a/doLJ4940QdzeIxHF9C8PYXekHvWYOaTXf0KPOEw==', 999999900, '한국은행', 'BANK_OF_KOREA',  'holderName', 1, NOW(), NOW())
 ON CONFLICT (id) DO NOTHING;
 
 
