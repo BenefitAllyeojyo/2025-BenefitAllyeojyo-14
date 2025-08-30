@@ -25,7 +25,17 @@ public enum ResponseCode {
     CATEGORY_NOT_FOUND(HttpStatus.BAD_REQUEST, "CATEGORY001", "해당 카테고리 데이터가 존재하지 않습니다."),
 
     // Hour Error
-    HOUR_OUT_OF_RANGE(HttpStatus.BAD_REQUEST, "HOUR001", "시간대는 00 ~ 23 입니다.");
+    HOUR_OUT_OF_RANGE(HttpStatus.BAD_REQUEST, "HOUR001", "시간대는 00 ~ 23 입니다."),
+
+    // UserUniversityError
+    USER_UNIVERSITY_NOT_FOUND(HttpStatus.BAD_REQUEST, "UNIVERSITY001", "사용자의 대학교 데이터가 존재하지 않습니다."),
+
+    // FCM Error
+    FIREBASE_CREDENTIALS_NOT_FOUND(HttpStatus.UNAUTHORIZED, "FIREBASE001", "FIREBASE 접근 권한이 존재하지 않습니다."),
+
+    // Notification Error
+    PAGE_AND_SIZE_NOT_CORRECT(HttpStatus.BAD_REQUEST, "PAGING001", "없는 페이지입니다. page 와 size 를 다시 확인해주세요."),
+    NOTIFICATION_NOT_FOUND(HttpStatus.BAD_REQUEST, "NOTIFICATION001", "유효하지 않은 알림입니다.");
 
     private final HttpStatus httpStatus;
     private final String code;

@@ -1,5 +1,6 @@
 package com.heyoung.global.config;
 
+import com.heyoung.domain.payment.dto.QrDataDto;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -29,7 +30,7 @@ public class JwtUtil {
         claims.put("accountNumber", accountNumber);
 
         Date now = new Date();
-        Date expiryDate = new Date(now.getDate() + qrTokenExpirationMs);
+        Date expiryDate = new Date(now.getTime() + qrTokenExpirationMs);
 
         return Jwts.builder()
                 .setClaims(claims)
@@ -39,5 +40,16 @@ public class JwtUtil {
                 .compact();
     }
 
-    //
+    // 결제 실행 시 필요 - QR jwt 파싱하여 정보 추출
+    public QrDataDto parseQrToken(String token) {
+        Claims claims = Jwts.parserBuilder()
+                .setSigningKey(secretKey)
+                .build()
+                .parseClaimsJws(token)
+                .getBody();
+
+        Long userId = claims.get("userId", Long.class);
+        String accountNumber = claims.get("accountNumber", String.class);
+        return new QrDataDto(userId, accountNumber);
+    }
 }

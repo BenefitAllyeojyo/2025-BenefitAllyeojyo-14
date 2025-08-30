@@ -30,7 +30,7 @@ public class NotificationLog extends BaseEntity {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "notification_id", nullable = false)
     private Notification notification;
 
@@ -44,11 +44,38 @@ public class NotificationLog extends BaseEntity {
     @Column(nullable = false)
     private Instant occurredAt = Instant.now(); // 기본값 현재
 
+    @Column(nullable = false)
+    private Boolean isRead = false;
+
     /**
      * 멱등 키 : 중복 전송/재시도/네트워크 지연으로 같은 이벤트가 여러 번 발생할 수 있으므로 한번만 기록 하기 위한 것.
      */
     @Column(nullable = false, length = 160)
     private String uniqKey;
 
+    public static NotificationLog sentOf(Notification notification, Long userId, String uniqKey) {
+        NotificationLog log = new NotificationLog();
+        log.notification = notification;
+        log.userId = userId;
+        log.sendStatus = com.heyoung.global.enums.SendStatus.SENT;
+        log.uniqKey = uniqKey;
+        log.occurredAt = java.time.Instant.now();
+        log.isRead = false;
+        return log;
+    }
 
+    public static NotificationLog failedOf(Notification notification, Long userId, String uniqKey) {
+        NotificationLog log = new NotificationLog();
+        log.notification = notification;
+        log.userId = userId;
+        log.sendStatus = com.heyoung.global.enums.SendStatus.FAILED;
+        log.uniqKey = uniqKey;
+        log.occurredAt = java.time.Instant.now();
+        log.isRead = false;
+        return log;
+    }
+
+    public void readNotificationLog() {
+        this.isRead = true;
+    }
 }

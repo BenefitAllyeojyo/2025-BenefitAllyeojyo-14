@@ -35,6 +35,9 @@ public class ExternalBankApiService {
     @Value("${external.bank.api.key}")
     private String apiKey;
 
+    @Value("${external.bank.api.url.history}")
+    private String historyUrl;
+
     // API 명세에 맞는 날짜/시간 포맷 정의
     private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyyMMdd");
     private static final DateTimeFormatter TIME_FORMATTER = DateTimeFormatter.ofPattern("HHmmss");
@@ -84,6 +87,32 @@ public class ExternalBankApiService {
             }
         } catch (RestClientException e) {
             log.error("External API call failed during withdraw: ", e);
+            throw new ExternalApiCallException(e);
+        }
+    }
+
+    /**
+     * 외부 API를 호출하여 계좌 거래 내역 조회
+     */
+    public ExternalBankApiDto.InquireTransactionHistoryResponse inquireTransactionHistory(Long userId, String accountNo, String startDate, String endDate, String transactionType, String orderByType) {
+        ExternalBankApiDto.Header header = createHeader("inquireTransactionHistoryList", userId);
+        ExternalBankApiDto.InquireTransactionHistoryRequest request = new ExternalBankApiDto.InquireTransactionHistoryRequest(header, accountNo, startDate, endDate, transactionType, orderByType);
+        HttpEntity<ExternalBankApiDto.InquireTransactionHistoryRequest> requestEntity = new HttpEntity<>(request, createHttpHeaders());
+
+        try {
+            ExternalBankApiDto.InquireTransactionHistoryResponse response = restTemplate.postForObject(historyUrl, requestEntity, ExternalBankApiDto.InquireTransactionHistoryResponse.class);
+
+            if (response == null || !response.getHeader().getResponseCode().equals("H0000") || response.getRec() == null) {
+                if (response != null && !response.getHeader().getResponseCode().equals("H0000")) {
+                    log.warn("External API call for history returned non-H0000 code: {}", response.getHeader().getResponseCode());
+                }
+                if (response == null) {
+                    throw new ExternalApiCallException();
+                }
+            }
+            return response;
+        } catch (RestClientException e) {
+            log.error("External API call failed during inquireTransactionHistory: ", e);
             throw new ExternalApiCallException(e);
         }
     }
