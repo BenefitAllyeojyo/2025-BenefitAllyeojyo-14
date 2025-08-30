@@ -28,6 +28,20 @@
 - **Main Backend**: Java Spring Boot, Gradle
 - **GPT API**: Python Flask, OpenAI API
 
+## ⚙️ 백엔드 서비스
+
+### 1. Main Backend (Java)
+- **기술**: Spring Boot, Gradle
+- **모듈**:
+  - `community`: 커뮤니티 기능
+  - `core-bank`: 핵심 뱅킹 기능
+- **상세 정보**: [backend/README.md](backend/README.md)
+- **Swagger API**: https://api.brainpix.net/swagger-ui/index.html#/
+
+### 2. GPT API Server (Python)
+- **기술**: Flask, OpenAI API
+- **주요 기능**: 자연어 기반 매장 추천, 컨텍스트 분석
+
 ## 📱 애플리케이션별 상세 정보
 
 ### 1. heyyoung-webapp (웹 애플리케이션)
@@ -44,20 +58,6 @@
 - **기술**: React Native + Expo
 - **주요 기능**: QR 코드 스캔, 결제 관리, 매장 관리
 - **상세 정보**: [frontend/heyyoung-manager/README.md](frontend/heyyoung-manager/README.md)
-
-## ⚙️ 백엔드 서비스
-
-### 1. Main Backend (Java)
-- **기술**: Spring Boot, Gradle
-- **모듈**:
-  - `community`: 커뮤니티 기능
-  - `core-bank`: 핵심 뱅킹 기능
-- **상세 정보**: [backend/README.md](backend/README.md)
-
-### 2. GPT API Server (Python)
-- **기술**: Flask, OpenAI API
-- **주요 기능**: 자연어 기반 매장 추천, 컨텍스트 분석
-- **상세 정보**: [backendGPT/README.md](backendGPT/README.md)
 
 ## 🎨 디자인 시스템
 
