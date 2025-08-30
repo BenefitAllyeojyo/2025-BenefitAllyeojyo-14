@@ -16,6 +16,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.Job;
+import org.springframework.batch.core.JobParameters;
 import org.springframework.batch.core.JobParametersBuilder;
 import org.springframework.batch.core.launch.JobLauncher;
 import org.springframework.context.annotation.Profile;
@@ -41,6 +42,7 @@ public class NotificationController {
     private final NotificationSendService notificationSendService;
     private final NotificationQueryService notificationQueryService;
     private final NotificationLogCommandService notificationLogCommandService;
+    private final Job timetableGapReservationsJob;
 
     @GetMapping
     @Operation(
@@ -74,9 +76,9 @@ public class NotificationController {
     }
 
 //    @Hidden
-    @PostMapping("/run")
+    @PostMapping("/run/notification")
     @Operation(summary="배치가 잘 동작하는 테스트 하는 controller", description = "배치가 잘 동작하는지 확인.")
-    public BaseResponse<String> run() {
+    public BaseResponse<String> runNotificationsReservationsJob() {
         try {
             jobLauncher.run(
                     notificationsReservationJob,
@@ -85,6 +87,22 @@ public class NotificationController {
                             .toJobParameters()
             );
             return BaseResponse.onSuccess("notificationsReservationJob launched", ResponseCode.OK);
+        } catch (Exception e) {
+            log.error("launch failed", e);
+            return BaseResponse.onFailure("launch failed : " + e.getMessage(), ResponseCode._INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @PostMapping("/run/timetable")
+    @Operation(summary="배치가 잘 동작하는 테스트 하는 controller", description = "배치가 잘 동작하는지 확인.")
+    public BaseResponse<String> runTimetableReservationsJob() {
+        try {
+            JobParameters parameters = new JobParametersBuilder()
+                    .addLong("run.id", System.currentTimeMillis())
+                    .toJobParameters();
+
+            jobLauncher.run(timetableGapReservationsJob, parameters);
+            return BaseResponse.onSuccess("Launched: timetableGapReservationsJob", ResponseCode.OK);
         } catch (Exception e) {
             log.error("launch failed", e);
             return BaseResponse.onFailure("launch failed : " + e.getMessage(), ResponseCode._INTERNAL_SERVER_ERROR);

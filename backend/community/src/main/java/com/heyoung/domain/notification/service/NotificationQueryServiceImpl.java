@@ -1,5 +1,6 @@
 package com.heyoung.domain.notification.service;
 
+import com.heyoung.domain.benefit.dto.response.PartnershipByLocationResponseDto;
 import com.heyoung.domain.benefit.repository.PartnershipBranchRepository;
 import com.heyoung.domain.benefit.service.PartnershipBranchService;
 import com.heyoung.domain.benefit.service.PartnershipService;

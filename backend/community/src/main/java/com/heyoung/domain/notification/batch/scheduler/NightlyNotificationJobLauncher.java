@@ -3,8 +3,11 @@ package com.heyoung.domain.notification.batch.scheduler;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.Job;
+import org.springframework.batch.core.JobParameters;
 import org.springframework.batch.core.JobParametersBuilder;
+import org.springframework.batch.core.explore.JobExplorer;
 import org.springframework.batch.core.launch.JobLauncher;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -16,22 +19,32 @@ import org.springframework.scheduling.annotation.Scheduled;
 public class NightlyNotificationJobLauncher {
 
     private final JobLauncher jobLauncher;
-    private final Job notificationsReservationJob;
+    private final JobExplorer jobExplorer;
 
-    // 매일 새벽(2:10 KST)에 예약 등록 배치 수행
-    // 서버가 UTC 일 경우, KST 기준으로 트리거됨.
+    @Qualifier("notificationsReservationJob") private final Job notificationsReservationJob; // 새벽 2시 10분
+    @Qualifier("timetableGapReservationsJob") private final Job timetableGapReservationsJob; // 새벽 5시
+
     @Scheduled(cron = "0 10 2 * * *", zone = "Asia/Seoul")
-    public void runNightly() {
+    public void runReservationsCreateJob() { runOnce("notificationsReservationJob", notificationsReservationJob); }
+
+    @Scheduled(cron = "0 0 5 * * *", zone = "Asia/Seoul")
+    public void runTimetableGapReservationsJob() { runOnce("timetableGapReservationsJob", timetableGapReservationsJob); }
+
+    private void runOnce(String name, Job job) {
         try {
-            jobLauncher.run(
-                    notificationsReservationJob,
-                    new JobParametersBuilder()
-                            .addLong("run.id", System.currentTimeMillis()) // 재실행 구분
-                            .toJobParameters()
-            );
-            log.info("[NightlyNotificationJob] triggered");
+            var running = jobExplorer.findRunningJobExecutions(name);
+            if (running != null && !running.isEmpty()) {
+                log.warn("[{}] already running. skip.", name);
+                return;
+            }
+            JobParameters params = new JobParametersBuilder()
+                    .addLong("run.id", System.currentTimeMillis())
+                    .toJobParameters();
+            log.info("[{}] launching...", name);
+            jobLauncher.run(job, params);
+            log.info("[{}] launched.", name);
         } catch (Exception e) {
-            log.error("[NightlyNotificationJob] launch failed : {}", e.getMessage(), e);
+            log.error("[{}] launch failed: {}", name, e.getMessage(), e);
         }
     }
 }
