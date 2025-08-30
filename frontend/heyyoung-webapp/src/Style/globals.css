@@ -1,0 +1,57 @@
+* {
+  box-sizing: border-box;
+  font-family: 'OneShinhan';
+}
+html,
+body,
+#root {
+  height: 100%;
+}
+
+
+@font-face {
+  font-family: 'OneShinhan';
+  src: url('./assets/fonts/ONESHINHANBOLD.TTF') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'OneShinhan';
+  src: url('./assets/fonts/ONESHINHANMEDIUM.TTF') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'OneShinhan';
+  src: url('./assets/fonts/ONESHINHANLIGHT.TTF') format('truetype');
+  font-weight: 300;
+  font-style: normal;
+}
+
+body {
+  margin: 0;
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: 'OneShinhan', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+}
+img,
+video {
+  max-width: 100%;
+  height: auto;
+}
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+
+/* #app 스타일은 AppShell.jsx에서 직접 관리 */

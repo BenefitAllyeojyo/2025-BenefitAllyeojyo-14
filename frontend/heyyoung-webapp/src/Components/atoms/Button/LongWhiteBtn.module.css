@@ -1,0 +1,36 @@
+.longWhiteButton {
+  display: flex;
+  width: 311px;
+  padding: 16px;
+  align-items: center;
+  gap: 16px;
+  border-radius: 12px;
+  background: var(--neutral-light-lightest);
+  border: none;
+}
+
+.longWhiteButton:not(:disabled) {
+  cursor: pointer;
+}
+
+.longWhiteButton:disabled {
+  cursor: default;
+  opacity: 0.6;
+}
+
+.label {
+  align-self: stretch;
+  color: var(--neutral-dark-darkest);
+  font-size: var(--font-size-h4);
+  font-style: normal;
+  font-weight: var(--font-weight-heading);
+  line-height: normal;
+  flex: 1;
+  text-align: left;
+}
+
+.arrow {
+  width: 12px;
+  height: 12px;
+  flex-shrink: 0;
+}

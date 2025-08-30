@@ -1,0 +1,14 @@
+.countdownContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 8px 0;
+}
+
+.countdownText {
+  color: var(--neutral-dark-light);
+  font-family: var(--font-sans);
+  font-size: var(--font-size-m);
+  font-weight: var(--font-weight-body);
+  text-align: center;
+}

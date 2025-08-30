@@ -1,0 +1,26 @@
+{
+  "sampleMessages": [
+    { "id": 1, "text": "안녕하세요!", "type": "user" },
+    { "id": 2, "text": "혜택을 찾고 계시나요?", "type": "assistant" },
+    { "id": 3, "text": "네, 신한카드 혜택을 찾고 있어요", "type": "user" },
+    { "id": 4, "text": "어떤 카테고리의 혜택을 원하시나요?", "type": "assistant" },
+    { "id": 5, "text": "음식점 할인 혜택이 궁금해요", "type": "user" },
+    { "id": 6, "text": "주변 음식점 할인 혜택을 찾아드릴게요!", "type": "assistant" },
+    { "id": 7, "text": "카페 할인도 있나요?", "type": "user" },
+    { "id": 8, "text": "네! 교내 카페 20% 할인 혜택이 있어요", "type": "assistant" },
+    { "id": 9, "text": "좋네요! 그럼 카페로 가볼게요", "type": "user" },
+    { "id": 10, "text": "맛있는 음료 즐기세요! 😊", "type": "assistant" }
+  ],
+  "messageTypes": [
+    { "value": "user", "label": "사용자" },
+    { "value": "assistant", "label": "어시스턴트" }
+  ],
+  "styleGuide": {
+    "dimensions": {
+      "width": "124px",
+      "height": "36px",
+      "padding": "12px 16px"
+    },
+    "usage": "<MessageBubble text=\"메시지 내용\" type=\"user\" />"
+  }
+}

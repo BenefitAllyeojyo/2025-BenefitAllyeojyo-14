@@ -1,0 +1,22 @@
+.page-transition {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+/* SPA 전환 최적화 */
+.page-transition * {
+  will-change: auto;
+}
+
+/* 부드러운 스크롤 */
+.page-transition {
+  scroll-behavior: smooth;
+}
+
+/* 터치 최적화 */
+.page-transition {
+  -webkit-touch-action: manipulation;
+  touch-action: manipulation;
+  -webkit-overflow-scrolling: touch;
+}

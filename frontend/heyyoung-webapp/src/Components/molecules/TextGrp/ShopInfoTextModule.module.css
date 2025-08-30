@@ -1,0 +1,23 @@
+.ShopInfoTextModule{
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+}
+
+.subTitle {
+  align-self: stretch;
+  color: var(--neutral-dark-light);
+
+  /* Body/Body L */
+  font-size: var(--font-size-l);
+  font-weight: var(--font-weight-body);
+}
+
+.Title {
+  color: var(--neutral-dark-darkest);
+  font-size: var(--font-size-h2);
+  font-weight: var(--font-weight-heading);
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}

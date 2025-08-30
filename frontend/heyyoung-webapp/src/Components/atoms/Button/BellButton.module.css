@@ -1,0 +1,43 @@
+.bellButton {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s ease;
+}
+
+.bellButton:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.bellButton:active {
+  background-color: rgba(255, 255, 255, 0.3);
+}
+
+.bellIcon {
+  width: 24px;
+  height: 24px;
+  transition: transform 0.2s ease;
+  animation: bellShake 2s ease-in-out infinite;
+}
+
+.bellButton:hover .bellIcon {
+  animation: bellShake 0.5s ease-in-out infinite;
+}
+
+/* 벨 흔들림 애니메이션 */
+@keyframes bellShake {
+  0%, 100% {
+    transform: rotate(0deg);
+  }
+  10%, 30%, 50%, 70%, 90% {
+    transform: rotate(-5deg);
+  }
+  20%, 40%, 60%, 80% {
+    transform: rotate(5deg);
+  }
+}

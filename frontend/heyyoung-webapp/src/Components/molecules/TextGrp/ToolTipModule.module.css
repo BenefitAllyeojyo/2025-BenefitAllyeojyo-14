@@ -1,0 +1,101 @@
+.ToolTipModuleContainer {
+  position: relative;
+  display: flex;
+  align-items: center;
+  /* 줌 레벨에 관계없이 고정 크기 유지 */
+  transform: scale(1) !important;
+  transform-origin: center center;
+}
+
+.ToolContainer {
+  position: relative; /* SVG 화살표의 기준점 */
+  display: flex;
+  width: fit-content;
+  padding: 16px; /* 20px에서 16px로 줄임 */
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px; /* 8px에서 6px로 줄임 */
+  align-self: stretch;
+  border-radius: 12px; /* 16px에서 12px로 줄임 */
+  background: var(--neutral-dark-dark);
+  overflow: visible; /* SVG 화살표가 잘리지 않도록 */
+  /* 줌 레벨에 관계없이 고정 크기 유지 */
+  transform: scale(1) !important;
+  transform-origin: center center;
+}
+
+.ToolTipModuleTitle {
+    color: var(--neutral-light-lightest);
+
+    /* Heading/H5 */
+    font-size: var(--font-size-h6); /* h5에서 h6으로 줄임 */
+    font-weight: var(--font-weight-heading);
+    word-wrap: break-word;
+    word-break: break-all;
+    overflow-wrap: break-word;
+    white-space: pre-wrap;
+    line-height: 1.2; /* 1.3에서 1.2로 줄임 */
+}
+
+.ToolTipModuleContent {
+    width: fit-content;
+    color: var(--neutral-light-dark);
+    font-size: var(--font-size-s);
+    font-weight: var(--font-weight-body);
+    letter-spacing: 0.15px;
+    word-wrap: break-word;
+    word-break: break-all;
+    overflow-wrap: break-word;
+    white-space: pre-wrap;
+    line-height: 1.4;
+}
+
+.locationInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 12px;
+  color: var(--neutral-light-light);
+}
+
+.address, .coordinates, .phone, .businessHours, .period {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.partnershipInfo {
+  margin-top: 6px; /* 8px에서 6px로 줄임 */
+  padding: 6px; /* 8px에서 6px로 줄임 */
+  background: rgba(255, 97, 109, 0.1);
+  border-radius: 6px; /* 8px에서 6px로 줄임 */
+  border-left: 3px solid #FF616D;
+}
+
+.partnershipInfo strong {
+  color: #FF616D;
+  font-size: 14px;
+}
+
+.partnershipInfo div {
+  margin-top: 4px;
+  font-size: 12px;
+  color: var(--neutral-light-light);
+}
+
+.buttonContainer {
+  margin-top: 8px;
+  display: flex;
+  justify-content: left;
+  width: 100%;
+  touch-action: manipulation; /* 터치 최적화 */
+  -webkit-tap-highlight-color: transparent; /* 터치 하이라이트 제거 */
+  pointer-events: auto; /* 터치 이벤트 확실히 처리 */
+}
+
+.TipContainer {
+  position: absolute;
+  left: 15px; /* 툴팁 왼쪽에서 15px 떨어진 위치 (더 가깝게) */
+  bottom: -20px; /* 툴팁 아래쪽으로 15px 떨어진 위치 (더 가깝게) */
+  z-index: 1;
+}

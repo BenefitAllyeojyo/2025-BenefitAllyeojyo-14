@@ -1,0 +1,68 @@
+.payHeadButton {
+  display: flex;
+  width: 375px;
+  padding: 24px;
+  align-items: center;
+  gap: 21px;
+  background: var(--neutral-light-lightest);
+}
+
+.leftArrowButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 4px;
+  transition: background-color 0.2s ease;
+}
+
+.leftArrowButton:hover {
+  background: var(--neutral-light-light);
+}
+
+.leftArrowButton:active {
+  background: var(--neutral-light-medium);
+}
+
+.leftArrow {
+  flex-shrink: 0;
+  width: 16px;
+  height: 16px;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  flex: 1;
+  text-align: left;
+}
+
+.title {
+  margin: 0;
+  align-self: stretch;
+  color: var(--neutral-dark-darkest);
+  font-family: var(--font-sans);
+  font-size: var(--font-size-h3);
+  font-style: normal;
+  font-weight: var(--font-weight-heading);
+  line-height: normal;
+  letter-spacing: 0.08px;
+  text-align: left;
+}
+
+.subtitle {
+  margin: 0;
+  color: var(--neutral-dark-light);
+  font-family: var(--font-sans);
+  font-size: var(--font-size-s);
+  font-style: normal;
+  font-weight: var(--font-weight-body);
+  line-height: 16px;
+  letter-spacing: 0.12px;
+  text-align: left;
+}
