@@ -33,6 +33,9 @@ public enum ResponseCode {
     // FCM Error
     FIREBASE_CREDENTIALS_NOT_FOUND(HttpStatus.UNAUTHORIZED, "FIREBASE001", "FIREBASE 접근 권한이 존재하지 않습니다."),
 
+    // PartnerShip Error
+    PARTNERSHIP_NOT_FOUND(HttpStatus.NOT_FOUND, "PARTNERSHIP001", "해당하는 제휴점이 존재하지 안습니다."),
+
     // Notification Error
     PAGE_AND_SIZE_NOT_CORRECT(HttpStatus.BAD_REQUEST, "PAGING001", "없는 페이지입니다. page 와 size 를 다시 확인해주세요."),
     NOTIFICATION_NOT_FOUND(HttpStatus.BAD_REQUEST, "NOTIFICATION001", "유효하지 않은 알림입니다.");
