@@ -212,3 +212,11 @@ core-bank/
 ## Scouter 모니터링
 <img width="1911" height="1058" alt="image" src="https://github.com/user-attachments/assets/3fa0c346-3bce-4c64-8205-4f123a799a39" />
 
+## 커뮤니티 서버 ERD
+<img width="1240" height="878" alt="image" src="https://github.com/user-attachments/assets/2d0d8305-1c94-4a24-9563-c5ff94249a2e" />
+
+## 코어뱅크 서버 ERD 
+<img width="964" height="885" alt="image" src="https://github.com/user-attachments/assets/b6ff8f05-8da7-48c7-86f3-bb51b6d795d1" />
+
+
+
