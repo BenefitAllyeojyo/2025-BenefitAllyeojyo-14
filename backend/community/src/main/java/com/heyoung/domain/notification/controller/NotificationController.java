@@ -48,7 +48,7 @@ public class NotificationController {
             description="유저 알림(최근순) 무한 스크롤"
     )
     public BaseResponse<Page<GetNotificationListByUserResponseDto>> getNotificationList(@MemberId Long userId, @RequestParam int page, @RequestParam int size) { // 무한 스크롤
-
+		userId = 1001L; // TODO: 임시
         return BaseResponse.onSuccess(notificationQueryService.findUserNotificationList(userId, page, size), ResponseCode.OK);
 
     }
