@@ -36,7 +36,7 @@ export default function NotificationItem({ notification }) {
           // 브랜치 데이터를 세션스토리지에 저장 (mapView에서 사용)
           sessionStorage.setItem('partnershipBranches', JSON.stringify(branchesData))
           
-          navigate('/benefit-map')
+          navigate('/store-detail')
         } else if (branchesData.length === 1) {
           // 단일 브랜치 -> /store-detail로 이동
           
