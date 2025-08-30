@@ -32,6 +32,17 @@ public class PartnershipBranchService {
                 .collect(Collectors.toList());
     }
 
+//    /**
+//     * 사용자가 받은 알림 내역 반환
+//     */
+//    public List<PartnershipByLocationResponseDto> findUserNotificationListByTimetable(Long userId, Double lat, Double lng) {
+//
+//        List<PartnershipByLocationResponseDto> list = partnershipBranchRepository.getPartnershipListByLocation(userId, lat, lng);
+//
+//        return list;
+//
+//    }
+
 	@Transactional(readOnly = true)
 	public BranchInformationDto findBranchInformation(Long branchId) {
 		PartnershipBranch branch = partnershipBranchRepository.findById(branchId)

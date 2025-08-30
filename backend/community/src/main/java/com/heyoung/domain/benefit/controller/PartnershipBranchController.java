@@ -24,6 +24,16 @@ public class PartnershipBranchController {
         this.partnershipBranchService = partnershipBranchService;
     }
 
+    @GetMapping("/timetable")
+    @Operation(
+            summary = "사용자 위치 기반, 공강 시간에 가까운 순서대로 제휴 리스트 반환",
+            description = "사용자 위치 기반, 공강 시간에 가까운 순서대로 제휴 리스트 반환"
+    )
+    public BaseResponse<List<PartnershipByLocationResponseDto>> getNotificationListByTimeTable(@MemberId Long userId, @RequestParam Double let, @RequestParam Double lng) {
+        return BaseResponse.onSuccess(partnershipBranchService.getPartnershipListByLocation(1001L, let, lng), ResponseCode.OK);
+    }
+
+
     @Operation(summary="3. 모든 제휴 지점의 정보를 조회하는 API", description = "모든 제휴 지점의 정보를 조회하는 API입니다.")
     @GetMapping("/{partnershipId}/branches")
     public BaseResponse<List<PartnershipBranchDto>> getAllPartnershipBranches(@PathVariable Long partnershipId) {
