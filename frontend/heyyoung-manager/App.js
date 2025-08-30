@@ -4,6 +4,7 @@ import IndexPage from './pages/IndexPage';
 import BranchSelectPage from './pages/BranchSelectPage';
 import PaymentPage from './pages/PaymentPage';
 import DashboardPage from './pages/DashboardPage';
+import SchoolDashboardPage from './pages/SchoolDashboardPage';
 
 export default function App() {
   const [currentPage, setCurrentPage] = useState('index');
@@ -27,6 +28,8 @@ export default function App() {
         return <PaymentPage navigation={navigation} route={{ params: navigationParams }} />;
       case 'Dashboard':
         return <DashboardPage navigation={navigation} />;
+      case 'SchoolDashboard':
+        return <SchoolDashboardPage navigation={navigation} />;
       default:
         return <IndexPage navigation={navigation} />;
     }

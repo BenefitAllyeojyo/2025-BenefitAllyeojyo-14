@@ -19,7 +19,7 @@ export default function IndexPage({ navigation }) {
         <View style={styles.header}>
           <Text style={styles.brandEmoji}>🟣</Text>
           <Text style={styles.brandTitle}>Heyyoung</Text>
-          <Text style={styles.brandSubtitle}>사장님 전용 앱</Text>
+          <Text style={styles.brandSubtitle}>매니저 전용 앱</Text>
         </View>
 
         <View style={styles.buttonContainer}>
@@ -37,6 +37,14 @@ export default function IndexPage({ navigation }) {
           >
             <Text style={styles.btnSecondaryText}>사장님 대시보드</Text>
             <Text style={styles.btnSecondarySub}>매출 및 통계 확인</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={styles.btnTertiary}
+            onPress={() => navigation.navigate('SchoolDashboard')}
+          >
+            <Text style={styles.btnTertiaryText}>학교 대시보드</Text>
+            <Text style={styles.btnTertiarySub}>제휴 업점 확인</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -117,6 +125,30 @@ const styles = StyleSheet.create({
     fontWeight: '700'
   },
   btnSecondarySub: {
+    color: '#6E6B7A',
+    fontSize: 14,
+    marginTop: 4
+  },
+  btnTertiary: {
+    backgroundColor: '#FFFFFF',
+    borderRadius: 16,
+    paddingVertical: 20,
+    paddingHorizontal: 24,
+    alignItems: 'center',
+    borderWidth: 2,
+    borderColor: '#10B981',
+    shadowColor: '#000',
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    shadowOffset: { width: 0, height: 2 },
+    elevation: 3
+  },
+  btnTertiaryText: {
+    color: '#10B981',
+    fontSize: 18,
+    fontWeight: '700'
+  },
+  btnTertiarySub: {
     color: '#6E6B7A',
     fontSize: 14,
     marginTop: 4
