@@ -127,7 +127,7 @@ export const fetchCategories = async () => {
       },
       {
         id: 3,
-        code: 'convenience',
+        code: 'convenience store',
         name: '편의점',
         displayName: '편의점',
         icon: '🏪',
@@ -167,7 +167,7 @@ export const fetchStoresByCategory = async (categoryCode) => {
       const categoryMapping = {
         'cafe': 'CAFE',
         'beauty': 'BEAUTY',
-        'convenience': 'CONVENIENCE STORE'
+        'convenience store': 'CONVENIENCE STORE'
       };
       
       const targetCategory = categoryMapping[categoryCode];

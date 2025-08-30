@@ -12,6 +12,7 @@ const getCategoryIcon = (category) => {
     'SERVICE': '🔧',
     'EDUCATION': '📚',
     'HEALTH': '🏥',
+    'CONVENIENCE STORE': '🛍️',
     'BEAUTY': '💄',
     'ENTERTAINMENT': '🎮',
     'SPORTS': '⚽',
