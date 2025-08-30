@@ -1,6 +1,6 @@
 .partnershipDetailCard {
   width: 100%;
-  height: 306px;
+  height: 250px;
   background: #FFFFFF;
   border-radius: 16px 16px 0 0; /* 위 상단만 radius */
   box-shadow: 0 -4px 8px 0 rgba(0, 0, 0, 0.15); /* 위쪽 쉐도잉 */
