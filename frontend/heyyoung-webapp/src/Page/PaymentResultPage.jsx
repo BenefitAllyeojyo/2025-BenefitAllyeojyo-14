@@ -125,7 +125,8 @@ export default function PaymentResultPage() {
       boxSizing: 'border-box',
       display: 'flex',
       flexDirection: 'column',
-      alignItems: 'center'
+      alignItems: 'center',
+      paddingTop: '20px'
     }}>
       <HeadTextModule title={paymentResultData.header.title} />
       <PayTimeModule time={paymentResultData.header.time} />
@@ -137,7 +138,9 @@ export default function PaymentResultPage() {
         padding: '0 24px',
         display: 'flex',
         flexDirection: 'column',
-        alignItems: 'flex-start'
+        alignItems: 'flex-start',
+        height: '200px', // 높이 줄임
+        minHeight: '200px', // 최소 높이 보장
       }}>
         <div style={{ marginLeft: '-8px' }}>
           <PayTitleModule 
@@ -178,7 +181,7 @@ export default function PaymentResultPage() {
         </div>
         
         {/* 메인으로 버튼 */}
-        <div style={{ marginTop: '141px' }}>
+        <div style={{ marginTop: '100px' }}>
           <LongPurpleBtn 
             label={paymentResultData.button.label}
             onClick={paymentResultData.button.onClick}
