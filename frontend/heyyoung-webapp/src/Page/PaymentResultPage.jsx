@@ -1,4 +1,5 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 import HeadTextModule from '../Components/molecules/TextGrp/HeadTextModule'
 import PayTimeModule from '../Components/molecules/TextGrp/PayTimeModule'
 import PayTitleModule from '../Components/molecules/TextGrp/PayTitleModule'
@@ -8,37 +9,111 @@ import { LongPurpleBtn } from '../Components/atoms/Button'
 import PartnershipDetailCard from '../Components/molecules/TextGrp/PartnershipDetailCard'
 
 export default function PaymentResultPage() {
-  // 목데이터
-  const paymentResultData = {
-    header: {
-      title: "결제 완료",
-      time: "7월 27일 (일) 오후 1:20"
-    },
-    paymentInfo: {
-      subTitle: "결제완료",
-      shopName: "레드버튼 보드게임"
-    },
-    paymentDetails: {
-      originalAmount: 10000,
-      discountAmount: -1000,
-      finalAmount: 8000
-    },
-    button: {
-      label: "메인으로",
-      onClick: () => {
-        console.log('메인으로 버튼 클릭');
-        // 여기에 메인 페이지로 이동하는 로직 추가
-      }
-    }
-  };
+  const navigate = useNavigate()
+  const [paymentResultData, setPaymentResultData] = useState(null)
+  const [partnershipData, setPartnershipData] = useState(null)
 
-  const partnershipData = {
-    shopName: "레드버튼 보드게임",
-    shopAddress: "서울특별시 강북구 한천로139길 42",
-    aboutText: "학생증 및 교직원증 제시 시 식음료 메뉴 20% 할인\n- 8인 이상 단체 예약시 게임비 10% 추가 할인",
-    hostTitle: "학교 제휴사업 주최자",
-    hostName: "싸피대학교 총학생회"
-  };
+  // sessionStorage에서 결제 결과 데이터 가져오기
+  useEffect(() => {
+    const storedData = sessionStorage.getItem('paymentResultData')
+    if (storedData) {
+      try {
+        const parsedData = JSON.parse(storedData)
+        setPaymentResultData({
+          header: {
+            title: "결제 완료",
+            time: parsedData.paymentTime || "결제 시간 정보 없음"
+          },
+          paymentInfo: {
+            subTitle: "결제완료",
+            shopName: parsedData.shopName || "매장명 없음"
+          },
+          paymentDetails: {
+            originalAmount: parsedData.originalAmount || 0,
+            discountAmount: parsedData.discountAmount || 0,
+            finalAmount: parsedData.finalAmount || 0
+          },
+          button: {
+            label: "메인으로",
+            onClick: () => {
+              console.log('메인으로 버튼 클릭');
+              navigate('/')
+            }
+          }
+        })
+
+        // Partnership 데이터 설정
+        setPartnershipData({
+          shopName: parsedData.shopName || "매장명 없음",
+          shopAddress: parsedData.shopAddress || "주소 정보 없음",
+          aboutText: parsedData.shopAddress || "제휴 정보 없음",
+          hostTitle: "학교 제휴사업 주최자",
+          hostName: "싸피대학교 총학생회"
+        })
+
+        console.log('결제 결과 페이지에서 받은 데이터:', parsedData)
+      } catch (error) {
+        console.error('결제 결과 데이터 파싱 실패:', error)
+        // 파싱 실패 시 기본 데이터 사용
+        setDefaultData()
+      }
+    } else {
+      // 데이터가 없으면 기본 데이터 사용
+      setDefaultData()
+    }
+  }, [navigate])
+
+  // 기본 데이터 설정
+  const setDefaultData = () => {
+    setPaymentResultData({
+      header: {
+        title: "결제 완료",
+        time: "결제 시간 정보 없음"
+      },
+      paymentInfo: {
+        subTitle: "결제완료",
+        shopName: "매장명 없음"
+      },
+      paymentDetails: {
+        originalAmount: 0,
+        discountAmount: 0,
+        finalAmount: 0
+      },
+      button: {
+        label: "메인으로",
+        onClick: () => {
+          console.log('메인으로 버튼 클릭');
+          navigate('/')
+        }
+      }
+    })
+
+    setPartnershipData({
+      shopName: "매장명 없음",
+      shopAddress: "주소 정보 없음",
+      aboutText: "제휴 정보 없음",
+      hostTitle: "학교 제휴사업 주최자",
+      hostName: "싸피대학교 총학생회"
+    })
+  }
+
+  // 데이터가 로드되지 않았으면 로딩 표시
+  if (!paymentResultData || !partnershipData) {
+    return (
+      <div style={{
+        position: 'relative',
+        height: '100vh',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#FFFFFF'
+      }}>
+        <div style={{ color: '#542BA8', fontSize: '16px' }}>
+          결제 결과를 불러오는 중...
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div style={{
