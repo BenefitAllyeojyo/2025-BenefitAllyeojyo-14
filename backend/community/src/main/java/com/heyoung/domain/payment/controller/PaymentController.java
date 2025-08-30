@@ -1,5 +1,6 @@
 package com.heyoung.domain.payment.controller;
 
+import com.heyoung.domain.payment.dto.PaymentCheckResponse;
 import com.heyoung.domain.payment.dto.UserTotalSavingsDto;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -47,5 +48,12 @@ public class PaymentController {
 	public BaseResponse<UserTotalSavingsDto> getTotalSavings(@MemberId Long memberId) {
 		UserTotalSavingsDto totalSavings = paymentService.getTotalSavings(memberId);
 		return BaseResponse.onSuccess(totalSavings, ResponseCode.OK);
+	}
+
+	@Operation(summary = "사용자의 결제 여부를 조회하는 API", description = "사용자의 결제 여부를 조회하는 API입니다.")
+	@GetMapping("/status")
+	public BaseResponse<PaymentCheckResponse> checkPaymentStatus(@MemberId Long memberId) {
+		PaymentCheckResponse paymentStatus = paymentService.checkPayment(memberId);
+		return BaseResponse.onSuccess(paymentStatus, ResponseCode.OK);
 	}
 }

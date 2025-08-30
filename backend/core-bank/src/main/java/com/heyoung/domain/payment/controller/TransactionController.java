@@ -44,4 +44,11 @@ public class TransactionController {
         List<ExternalBankApiDto.TransactionHistory> history = transactionService.getTransactionHistory(memberId, startDate, endDate);
         return BaseResponse.onSuccess(history, ResponseCode.OK);
     }
+
+	@Operation(summary = "사용자의 결제 여부를 조회하는 API", description = "사용자의 결제 여부를 조회하는 API입니다.")
+	@GetMapping("/status")
+	public BaseResponse<PaymentCheckResponse> checkPaymentStatus(@MemberId Long memberId) {
+		PaymentCheckResponse paymentCheckResponse = transactionService.checkPayment(memberId);
+		return BaseResponse.onSuccess(paymentCheckResponse, ResponseCode.OK);
+	}
 }

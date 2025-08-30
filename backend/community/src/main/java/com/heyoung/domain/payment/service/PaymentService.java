@@ -1,5 +1,6 @@
 package com.heyoung.domain.payment.service;
 
+import com.heyoung.domain.payment.dto.PaymentCheckResponse;
 import com.heyoung.domain.payment.dto.UserTotalSavingsDto;
 import org.springframework.stereotype.Service;
 
@@ -40,5 +41,9 @@ public class PaymentService {
 	// 아낀 금액 조회
 	public UserTotalSavingsDto getTotalSavings(Long memberId) {
 		return transactionClient.requestTotalSavings(memberId);
+	}
+
+	public PaymentCheckResponse checkPayment(Long memberId) {
+		return transactionClient.checkPayment(memberId);
 	}
 }
