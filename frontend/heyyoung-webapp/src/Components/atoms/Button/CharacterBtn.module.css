@@ -1,0 +1,39 @@
+.characterButton {
+  width: 80px;
+  height: 80px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  border: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  font-size: 32px;
+  color: white;
+  background: #542BA8; /* 보라색 배경 */
+  box-shadow: 0 4px 12px rgba(124, 58, 237, 0.3);
+}
+
+.characterButton:not(:disabled) {
+  cursor: pointer;
+}
+
+.characterButton:disabled {
+  cursor: default;
+  opacity: 0.6;
+}
+
+.hasImage {
+  background-size: 60%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-color: #7C3AED; /* 보라색 배경 유지 */
+}
+
+.noImage {
+  background: #7C3AED; /* 보라색 배경 유지 */
+}
+
+.characterButton:active:not(:disabled) {
+  transform: scale(0.95);
+}

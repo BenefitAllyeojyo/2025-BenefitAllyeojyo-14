@@ -3,7 +3,17 @@
   --grad-benefit: linear-gradient(180deg, #ddd7ff 0%, #f9e8da 100%);
   --grad-main: linear-gradient(138deg, #868cec 0%, #5958ee 100%);
 
+  --button-violet: #f0effe;
+  --benefit: linear-gradient(180deg, #ddd7ff 0%, #f9e8da 100%);
+
   /* Highlight */
+  --Highlight-BackGround:#542ba8;
+  --Highlight-Light: #7635fd;
+  --Hightlight-Lightest: #deceff;
+
+  --ID-Gradient: linear-gradient(90deg, #7079E3 0%, #AB8CEA 50%, #E194DA 100%);
+
+
   --color-highlight: #7635fd;
   --color-highlight-weak: #deceff;
 
@@ -22,21 +32,21 @@
   --neutral-dark-lightest: #8f9098;
 
   /* Support / Semantic */
-  --color-success-dark: #253aef;
-  --color-success-medium: #aab3ff;
-  --color-success-light: #eaf2ff;
+  --support-success-dark: #253aef;
+  --support-success-medium: #aab3ff;
+  --support-success-light: #eaf2ff;
 
-  --color-warning-dark: #e867c4;
-  --color-warning-medium: #499ff7;
-  --color-warning-light: #fff4e4;
+  --support-warning-dark: #e867c4;
+  --support-warning-medium: #499ff7;
+  --support-warning-light: #fff4e4;
 
-  --color-error-dark: #ed3241;
-  --color-error-medium: #ff616d;
-  --color-error-light: #ffe2e5;
+  --support-error-dark: #ed3241;
+  --support-error-medium: #ff616d;
+  --support-error-light: #ffe2e5;
 
   /* Surface / Text (기본) */
   --color-surface: #ffffff;
-  --color-bg: #f5f6fa;
+  --color-bg: #F2F2F2;
   --color-text: #111827;
   --color-text-muted: #6b7280;
 
@@ -44,7 +54,17 @@
   --space-12: 12px;
   --space-16: 16px;
   --radius-lg: 16px;
+  --radius-md: 12px;
   --shadow-1: 0 1px 3px rgba(17, 24, 39, 0.08), 0 1px 2px rgba(17, 24, 39, 0.06);
+
+  /* ================= Button Tokens ================= */
+  --button-long-width: 311px;
+  --button-long-height: 48px;
+  --button-long-padding: 16px;
+  --button-long-gap: 16px;
+  --button-mini-height: 35px;
+  --button-mini-padding: 11px 5px;
+  --button-mini-gap: 10px;
 
   /* ================= Typography ================= */
   --font-sans: 'OneShinhan', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
@@ -70,10 +90,10 @@
   --font-size-caption: 10px;
 
   /* Font Weights */
-  --font-weight-light: 300;  /* Light */
-  --font-weight-body: 500;   /* Medium */
+  --font-weight-light: 300; /* Light */
+  --font-weight-body: 500; /* Medium */
   --font-weight-heading: 700; /* Bold */
-  --font-weight-action: 700;  /* Bold */
+  --font-weight-action: 700; /* Bold */
 }
 
 @media (prefers-color-scheme: dark) {

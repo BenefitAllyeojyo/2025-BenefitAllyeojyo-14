@@ -1,0 +1,17 @@
+.ShopTextModule {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.shopName {
+  color: var(--neutral-dark-darkest);
+  font-size: var(--font-size-h3);
+  font-weight: var(--font-weight-heading);
+}
+
+.shopAddress {
+  color: var(--neutral-dark-light);
+  font-size: var(--font-size-s);
+  font-weight: var(--font-weight-body);
+}

@@ -1,0 +1,58 @@
+.regularButton {
+  display: flex;
+  height: 40px;
+  padding: 12px 16px;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  border-radius: 12px;
+  border: 1.5px solid var(--color-highlight);
+  background: transparent;
+  color: var(--color-highlight);
+  font-size: 12px;
+  font-style: normal;
+  font-weight: var(--font-weight-action);
+  line-height: normal;
+}
+
+.whiteButton {
+  display: flex;
+  height: 40px;
+  padding: 12px 16px;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  border-radius: 12px;
+  border: 1.5px solid var(--color-surface);
+  background: transparent;
+  color: var(--color-surface);
+  font-size: 12px;
+  font-style: normal;
+  font-weight: var(--font-weight-action);
+  line-height: normal;
+  touch-action: manipulation; /* 터치 최적화 */
+  -webkit-tap-highlight-color: transparent; /* 터치 하이라이트 제거 */
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+
+
+.regularButton:not(:disabled) {
+  cursor: pointer;
+  touch-action: manipulation; /* 터치 최적화 */
+  -webkit-tap-highlight-color: transparent; /* 터치 하이라이트 제거 */
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.regularButton:disabled {
+  cursor: default;
+  opacity: 0.6;
+}
+
+.label {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

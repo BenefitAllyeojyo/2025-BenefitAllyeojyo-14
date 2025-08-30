@@ -1,0 +1,36 @@
+.squareWhiteButton {
+  display: flex;
+  width: 166px;
+  padding: 16px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  border-radius: 16px;
+  background: var(--neutral-light-lightest);
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.10);
+  border: none;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.squareWhiteButton:not(:disabled) {
+  cursor: pointer;
+}
+
+.squareWhiteButton:disabled {
+  cursor: default;
+  opacity: 0.6;
+}
+
+.squareWhiteButton:active:not(:disabled) {
+  transform: scale(0.98);
+}
+
+.label {
+  align-self: stretch;
+  color: var(--neutral-dark-darkest);
+  font-size: var(--font-size-h4);
+  font-style: normal;
+  font-weight: var(--font-weight-heading);
+  line-height: normal;
+  text-align: left;
+}

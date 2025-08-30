@@ -1,11 +1,23 @@
-export default function AppShell({ children }) {
+export default function AppShell({ children, backgroundColor = 'var(--color-bg)' }) {
   return (
-    <div style={{ minHeight:'100dvh', background:'var(--color-bg)' }}>
+    <div style={{ 
+      height:'100vh', 
+      background: backgroundColor, 
+      display: 'flex', 
+      justifyContent: 'center', 
+      alignItems: 'center',
+      padding: '20px 0'
+    }}>
       <div
         id="app"
         style={{
-          width:'min(100vw,420px)', minWidth:320, margin:'0 auto',
-          paddingInline:16, paddingBottom:'calc(16px + env(safe-area-inset-bottom))'
+          width:'375px', 
+          // height:'812px',
+          background: 'white',
+          position: 'relative',
+          overflow: 'hidden',
+          overflowY: 'auto',
+          // boxShadow: '0 0 20px rgba(0,0,0,0.3)'
         }}
       >
         {children}

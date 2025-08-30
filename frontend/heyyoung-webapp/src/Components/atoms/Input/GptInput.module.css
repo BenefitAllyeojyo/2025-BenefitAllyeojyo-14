@@ -1,0 +1,114 @@
+.gptInputContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 350px;
+}
+
+.gptInput {
+    display: flex;
+    width: 100%;
+    padding: 8px 16px;
+    align-items: flex-end;
+    gap: 16px;
+    border-radius: 70px;
+    background: var(--neutral-light-lightest);
+    align-items: center;
+    justify-content: center;
+}
+
+.gptInputBox {
+    width: 100%;
+    border: none;
+    background: transparent;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 24px;
+    color: var(--neutral-dark-darkest);
+    font-weight: var(--font-weight-body);
+}
+
+.gptInputBox:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* 로딩 상태 스타일 */
+.loading {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+.loadingMessage {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    background: rgba(124, 58, 237, 0.1);
+    border-radius: 8px;
+    font-size: 12px;
+    color: #7C3AED;
+    animation: pulse 1.5s ease-in-out infinite;
+}
+
+.loadingDot {
+    animation: bounce 1s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.7; }
+}
+
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+    40% { transform: translateY(-3px); }
+    60% { transform: translateY(-2px); }
+}
+
+/* 에러 메시지 스타일 */
+.errorMessage {
+    padding: 8px 12px;
+    background: rgba(239, 68, 68, 0.1);
+    border-radius: 8px;
+    font-size: 12px;
+    color: #EF4444;
+    border-left: 3px solid #EF4444;
+}
+
+/* GPT 응답 스타일 */
+.gptResponse {
+    background: rgba(124, 58, 237, 0.05);
+    border: 1px solid rgba(124, 58, 237, 0.2);
+    border-radius: 12px;
+    padding: 12px;
+    margin-top: 4px;
+}
+
+.responseHeader {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+    font-size: 12px;
+    font-weight: 600;
+    color: #7C3AED;
+}
+
+.botIcon {
+    font-size: 16px;
+}
+
+.botLabel {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.responseContent {
+    font-size: 12px;
+    line-height: 1.4;
+    color: var(--neutral-dark-darkest);
+    white-space: pre-wrap;
+    word-break: break-word;
+}

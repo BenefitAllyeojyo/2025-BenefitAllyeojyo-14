@@ -1,0 +1,30 @@
+.HostInfoModule {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+  
+  .Host {
+    color: var(--neutral-dark-darkest);
+    font-size: var(--font-size-h5);
+    font-weight: var(--font-weight-heading);
+  }
+  
+  .title {
+    color: var(--neutral-dark-lightest);
+    font-size: var(--font-size-caption);
+    font-weight: var(--font-weight-action);
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+  
+  .icon{
+    width: 24px;
+    height: 24px;
+  }
+
+  .HostContent{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }

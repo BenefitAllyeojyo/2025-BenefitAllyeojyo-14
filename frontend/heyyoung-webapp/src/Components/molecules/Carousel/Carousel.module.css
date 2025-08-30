@@ -1,0 +1,126 @@
+.carouselContainer {
+  position: relative;
+  width: 100%;
+  margin: 0;
+  overflow: hidden;
+  border-radius: 0;
+  background: #f8f9fa;
+  cursor: grab;
+  user-select: none;
+  touch-action: pan-y pinch-zoom;
+}
+
+.carouselContainer:active {
+  cursor: grabbing;
+}
+
+.carouselWrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.carouselTrack {
+  display: flex;
+  transition: transform 0.3s ease-in-out;
+  width: 100%;
+}
+
+.slide {
+  flex: 0 0 100%;
+  width: 100%;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.slideContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+  gap: 20px;
+}
+
+.imageContainer {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.slideImage {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+}
+
+.textContent {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #333;
+  margin: 0 0 8px 0;
+  line-height: 1.4;
+}
+
+.subtitle {
+  font-size: 14px;
+  color: #666;
+  margin: 0;
+  line-height: 1.5;
+}
+
+
+
+
+
+/* 페이지 인디케이터 */
+.indicators {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 0;
+  position: absolute;
+  bottom: 20px;
+  left: 0;
+  right: 0;
+  background: linear-gradient(transparent, rgba(248, 249, 250, 0.9));
+  height: 20px;
+}
+
+.indicator {
+  width: 3px;
+  height: 8px;
+  border-radius: 50%;
+  border: none;
+  background: #ddd;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.indicator:hover {
+  background: #bbb;
+}
+
+.activeIndicator {
+  width: 24px;
+  height: 8px;
+  border-radius: 4px;
+  background: #667085;
+  transform: none;
+}
+
+.empty {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 200px;
+  color: #666;
+  font-size: 16px;
+}
