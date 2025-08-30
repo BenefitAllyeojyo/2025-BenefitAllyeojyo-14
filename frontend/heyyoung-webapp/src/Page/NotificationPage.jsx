@@ -75,7 +75,7 @@ export default function NotificationPage() {
         {/* div(스크롤 되는, NotificationHeader와 NotificationBottom를 제외한 높이 크기) */}
         <div style={{
           overflow: 'auto',
-          height: '480px', // 스크롤 영역 높이 지정
+          height: '470px', // 스크롤 영역 높이 지정
         }}>
           {/* 알림 컴포넌트들을 map으로 반복 */}
           {mockNotifications.map((notification) => (
