@@ -1,5 +1,6 @@
 package com.heyoung.domain.notification.service;
 
+import com.heyoung.domain.benefit.dto.response.PartnershipByLocationResponseDto;
 import com.heyoung.domain.notification.dto.response.GetNotificationByRemindResponseDto;
 import com.heyoung.domain.notification.dto.response.GetNotificationListByUserResponseDto;
 import com.heyoung.domain.notification.entity.Notification;

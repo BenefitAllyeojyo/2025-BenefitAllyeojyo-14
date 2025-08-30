@@ -77,9 +77,6 @@ public class NotificationBatchConfig {
                         }
                     }
 
-                    log.info("[notificationsReservation] done. total={}, success={}, skipped={}, failed={}",
-                            total, success, skipped, failed);
-
                     return org.springframework.batch.repeat.RepeatStatus.FINISHED;
                 }, transactionManager).build();
 
@@ -107,9 +104,6 @@ public class NotificationBatchConfig {
                             log.warn("[notificationsReservations] userId = {} 예약 실패 : {}", userId, e.getMessage(), e);
                         }
                     }
-
-                    log.info("[notificationsReservation] done. total={}, success={}, skipped={}, failed={}",
-                            total, success, skipped, failed);
 
                     return org.springframework.batch.repeat.RepeatStatus.FINISHED;
                 }, transactionManager).build();
