@@ -262,6 +262,19 @@ INSERT INTO user_university (id, user_id, university_id, created_date, updated_d
 VALUES (1, 1, 1, NOW(), NOW())
 ON CONFLICT (id) DO NOTHING;
 
+INSERT INTO timetable_free_slot (user_id, day_of_week, start_time, end_time, minutes, semester, created_date, updated_date)
+VALUES
+    (1001, 'SATURDAY', '10:00:00', '12:00:00', 120, 'FIRST_1', NOW(), NOW());
+
+-- Category, University 테이블에 이미 데이터가 있다고 가정
+-- 예: category_id=1 (FOOD), university_id=1 (연세대학교)
+
+-- partnership_id는 위 insert된 partnership의 id (예: 1)
+INSERT INTO partnership_branch (id, name, address, location, phone, business_hours_json, start_date, end_date, status, partnership_id, created_date, updated_date)
+VALUES
+    (7, '연세대 정문점', '서울특별시 서대문구 연세로 50', ST_SetSRID(ST_MakePoint(126.936, 37.565), 4326), '02-123-4567', null, CURRENT_DATE, CURRENT_DATE + INTERVAL '1 year', 'ACTIVE', 1, NOW(), NOW());
+
+
 INSERT INTO notification
 (user_id, title, content, type, channel, click_url, image_path,
  send_status, scheduled_at, partnership_id, created_date, updated_date)
@@ -514,3 +527,4 @@ VALUES
          LIMIT 1),                                   -- 임의의 활성 제휴 하나
         NOW(), NOW()
     );
+

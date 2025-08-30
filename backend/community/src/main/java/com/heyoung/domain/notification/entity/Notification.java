@@ -52,7 +52,7 @@ public class Notification extends BaseEntity {
     private Instant scheduledAt; // 발송 예약 시각
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "partnership_id", nullable = false)
+    @JoinColumn(name = "partnership_id")
     private Partnership partnership;
 
     public static Notification createReservation(
