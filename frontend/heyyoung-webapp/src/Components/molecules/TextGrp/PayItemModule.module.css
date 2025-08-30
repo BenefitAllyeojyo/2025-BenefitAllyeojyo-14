@@ -1,0 +1,24 @@
+.PayItemModule {
+  display: flex;
+  gap: 70px;
+  width: 300px;
+  justify-content: space-between;
+}
+
+.payItemTitle {
+  width: 65px;
+  color: var(--neutral-dark-light);
+
+  /* Heading/H5 */
+  font-size: var(--font-size-h5);
+  font-weight: var(--font-weight-heading);
+  line-height: normal;
+}
+
+.payItemAmount {
+  width: 170px;
+  color: var(--neutral-dark-light);
+  text-align: right;
+  font-size: var(--font-size-h5);
+  font-weight: var(--font-weight-heading);
+}

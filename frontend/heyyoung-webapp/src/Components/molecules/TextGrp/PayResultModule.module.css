@@ -1,0 +1,20 @@
+.PayResultModule{
+    display: flex;
+    gap: 70px;
+    width: 300px;
+    justify-content: space-between;
+}
+
+.payResultTitle{
+    color: var(--support-success-dark);
+    font-size: var(--font-size-h3);
+    font-weight: var(--font-weight-heading);
+}  
+
+.payResultAmount{
+    max-width: 150px;
+    color: var(--support-success-dark);
+    text-align: right;
+    font-size: var(--font-size-h3);
+    font-weight: var(--font-weight-heading);
+}

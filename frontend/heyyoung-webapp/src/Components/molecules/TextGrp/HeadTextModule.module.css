@@ -1,0 +1,25 @@
+.headTextModule {
+  display: flex;
+  width: 375px;
+  height: 58px;
+  padding: 24px;
+  align-items: center;
+  gap: 21px;
+  flex-shrink: 0;
+  background: var(--neutral-light-lightest);
+}
+
+.title {
+  align-self: stretch;
+  color: var(--neutral-dark-darkest);
+  text-align: center;
+  font-family: var(--font-sans);
+  font-size: var(--font-size-h3);
+  font-style: normal;
+  font-weight: var(--font-weight-heading);
+  line-height: normal;
+  letter-spacing: 0.08px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}

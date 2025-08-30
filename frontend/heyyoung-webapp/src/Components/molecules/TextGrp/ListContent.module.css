@@ -1,0 +1,17 @@
+.ListContentContainer {
+  display: flex;
+  width: fit-content;
+  gap: 5px;
+}
+
+.ListContentTitle {
+  color: var(--neutral-dark-darkest);
+  font-size: var(--font-size-h4);
+  font-weight: var(--font-weight-heading);
+}
+
+.ListDistanceContent{
+    color: var(--neutral-dark-light);
+    font-size: var(--font-size-s);
+    font-weight: var(--font-weight-body);
+}

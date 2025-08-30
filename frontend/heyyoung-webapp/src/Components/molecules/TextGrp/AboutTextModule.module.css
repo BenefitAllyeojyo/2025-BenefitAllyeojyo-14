@@ -1,0 +1,22 @@
+.AboutTextModule {
+  display: flex;
+  gap: 3px;
+  flex-direction: column;
+}
+
+.Title {
+  width: fit-content;
+  color: var(--neutral-dark-darkest);
+  font-size: var(--font-size-caption);
+  font-weight: var(--font-weight-heading);
+}
+
+.Content {
+  width: 300px;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  color: var(--neutral-dark-lightest);
+  font-size: var(--font-size-s);
+  font-weight: var(--font-weight-body);
+}

@@ -1,0 +1,61 @@
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: none;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-1);
+  transition: all 0.2s ease;
+}
+
+.button:disabled {
+  cursor: default;
+}
+
+.button:not(:disabled) {
+  cursor: pointer;
+}
+
+.primary {
+  background: var(--color-brand-500);
+  color: #fff;
+}
+
+.neutral {
+  background: #E5E7EB;
+  color: var(--color-text);
+}
+
+.danger {
+  background: #E11D48;
+  color: #fff;
+}
+
+.sm {
+  height: 36px;
+  padding: 0 12px;
+  font-size: 14px;
+}
+
+.md {
+  height: 44px;
+  padding: 0 16px;
+  font-size: 16px;
+}
+
+.lg {
+  height: 52px;
+  padding: 0 20px;
+  font-size: 16px;
+}
+
+.icon {
+  flex-shrink: 0;
+}
+
+.label {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

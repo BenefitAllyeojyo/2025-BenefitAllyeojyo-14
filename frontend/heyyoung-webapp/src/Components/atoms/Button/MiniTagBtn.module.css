@@ -1,0 +1,20 @@
+.MiniTagBtn{
+    display: inline-flex;
+    width: fit-content;
+    height: 20px;
+    padding: 6px 8px;
+    justify-content: center;
+    align-items: center;
+    gap: 4px;
+    border-radius: var(--radius-md);
+    background: var(--Highlight-BackGround);
+    border: none;
+    color: var(--neutral-light-lightest);
+   text-align: center;
+    font-size: 8px;
+    font-style: normal;
+    font-weight: var(--font-weight-body);
+    line-height: normal;
+    letter-spacing: 0.4px;
+    text-transform: uppercase;
+}

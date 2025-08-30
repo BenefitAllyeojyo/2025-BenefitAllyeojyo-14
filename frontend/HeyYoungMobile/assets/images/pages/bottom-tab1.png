@@ -1,0 +1,6 @@
+# 이미지 파일을 복사해야 합니다
+# 터미널에서 다음 명령어를 실행하세요:
+# 
+# cd frontend/HeyYoungMobile
+# mkdir -p assets/images/pages
+# cp ../../heyyoung-webapp/src/assets/images/pages/* assets/images/pages/
