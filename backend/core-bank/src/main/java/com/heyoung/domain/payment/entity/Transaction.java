@@ -1,6 +1,7 @@
 package com.heyoung.domain.payment.entity;
 
 import com.heyoung.domain.user.entity.User;
+import com.heyoung.global.entity.BaseEntity;
 import com.heyoung.global.enums.TransactionStatus;
 import jakarta.persistence.*;
 import lombok.*;
@@ -13,7 +14,7 @@ import java.time.Instant;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Transaction {
+public class Transaction extends BaseEntity {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 

@@ -24,6 +24,7 @@ public class PartnershipBranchDto {
     private LocalDate endDate;
     private String status;
     private Long partnershipId;
+	private String hostName;
     private List<String> images; // 이미지 URL 리스트
 
     public PartnershipBranchDto(PartnershipBranch branch) {
@@ -43,6 +44,7 @@ public class PartnershipBranchDto {
         this.endDate = branch.getEndDate();
         this.status = branch.getStatus().name();
         this.partnershipId = branch.getPartnership().getId();
+		this.hostName = branch.getPartnership().getHostName();
         this.images = branch.getPartnership()
                 .getPartnershipImages()
                 .stream()

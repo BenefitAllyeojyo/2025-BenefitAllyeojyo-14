@@ -2,15 +2,14 @@ package com.heyoung.domain.benefit.controller;
 
 import com.heyoung.domain.benefit.dto.BranchInformationDto;
 import com.heyoung.domain.benefit.dto.PartnershipBranchDto;
+import com.heyoung.domain.benefit.dto.response.PartnershipByLocationResponseDto;
 import com.heyoung.domain.benefit.service.PartnershipBranchService;
 import com.heyoung.global.exception.BaseResponse;
 import com.heyoung.global.exception.ResponseCode;
+import com.heyoung.global.webconfig.MemberId;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -25,6 +24,16 @@ public class PartnershipBranchController {
         this.partnershipBranchService = partnershipBranchService;
     }
 
+    @GetMapping("/timetable")
+    @Operation(
+            summary = "사용자 위치 기반, 공강 시간에 가까운 순서대로 제휴 리스트 반환",
+            description = "사용자 위치 기반, 공강 시간에 가까운 순서대로 제휴 리스트 반환"
+    )
+    public BaseResponse<List<PartnershipByLocationResponseDto>> getNotificationListByTimeTable(@MemberId Long userId, @RequestParam Double let, @RequestParam Double lng) {
+        return BaseResponse.onSuccess(partnershipBranchService.getPartnershipListByLocation(1001L, let, lng), ResponseCode.OK);
+    }
+
+
     @Operation(summary="3. 모든 제휴 지점의 정보를 조회하는 API", description = "모든 제휴 지점의 정보를 조회하는 API입니다.")
     @GetMapping("/{partnershipId}/branches")
     public BaseResponse<List<PartnershipBranchDto>> getAllPartnershipBranches(@PathVariable Long partnershipId) {
@@ -36,5 +45,12 @@ public class PartnershipBranchController {
 	public BaseResponse<BranchInformationDto> getPartnershipBranch(@PathVariable Long branchId) {
 		return BaseResponse.onSuccess(partnershipBranchService.findBranchInformation(branchId), ResponseCode.OK);
 	}
+
+    @Operation(summary = "위치 기반으로 특정 반경에 있는 제휴 지점들을 조회하는 API", description = "위도, 경도 정보로 제휴 지점 리스트 조회")
+    @GetMapping("/location")
+    public BaseResponse<List<PartnershipByLocationResponseDto>> getPartnershipByLocationList(@MemberId Long userId, @RequestParam("lat") Double lat, @RequestParam("lng") Double lng) {
+        return BaseResponse.onSuccess(partnershipBranchService.getPartnershipListByLocation(userId, lat, lng), ResponseCode.OK);
+    }
+
 
 }

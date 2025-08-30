@@ -18,20 +18,27 @@ import org.springframework.web.context.request.WebRequest;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @RestControllerAdvice(annotations = {RestController.class})
 public class MasterExceptionHandler {
     @ExceptionHandler(ConstraintViolationException.class)
     public ResponseEntity<Object> validation(ConstraintViolationException e, WebRequest request) {
+		log.error(e.getMessage());
         return handleExceptionInternal(e, ResponseCode._UNAUTHORIZED, request);
     }
 
     @ExceptionHandler(GeneralException.class)
     public ResponseEntity<Object> general(GeneralException e, WebRequest request) {
+		log.error(e.getMessage());
         return handleExceptionInternal(e, e.getErrorCode(), request);
     }
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Object> exception(Exception e, WebRequest request) {
+
+		log.error(e.getMessage());
         return handleExceptionInternalFalse(e, ResponseCode._INTERNAL_SERVER_ERROR, HttpHeaders.EMPTY, ResponseCode._INTERNAL_SERVER_ERROR.getHttpStatus(),request);
     }
 
@@ -64,6 +71,7 @@ public class MasterExceptionHandler {
 
     private ResponseEntity<Object> handleExceptionInternal(Exception e, ResponseCode errorCode,
                                                            WebRequest request) {
+		log.error(e.getMessage());
         return handleExceptionInternal(e, errorCode, HttpHeaders.EMPTY, errorCode.getHttpStatus(),
                 request);
     }
@@ -72,6 +80,7 @@ public class MasterExceptionHandler {
     private ResponseEntity<Object> handleExceptionInternal(Exception e, ResponseCode errorCode,
                                                            HttpHeaders headers, HttpStatus status, WebRequest request) {
         BaseResponse<Object> body = BaseResponse.onFailure(null, errorCode);
+		log.error(e.getMessage());
         return ResponseEntity.status(errorCode.getHttpStatus())
                 .body(body);
     }
@@ -79,6 +88,7 @@ public class MasterExceptionHandler {
     private ResponseEntity<Object> handleExceptionInternalFalse(Exception e, ResponseCode errorCode,
                                                                 HttpHeaders headers, HttpStatus status, WebRequest request) {
         BaseResponse<Object> body = BaseResponse.onFailure(null, errorCode);
+		log.error(e.getMessage());
         return ResponseEntity.status(errorCode.getHttpStatus())
                 .body(body);
     }

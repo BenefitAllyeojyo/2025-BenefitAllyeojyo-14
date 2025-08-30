@@ -3,6 +3,8 @@ package com.heyoung.global.enums;
 import com.heyoung.domain.recommendation.exception.UserCategoryControllerAdvice;
 import com.heyoung.global.exception.ResponseCode;
 
+import java.time.LocalTime;
+
 public enum HourBucket {
 
     HOUR_00(0), HOUR_01(1), HOUR_02(2), HOUR_03(3), HOUR_04(4), HOUR_05(5),
@@ -24,6 +26,15 @@ public enum HourBucket {
     public static HourBucket of(java.time.Instant instant, java.time.ZoneId zone) {
         int h = instant.atZone(zone).getHour();
         return VALUES[h];
+    }
+
+    public LocalTime startTime() {
+        return java.time.LocalTime.of(this.hour, 0);
+    }
+
+    public static java.time.LocalTime startTimeOr(java.time.LocalTime fallback, HourBucket bucket) {
+        if (bucket != null) return bucket.startTime();
+        return (fallback != null) ? fallback : java.time.LocalTime.NOON;
     }
 
     /** 다음/이전 시간 버킷 */
