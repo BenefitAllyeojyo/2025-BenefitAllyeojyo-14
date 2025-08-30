@@ -1,8 +1,10 @@
 package com.heyoung.domain.notification.controller;
 
+import com.heyoung.domain.notification.dto.response.GetNotificationByRemindResponseDto;
 import com.heyoung.domain.notification.dto.response.GetNotificationListByUserResponseDto;
 import com.heyoung.domain.notification.entity.Notification;
 import com.heyoung.domain.notification.service.DailyNotificationScheduler;
+import com.heyoung.domain.notification.service.NotificationLogCommandService;
 import com.heyoung.domain.notification.service.NotificationQueryService;
 import com.heyoung.domain.notification.service.NotificationSendService;
 import com.heyoung.global.exception.BaseResponse;
@@ -38,17 +40,37 @@ public class NotificationController {
 
     private final NotificationSendService notificationSendService;
     private final NotificationQueryService notificationQueryService;
-    private final DailyNotificationScheduler dailyNotificationScheduler;
+    private final NotificationLogCommandService notificationLogCommandService;
 
     @GetMapping
     @Operation(
             summary="사용자가 받은 알림 리스트 조회",
             description="유저 알림(최근순) 무한 스크롤"
     )
-    public BaseResponse<Page<GetNotificationListByUserResponseDto>> getNotification(@MemberId Long userId, @RequestParam int page, @RequestParam int size) { // 무한 스크롤
+    public BaseResponse<Page<GetNotificationListByUserResponseDto>> getNotificationList(@MemberId Long userId, @RequestParam int page, @RequestParam int size) { // 무한 스크롤
 
-        return BaseResponse.onSuccess(notificationQueryService.findUserNotificationList(1001L, page, size), ResponseCode.OK);
+        return BaseResponse.onSuccess(notificationQueryService.findUserNotificationList(userId, page, size), ResponseCode.OK);
 
+    }
+
+    @GetMapping("/remind")
+    @Operation(
+            summary="사용자가 받은 알림 중 안 읽은 것 리마인드",
+            description="사용자가 받은 알림 중 가장 최근 것인데, 안 읽은 것을 골라서 현재 위치 기반 가장 가까운 곳을 반환"
+    )
+    public BaseResponse<GetNotificationByRemindResponseDto> remindNotification(@MemberId Long userId, @RequestParam Double lat, @RequestParam Double lng) {
+
+        return BaseResponse.onSuccess(notificationQueryService.findRemindNotification(1001L, lat, lng), ResponseCode.OK);
+
+    }
+
+    @PatchMapping("/read")
+    @Operation(
+            summary = "사용자가 받은 알림 클릭하면 읽은 것으로 처리하는 API",
+            description = "사용자가 받은 알림 읽으면 알림 읽음으로 상태 변경"
+    )
+    public BaseResponse<String> readNotification(@MemberId Long userId, @RequestParam Long notificationId) {
+        return BaseResponse.onSuccess(notificationLogCommandService.readNotification(notificationId), ResponseCode.OK);
     }
 
     @Hidden

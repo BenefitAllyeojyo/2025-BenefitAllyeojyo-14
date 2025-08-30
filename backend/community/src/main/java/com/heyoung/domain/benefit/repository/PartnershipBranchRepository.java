@@ -16,16 +16,16 @@ public interface PartnershipBranchRepository extends JpaRepository<PartnershipBr
     @Query(value = """
     SELECT p.terms AS terms,
            p.host_name AS hostName,
-           p.company_name                      AS partnershipName,
-           p.category_id               AS categoryId,
+           p.company_name AS partnershipName,
+           p.category_id AS categoryId,
            pb.id AS branchId,
            pb.address AS address,
-           ST_Y(pb.location)           AS lat,
-           ST_X(pb.location)           AS lng,
+           ST_Y(pb.location) AS lat,
+           ST_X(pb.location) AS lng,
            ST_DistanceSphere(
              pb.location,
              ST_SetSRID(ST_MakePoint(:lng,:lat),4326)
-           )                           AS distanceM
+           ) AS distanceM
     FROM partnership_branch pb
     JOIN partnership p ON p.id = pb.partnership_id
     WHERE ST_DWithin(
@@ -42,6 +42,39 @@ public interface PartnershipBranchRepository extends JpaRepository<PartnershipBr
             @Param("lng") double lng,
             @Param("radiusM") int radiusM,
             @Param("universityId") Long universityId,
+            @Param("limit") int limit,
+            @Param("offset") int offset
+    );
+
+    @Query(value = """
+    SELECT p.terms AS terms,
+           p.host_name AS hostName,
+           p.company_name AS partnershipName,
+           p.category_id AS categoryId,
+           pb.id AS branchId,
+           pb.address AS address,
+           ST_Y(pb.location) AS lat,
+           ST_X(pb.location) AS lng,
+           ST_DistanceSphere(
+             pb.location,
+             ST_SetSRID(ST_MakePoint(:lng,:lat),4326)
+           ) AS distanceM
+    FROM partnership_branch pb
+    JOIN partnership p ON p.id = pb.partnership_id
+    WHERE ST_DWithin(
+            pb.location,
+            ST_SetSRID(ST_MakePoint(:lng,:lat),4326),
+            :radiusM
+          )
+      AND (:partnershipId IS NULL OR pb.partnership_id = :partnershipId)
+    ORDER BY distanceM ASC
+    LIMIT :limit OFFSET :offset
+  """, nativeQuery = true)
+    List<NearbyBranchRow> findNearbyPartnershipBranch(
+            @Param("lat") double lat,
+            @Param("lng") double lng,
+            @Param("radiusM") int radiusM,
+            @Param("partnershipId") Long partnershipId,
             @Param("limit") int limit,
             @Param("offset") int offset
     );

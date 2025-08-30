@@ -44,6 +44,9 @@ public class NotificationLog extends BaseEntity {
     @Column(nullable = false)
     private Instant occurredAt = Instant.now(); // 기본값 현재
 
+    @Column(nullable = false)
+    private Boolean isRead = false;
+
     /**
      * 멱등 키 : 중복 전송/재시도/네트워크 지연으로 같은 이벤트가 여러 번 발생할 수 있으므로 한번만 기록 하기 위한 것.
      */
@@ -57,6 +60,7 @@ public class NotificationLog extends BaseEntity {
         log.sendStatus = com.heyoung.global.enums.SendStatus.SENT;
         log.uniqKey = uniqKey;
         log.occurredAt = java.time.Instant.now();
+        log.isRead = false;
         return log;
     }
 
@@ -67,6 +71,11 @@ public class NotificationLog extends BaseEntity {
         log.sendStatus = com.heyoung.global.enums.SendStatus.FAILED;
         log.uniqKey = uniqKey;
         log.occurredAt = java.time.Instant.now();
+        log.isRead = false;
         return log;
+    }
+
+    public void readNotificationLog() {
+        this.isRead = true;
     }
 }
