@@ -31,7 +31,11 @@ public enum ResponseCode {
     USER_UNIVERSITY_NOT_FOUND(HttpStatus.BAD_REQUEST, "UNIVERSITY001", "사용자의 대학교 데이터가 존재하지 않습니다."),
 
     // FCM Error
-    FIREBASE_CREDENTIALS_NOT_FOUND(HttpStatus.UNAUTHORIZED, "FIREBASE001", "FIREBASE 접근 권한이 존재하지 않습니다.");
+    FIREBASE_CREDENTIALS_NOT_FOUND(HttpStatus.UNAUTHORIZED, "FIREBASE001", "FIREBASE 접근 권한이 존재하지 않습니다."),
+
+    // Notification Error
+    PAGE_AND_SIZE_NOT_CORRECT(HttpStatus.BAD_REQUEST, "PAGING001", "없는 페이지입니다. page 와 size 를 다시 확인해주세요.");
+
     private final HttpStatus httpStatus;
     private final String code;
     private final String message;

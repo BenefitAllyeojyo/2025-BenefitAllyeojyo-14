@@ -4,6 +4,9 @@ import com.heyoung.domain.benefit.entity.Partnership;
 import com.heyoung.domain.notification.entity.Notification;
 import com.heyoung.global.enums.NotificationChannel;
 import com.heyoung.global.enums.SendStatus;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -41,15 +44,6 @@ public interface NotificationRepository extends JpaRepository<Notification, Long
     """)
     List<Notification> findByUserIdOrderByCreatedAtDesc(@Param("userId") Long userId);
 
-    /** 특정 구간 스케줄 조회(예약 확인 용도) */
-    @Query("""
-        select n from Notification n
-        where n.userId = :userId
-          and n.scheduledAt between :from and :to
-        order by n.scheduledAt asc
-    """)
-    List<Notification> findScheduledBetween(@Param("userId") Long userId,
-                                            @Param("from") Instant from,
-                                            @Param("to") Instant to);
-
+    /** 스케줄 내림차순 목록 조회 */
+    Page<Notification> findByUserIdAndSendStatus(Long userId, SendStatus sendStatus, Pageable pageable);
 }
