@@ -1,37 +1,49 @@
 import { useNavigate } from 'react-router-dom'
+import { useState, useEffect } from 'react'
 import BackgroundImage from '../Components/atoms/BackgroundImage'
 import { BackButton } from '../Components/atoms/Button'
 import { NotificationItem } from '../Components/molecules/TextGrp'
+import { getNotifications } from '../services/api'
 import notificationImage from '../assets/images/pages/notification.png'
 import NotificationHeader from '../assets/images/notification/notificationHeader.png'
 import NotificationBottom from '../assets/images/notification/notificationBottom.png'
+
 export default function NotificationPage() {
   const navigate = useNavigate()
+  const [notifications, setNotifications] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(null)
 
-  // Mock 알림 데이터
-  const mockNotifications = [
-    {
-      id: 1,
-      partnershipId: 1, // 스타벅스
-      title: "스타벅스 할인 혜택",
-      subtitle: "학생증 제시 시 20% 할인",
-      description: "모든 음료 메뉴에 적용되는 특별 할인"
-    },
-    {
-      id: 2,
-      partnershipId: 2, // 올리브영
-      title: "올리브영 제휴 혜택",
-      subtitle: "학생증 제시 시 15% 할인",
-      description: "화장품, 생활용품 등 모든 상품에 적용"
-    },
-    {
-      id: 3,
-      partnershipId: 3, // CU 편의점
-      title: "CU 편의점 할인",
-      subtitle: "학생증 제시 시 10% 할인",
-      description: "음료, 간식, 생활용품 할인 혜택"
+  useEffect(() => {
+    const fetchNotifications = async () => {
+      try {
+        setLoading(true)
+        const response = await getNotifications(0, 3)
+        
+        if (response.isSuccess && response.result) {
+          // 백엔드 응답 데이터를 컴포넌트에서 사용하는 형태로 변환
+          const transformedNotifications = response.result.content.map((item, index) => ({
+            id: index + 1, // 임시 ID
+            partnershipId: item.partnershipId,
+            title: item.title,
+            subtitle: item.content, // content를 subtitle로 사용
+            description: '' // description은 제거
+          }))
+          
+          setNotifications(transformedNotifications)
+        } else {
+          setError('노티피케이션을 불러오는데 실패했습니다.')
+        }
+      } catch (err) {
+        console.error('노티피케이션 조회 오류:', err)
+        setError('노티피케이션을 불러오는데 실패했습니다.')
+      } finally {
+        setLoading(false)
+      }
     }
-  ]
+
+    fetchNotifications()
+  }, [])
 
   return (
     <div style={{
@@ -77,13 +89,35 @@ export default function NotificationPage() {
           overflow: 'auto',
           height: '500px', // 스크롤 영역 높이 지정
         }}>
-          {/* 알림 컴포넌트들을 map으로 반복 */}
-          {mockNotifications.map((notification) => (
-            <NotificationItem 
-              key={notification.id}
-              notification={notification}
-            />
-          ))}
+          {loading ? (
+            <div style={{ 
+              display: 'flex', 
+              justifyContent: 'center', 
+              alignItems: 'center', 
+              height: '200px',
+              color: '#542BA8'
+            }}>
+              로딩 중...
+            </div>
+          ) : error ? (
+            <div style={{ 
+              display: 'flex', 
+              justifyContent: 'center', 
+              alignItems: 'center', 
+              height: '200px',
+              color: '#FF6B6B'
+            }}>
+              {error}
+            </div>
+          ) : (
+            /* 알림 컴포넌트들을 map으로 반복 */
+            notifications.map((notification) => (
+              <NotificationItem 
+                key={notification.id}
+                notification={notification}
+              />
+            ))
+          )}
         </div>
         
         {/* NotificationBottom */}
