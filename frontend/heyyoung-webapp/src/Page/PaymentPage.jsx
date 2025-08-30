@@ -82,9 +82,9 @@ export default function PaymentPage() {
     
     setIsPolling(true)
     let pollCount = 0
-    const maxPolls = 60 // 60번 (60초)
+    const maxPolls = 30 // 30번 (60초)
     
-    console.log('결제 상태 폴링 시작:', qrToken, `(최대 ${maxPolls}번)`)
+    console.log('결제 상태 폴링 시작:', qrToken, `(최대 ${maxPolls}번, 2초마다)`)
     
     const pollPaymentStatus = async () => {
       try {
@@ -146,8 +146,8 @@ export default function PaymentPage() {
     // 즉시 한 번 실행
     pollPaymentStatus()
     
-    // 1초마다 반복 (최대 60번)
-    pollingIntervalRef.current = setInterval(pollPaymentStatus, 1000)
+    // 2초마다 반복 (최대 30번)
+    pollingIntervalRef.current = setInterval(pollPaymentStatus, 2000)
   }
 
   // 결제 상태 폴링 중지
