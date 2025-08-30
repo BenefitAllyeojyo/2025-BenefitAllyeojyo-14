@@ -73,7 +73,7 @@ public class NotificationController {
         return BaseResponse.onSuccess(notificationLogCommandService.readNotification(notificationId), ResponseCode.OK);
     }
 
-    @Hidden
+//    @Hidden
     @PostMapping("/run")
     @Operation(summary="배치가 잘 동작하는 테스트 하는 controller", description = "배치가 잘 동작하는지 확인.")
     public BaseResponse<String> run() {

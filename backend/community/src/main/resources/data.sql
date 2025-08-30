@@ -283,6 +283,24 @@ VALUES
          LIMIT 1),                                   -- 임의의 활성 제휴 하나
         NOW(), NOW()
     );
+
+-- 사용자 선호 (user_id = 1 가정)
+insert into user_category(user_id, category_id, use_count, created_date, updated_date)
+values
+    (1, 1, 7, now(), now()),
+    (1, 2, 5, now(), now()),
+    (1, 3, 3, now(), now())
+on conflict do nothing;
+
+-- 시간대 선호 (없어도 기본값으로 돌아가지만, 한두 개 넣어두면 좋아요)
+-- HourBucket 은 문자열로 저장(HOUR_12 등). 가장 많이 쓰는 시간 몇 개만
+insert into user_hour_hist(user_id, hour_bucket, use_count, created_date, updated_date)
+values
+    (1, 'HOUR_12', 6, now(), now()),
+    (1, 'HOUR_18', 4, now(), now()),
+    (1, 'HOUR_21', 3, now(), now())
+on conflict do nothing;
+
 INSERT INTO notification
 (user_id, title, content, type, channel, click_url, image_path,
  send_status, scheduled_at, partnership_id, created_date, updated_date)
