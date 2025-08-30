@@ -181,7 +181,11 @@ export default function PaymentResultPage() {
         </div>
         
         {/* 메인으로 버튼 */}
-        <div style={{ marginTop: '100px' }}>
+        <div style={{ 
+          marginTop: '100px',
+          position: 'relative',
+          zIndex: 9999
+        }}>
           <LongPurpleBtn 
             label={paymentResultData.button.label}
             onClick={paymentResultData.button.onClick}
