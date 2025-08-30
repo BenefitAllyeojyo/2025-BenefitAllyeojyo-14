@@ -44,7 +44,7 @@ export default function NotificationPage() {
       <div
         style={{
           position: 'absolute',
-          top: '10px',
+          top: '60px',
           left: '20px',
           zIndex: 10
         }}
@@ -55,7 +55,7 @@ export default function NotificationPage() {
       {/* NotificationHeader, div(스크롤), NotificationBottom 순서로 배치 */}
       <div style={{
         position: 'absolute',
-        top: 0,
+        top: '50px',
         left: 0,
         right: 0,
         bottom: 0,
@@ -74,8 +74,8 @@ export default function NotificationPage() {
         
         {/* div(스크롤 되는, NotificationHeader와 NotificationBottom를 제외한 높이 크기) */}
         <div style={{
-          flex: 1,
           overflow: 'auto',
+          height: '500px', // 스크롤 영역 높이 지정
         }}>
           {/* 알림 컴포넌트들을 map으로 반복 */}
           {mockNotifications.map((notification) => (
@@ -87,14 +87,6 @@ export default function NotificationPage() {
         </div>
         
         {/* NotificationBottom */}
-        <img 
-          src={NotificationBottom} 
-          alt="알림 하단"
-          style={{
-            width: '100%',
-            height: 'auto'
-          }}
-        />
       </div>
     </div>
   )
