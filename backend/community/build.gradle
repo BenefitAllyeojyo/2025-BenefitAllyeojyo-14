@@ -1,7 +1,7 @@
 plugins {
     id 'java'
-    id 'org.springframework.boot' version '3.5.4'
-    id 'io.spring.dependency-management' version '1.1.7'
+    id 'org.springframework.boot' version '3.3.4'
+    id 'io.spring.dependency-management' version '1.1.6'
 }
 
 group = 'com.example'
@@ -13,10 +13,35 @@ repositories {
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+
+    // 공간 타입 지원
+    implementation 'org.hibernate.orm:hibernate-spatial'
+    implementation 'org.locationtech.jts:jts-core'
+
+    // valid
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+
+    // PostgreSQL
+    runtimeOnly 'org.postgresql:postgresql'
+//    testImplementation 'com.h2database:h2'
+
+    // 알림 예약을 위한 batch
+    implementation 'org.springframework.boot:spring-boot-starter-batch'
+
+    // 알림 전송을 위한 FCM 의존성 추가
+    implementation 'com.google.firebase:firebase-admin:9.2.0'   // FCM
 
     testImplementation platform('org.junit:junit-bom:5.10.0')
     testImplementation 'org.junit.jupiter:junit-jupiter'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+    testImplementation("org.springframework.boot:spring-boot-starter-test")
+    testImplementation 'org.postgresql:postgresql'  // 테스트 시
+
+    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0'
+
 }
 
 test {

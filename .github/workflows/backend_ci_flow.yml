@@ -1,0 +1,91 @@
+name: backend_ci_flow
+
+on:
+  pull_request:
+    branches:
+      - main
+      - dev/backend
+      - release/backend
+
+jobs:
+  build:
+    name: Build and Test
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      checks: write
+      pull-requests: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Start PostgreSQL container
+        run: |
+          docker run --name pg_container \
+          -e POSTGRES_USER=myuser \
+          -e POSTGRES_PASSWORD=mypass \
+          -e POSTGRES_DB=mygisdb \
+          -p 5432:5432 \
+          -d postgis/postgis:16-3.4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: 17
+          distribution: 'zulu'
+
+      - name: Create test application.yml files
+        run: |
+          touch ./backend/community/src/test/resources/application.yml
+          echo "${{ secrets.COMMUNITY_TEST_APPLICATION }}" > ./backend/community/src/test/resources/application.yml
+          touch ./backend/core-bank/src/test/resources/application.yml
+          echo "${{ secrets.CORE_BANK_TEST_APPLICATION }}" > ./backend/core-bank/src/test/resources/application.yml
+
+      # ✅ `localhost`로 연결하도록 수정
+      - name: Wait for PostgreSQL and enable PostGIS extension
+        run: |
+          until pg_isready -h localhost -U myuser -d mygisdb; do
+            echo "Waiting for postgres to be ready..."
+            sleep 2
+          done
+          psql -h localhost -U myuser -d mygisdb -c "CREATE EXTENSION IF NOT EXISTS postgis;"
+        env:
+          PGPASSWORD: mypass
+
+      - name: Cache SonarQube packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.sonar/cache
+          key: ${{ runner.os }}-sonar
+          restore-keys: ${{ runner.os }}-sonar
+
+      - name: Cache Gradle packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.gradle/caches
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
+          restore-keys: ${{ runner.os }}-gradle
+
+      - name: Build, Test, and Analyze
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+        run: |
+          cd backend
+          ./gradlew build sonar --info
+
+      - name: Publish test results
+        uses: EnricoMi/publish-unit-test-result-action@v2
+        if: always()
+        with:
+          files: '**/build/test-results/test/TEST-*.xml'
+
+      - name: Publish test report
+        uses: mikepenz/action-junit-report@v4
+        if: always()
+        with:
+          report_paths: '**/build/test-results/test/TEST-*.xml'
