@@ -3,20 +3,23 @@
 // 사용자 총 절약 금액 조회
 export const fetchUserTotalSavings = async () => {
   try {
-    // 실제 API 호출 시에는 아래 주석을 해제하고 실제 엔드포인트 사용
-    // const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/savings/total`);
-    // return await response.json();
+    // 실제 API 호출: /payments/savings
+    const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '/api';
+    const response = await fetch(`${API_BASE_URL}/payments/savings`, {
+      method: 'GET',
+      headers: {
+        accept: '*/*',
+      },
+    });
     
-    // Mock 데이터 반환
-    return {
-      "isSuccess": true,
-      "code": "2000",
-      "message": "Ok",
-      "result": {
-        "userId": 1,
-        "totalSavedAmount": 50000.00
-      }
-    };
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    
+    const data = await response.json();
+    console.log('Savings API Response:', data);
+    
+    return data;
   } catch (error) {
     console.error('저장 금액 조회 실패:', error);
     throw error;
