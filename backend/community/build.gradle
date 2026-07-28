@@ -34,6 +34,10 @@ dependencies {
     // 알림 전송을 위한 FCM 의존성 추가
     implementation 'com.google.firebase:firebase-admin:9.2.0'   // FCM
 
+    // Kafka (Outbox → Kafka 소비)
+    implementation 'org.springframework.kafka:spring-kafka'
+    testImplementation 'org.springframework.kafka:spring-kafka-test'
+
     testImplementation platform('org.junit:junit-bom:5.10.0')
     testImplementation 'org.junit.jupiter:junit-jupiter'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'

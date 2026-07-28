@@ -39,7 +39,10 @@ public enum ResponseCode {
 
     // Dispatcher Error
     INVALID_PAYLOAD(HttpStatus.BAD_REQUEST, "DISPATCHER001", "지원하지 않는 PAYLOAD 입니다."),
-    NULL_RESPONSE(HttpStatus.INTERNAL_SERVER_ERROR, "DISPATCHER002", "응답이 존재하지 않습니다.");
+    NULL_RESPONSE(HttpStatus.INTERNAL_SERVER_ERROR, "DISPATCHER002", "응답이 존재하지 않습니다."),
+
+    // Outbox → Kafka Error
+    UNKNOWN_OUTBOX_TYPE(HttpStatus.INTERNAL_SERVER_ERROR, "OUTBOX001", "알 수 없는 OutboxType 입니다.");
 
     private final HttpStatus httpStatus;
     private final String code;
