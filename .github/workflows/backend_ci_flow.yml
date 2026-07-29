@@ -70,13 +70,20 @@ jobs:
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
           restore-keys: ${{ runner.os }}-gradle
 
-      - name: Build, Test, and Analyze
+      - name: Build and Test
+        run: |
+          cd backend
+          ./gradlew build --info
+
+      # SonarQube 서버(SONAR_HOST_URL) 가용성에 CI 가 좌우되지 않도록 분석은 비차단으로 분리한다.
+      - name: SonarQube Analysis (non-blocking)
+        continue-on-error: true
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
         run: |
           cd backend
-          ./gradlew build sonar --info
+          ./gradlew sonar --info
 
       - name: Publish test results
         uses: EnricoMi/publish-unit-test-result-action@v2
