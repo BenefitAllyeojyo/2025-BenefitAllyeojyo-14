@@ -30,6 +30,8 @@ dependencies {
     // Kafka (Outbox → Kafka 승격: 프로듀서)
     implementation 'org.springframework.kafka:spring-kafka'
     testImplementation 'org.springframework.kafka:spring-kafka-test'
+    testImplementation 'org.testcontainers:junit-jupiter'
+    testImplementation 'org.testcontainers:postgresql'
 
 //    testImplementation 'com.h2database:h2'
     testImplementation 'org.postgresql:postgresql'  // 테스트 시

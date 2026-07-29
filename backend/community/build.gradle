@@ -37,6 +37,8 @@ dependencies {
     // Kafka (Outbox → Kafka 소비)
     implementation 'org.springframework.kafka:spring-kafka'
     testImplementation 'org.springframework.kafka:spring-kafka-test'
+    testImplementation 'org.testcontainers:junit-jupiter'
+    testImplementation 'org.testcontainers:postgresql'
 
     testImplementation platform('org.junit:junit-bom:5.10.0')
     testImplementation 'org.junit.jupiter:junit-jupiter'
