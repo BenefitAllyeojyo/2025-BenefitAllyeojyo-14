@@ -1,0 +1,3 @@
+
+# git worktrees (isolated dev workspaces)
+.claude/worktrees/

@@ -14,7 +14,16 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-@Tag(name="추천 데이터 반영 API", description = "추천 데이터 반영하는 API입니다.")
+/**
+ * 추천 데이터 반영 REST 엔드포인트.
+ *
+ * @deprecated Outbox → Kafka 승격으로 수신 채널이
+ * {@link com.heyoung.domain.recommendation.consumer.RecommendationKafkaListener} 로 전환되었다.
+ * 이 REST 엔드포인트는 롤백 안전을 위해 한시적으로 유지되며(한시 유지), 전환이 안정화되면 제거한다.
+ * 신규 유입 경로로는 사용하지 말 것.
+ */
+@Deprecated
+@Tag(name="추천 데이터 반영 API", description = "추천 데이터 반영하는 API입니다. (Deprecated - Kafka 리스너로 전환됨, 롤백 대비 한시 유지)")
 @RestController
 @RequiredArgsConstructor
 public class RecommendationController {
